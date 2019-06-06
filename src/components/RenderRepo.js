@@ -7,35 +7,30 @@ const ReactMarkdown = require('react-markdown')
 
 
 class RenderRepo extends React.Component {
-    renderRepos =() => {
-        return this.props.issues.map(issue=> {
-return (
-    <card><a>{issue.number}</a>
-    <p>{issue.title}</p>
-    <ReactMarkdown source={issue.body.substr(0,100)+"..."} />
-
-    
-    
-    </card>
-)
+    renderRepos = () => {
+        return this.props.issues.map(issue => {
+            return (
+                <card><a>{issue.number}</a>
+                    <p>{issue.title}</p>
+                    <ReactMarkdown source={issue.body.substr(0, 100) + "..."} />
+                </card>
+            )
 
 
-    })
+        })
     }
-    
+    render() {
+        return (
 
-    render(){
-        return(
-   
-        <div className>
-             <div className>{this.renderRepos()}</div> 
-        </div>
+            <div >
+                <div >{this.renderRepos()}</div>
+            </div>
         )
     }
-    }
+}
 
 
-    export default RenderRepo;
+export default RenderRepo;
 
 
     //             <Button variant="outline-info" onClick={() => this.getSearchedMovies(1, this.state.searchInput)}>Search on TMDB</Button>

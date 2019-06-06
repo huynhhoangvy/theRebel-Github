@@ -6,6 +6,10 @@ import Search from './components/Search.js';
 import Footer from './components/Footer.js';
 import RenderRepo from './components/RenderRepo.js';
 import RenderSearchRepo from './components/RenderSearchRepo.js';
+import Pagination from './components/Pagination.js';
+
+
+
 const ReactMarkdown = require('react-markdown')
 // const clientId = process.env.REACT_APP_CLIENT_ID;
 
@@ -47,7 +51,9 @@ class App extends React.Component {
       isModalOpen: false,
       fullName: '',
       comments: [],
-
+      page: null,
+      total: null,
+      per_page: null,
 
     }
   }
@@ -82,14 +88,17 @@ class App extends React.Component {
   // Label - note the color as returned by the API.  ****(some have, some not)
   // State of Issue (Open/Closed). 
   //////////////////////////////
-  getRepo = async (name) => {
-    const url = `https://api.github.com/repos/${name}/issues`;
+  getRepo = async (name,pageNumber) => {
+    const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
     let response = await fetch(url);
     let data = await response.json();
     this.setState({
       issues: data,
       isListRepo: false,
       fullName: name,
+      page: pageNumber,
+      total: data[0].number,
+      per_page: 30,
     });
   };
 
@@ -103,6 +112,9 @@ class App extends React.Component {
       isListRepo: false,
     });
   }
+
+
+
 
 
 
@@ -122,15 +134,22 @@ class App extends React.Component {
 
         <Container className="h-100">
           {this.state.isListRepo &&
-            <RenderSearchRepo
-              {...this.state}
-              getSearchRepo={this.getSearchRepo}
-              getRepo={this.getRepo}
-              getIssueComments={this.getIssueComments}
+            <div>
+              <RenderSearchRepo
+                {...this.state}
+                getSearchRepo={this.getSearchRepo}
+                getRepo={this.getRepo}
+                getIssueComments={this.getIssueComments}
 
-            />}
+              />
+              
+
+            </div>
+
+          }
+
           {!this.state.isListRepo &&
-            <RenderRepo
+            <div><RenderRepo
               {...this.state}
               getSearchRepo={this.getSearchRepo}
               getRepo={this.getRepo}
@@ -138,8 +157,17 @@ class App extends React.Component {
 
 
             />
+            <Pagination
+                {...this.state}
+                getSearchRepo={this.getSearchRepo}
+                getRepo={this.getRepo}
+                getIssueComments={this.getIssueComments}
+
+              />
+              </div>
           }
         </Container>
+
         <Footer />
       </div>
     );

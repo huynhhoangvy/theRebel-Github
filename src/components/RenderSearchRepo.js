@@ -7,7 +7,7 @@ class RenderSearchRepo extends React.Component {
     renderSearchResults = () => {
         return this.props.listRepo.map(repo => {
             return (
-                <li><a href="#  " onClick={() => this.props.getRepo(repo.full_name)}>{repo.full_name}</a></li>
+                <li><a href="#  " onClick={() => this.props.getRepo(repo.full_name,1)}>{repo.full_name}</a></li>
             )
         })
     }

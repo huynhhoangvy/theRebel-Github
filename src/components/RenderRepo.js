@@ -94,6 +94,7 @@ class RenderRepo extends React.Component {
                             marginRight: '10%',
                             backgroundColor: "rgba(244, 247, 252, 1)",
                             border: "none",
+
                         }
                     }}
                 >

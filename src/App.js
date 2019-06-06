@@ -1,11 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button } from 'react-bootstrap';
+import { Button, Form,  } from 'react-bootstrap';
 import Search from './components/Search.js';
 import RenderRepo from './components/RenderRepo.js';
 import RenderSearchRepo from './components/RenderSearchRepo.js';
-
 
 
 
@@ -57,8 +56,12 @@ async getRepo(fullName) {
       issues: data,
   });
 };
-
-
+  updateInputValue(evt) {
+    this.setState({
+      searchInput: evt.target.value
+    });
+    console.log('thisthithithi',this.state.searchInput)
+  }
 
 // async getUser(name) {
 //   const url = `https://api.github.com/users/${name}`;
@@ -68,42 +71,18 @@ async getRepo(fullName) {
 //       csScores: data.items,
 //   });
 // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   render (){
+    console.log('rwefsfsdf',this.state)
   return (
     <div className="App">
       <header className="App-header">
         <div>
+          <div>
+          <Form >
+          <input value={this.state.searchInput} onChange={evt => this.updateInputValue(evt)}/>
+            <Button onClick={() => this.getSearchRepo(this.state.searchInput)}></Button>
+          </Form>
+          </div>
           <Search 
           {...this.state}
           

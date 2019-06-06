@@ -12,13 +12,20 @@ class RenderRepo extends React.Component {
             return (
                 <card><a>{issue.number}</a>
                     <p>{issue.title}</p>
+                    <p>label Color: {this.labels(issue.labels)} </p>
                     <ReactMarkdown source={issue.body.substr(0, 100) + "..."} />
                 </card>
             )
-
-
         })
     }
+    //Get color labels
+    labels = (label) =>{
+        return label.map(value=>{
+            return(
+                <p>{value.color}</p>
+                )})
+    }
+
     render() {
         return (
 

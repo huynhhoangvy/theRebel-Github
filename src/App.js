@@ -81,7 +81,7 @@ class App extends React.Component {
           />
         </header>
 
-        <Container className="h-100">
+        <Container className="h-auto">
           {this.state.isListRepo && (
             <RenderSearchRepo
               {...this.state}

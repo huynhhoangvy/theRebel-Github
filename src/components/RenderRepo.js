@@ -1,22 +1,56 @@
 import React from "react";
 import "../App.css";
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl, DropdownButton, Dropdown, Row, Card } from "react-bootstrap";
 const ReactMarkdown = require("react-markdown");
 
 class RenderRepo extends React.Component {
   renderRepos = () => {
-    return this.props.issues.map(issue => {
+    return this.props.issues.map(({title, number, created_at, user, comments, body }) => {
       return (
-        <card>
-          <a>{issue.number}</a>
-          <p>{issue.title}</p>
-          <ReactMarkdown source={issue.body.substr(0, 100) + "..."} />
-        </card>
+        <div style={{backgroundColor: "gray"}}>
+            {/* <Row style={{backgroundColor: "cyan"}}>
+              
+              <a href="#">{title}</a>
+                
+              <a>{number}</a>
+                
+              <ReactMarkdown source={body.substr(0, 100) + "..."} />
+                
+            </Row> */}
+            <Card className="pb-5 w-100">
+            <Card.Header>
+              <a href="#">
+                <h2>
+              {title}    
+              </h2>
+              </a>
+            </Card.Header>
+            <Card.Body>
+                <blockquote className="blockquote mb-0">
+                <p>
+                <ReactMarkdown source={body.substr(0, 200) + "..."} />
+                </p>
+                <footer className="blockquote-footer">
+                  <p>
+                    #{number} opened <cite title="Source Title">{created_at}</cite> by {user.login}
+                  </p>
+                  <a>
+                  Number of comments: {comments}<i class="fas fa-comment-alt"></i>
+                  </a>
+                </footer>
+                </blockquote>
+            </Card.Body>
+            </Card>
+        </div>
       );
     });
   };
   render() {
-    return <div style={{ backgroundColor: "red" }}>{this.renderRepos()}</div>;
+    return( 
+    <div className="container" style={{ backgroundColor: "" }}>
+      {this.renderRepos()}
+    </div>
+    );
   }
 }
 

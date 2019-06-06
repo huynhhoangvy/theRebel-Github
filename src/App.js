@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import Search from './components/Search.js';
+import Footer from './components/Footer.js';
 import RenderRepo from './components/RenderRepo.js';
 import RenderSearchRepo from './components/RenderSearchRepo.js';
 
@@ -101,29 +102,23 @@ async getRepo(fullName) {
 
   render (){
   return (
-    <div className="App">
-      <header className="App-header">
-        <div>
+    <div className="App h-100">
+        <header>
           <Search 
           {...this.state}
-          
-          
           />
-        </div>
-        <div><RenderSearchRepo 
+        </header>
+        <Container className="h-100">
+          <RenderSearchRepo 
         {...this.state}
         getSearchRepo={this.getSearchRepo}
         />
-        </div>
-        <div>
           <RenderRepo 
-{...this.state}
-getRepo={this.getRepo}
-          
+            {...this.state}
+            getRepo={this.getRepo}
           />
-        </div>
-
-      </header>
+        </Container>
+      <Footer />
     </div>
   );
 }

@@ -11,7 +11,9 @@ class RenderRepo extends React.Component {
     render(){
         return(
    
-        <div>test</div>
+        <div className>
+             <div className>test</div> <div className>test</div> <div className>test</div>
+        </div>
         )
     }
     }

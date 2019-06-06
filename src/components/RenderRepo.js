@@ -1,17 +1,33 @@
 import React from 'react';
 import '../App.css';
 import { Button, Form, FormControl } from 'react-bootstrap';
+const ReactMarkdown = require('react-markdown')
 
 
 
 
 class RenderRepo extends React.Component {
+    renderRepos =() => {
+        return this.props.issues.map(issue=> {
+return (
+    <card><a>{issue.number}</a>
+    <p>{issue.title}</p>
+    <ReactMarkdown source={issue.body.substr(0,100)+"..."} />
+
+    
+    
+    </card>
+)
+
+
+    })
+    }
     
 
     render(){
         return(
    
-        <div>test</div>
+        <div>{this.renderRepos()}</div>
         )
     }
     }

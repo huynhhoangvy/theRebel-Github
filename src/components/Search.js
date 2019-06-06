@@ -7,10 +7,19 @@ var moment = require('moment');
 class Search extends React.Component {
     
 
-    render(){
-        return (<div>test</div>)
+    render()  {
+    return (
+        <div>
+        <Form >
+        <input value={this.props.searchInput} onChange={evt => this.props.updateInputValue(evt)}/>
+          <Button onClick={() => this.props.getSearchRepo(this.props.searchInput)}>SEARCH</Button>
+        </Form>
+        </div>
+        
+            )
     }
-    }
+}
+
 
 
     export default Search;

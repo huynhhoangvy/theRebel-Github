@@ -89,22 +89,6 @@ getSearchRepo = async(repoName) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   render (){
   return (
 <div className="App h-100">
@@ -117,7 +101,7 @@ getSearchRepo = async(repoName) => {
           />
         </header>
 
-        <Container className="h-100">
+        <Container>
         {this.state.isListRepo && 
         <RenderSearchRepo 
         {...this.state}

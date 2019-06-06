@@ -1,26 +1,117 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Button } from 'react-bootstrap';
 
-function App() {
+
+
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        userName:'',
+        issues: [],
+        listRepo:[],
+        isIssue:false,
+    }
+}
+componentDidMount = () => {
+}
+
+
+// use for search Repo =>  return only list of "owner/reponame"
+async getSearchRepo(repoName) {
+  const url = `https://api.github.com/search/repositories?q=${repoName}`;
+  let response = await fetch(url);
+  let data = await response.json();
+  this.setState({
+    listRepo: data.items,
+  });
+};
+
+// when user click on owner/reponame => return list of issues 
+// Issue Title                issues.title
+// Number of the issue || issues.number
+// Owner of the Issue
+// Owner Avatar
+// How long ago the issue was created in a human-friendly format (e.g. 2 days ago)  // .moment
+// Body of the Issue
+// Label - note the color as returned by the API.  ****(some have, some not)
+// State of Issue (Open/Closed). 
+//////////////////////////////
+async getRepo(fullName) {
+  const url = `https://api.github.com/repos/${fullName}/issues`;
+  let response = await fetch(url);
+  let data = await response.json();
+  this.setState({
+      issues: data,
+  });
+};
+
+
+
+// async getUser(name) {
+//   const url = `https://api.github.com/users/${name}`;
+//   let response = await fetch(url);
+//   let data = await response.json();
+//   this.setState({
+//       csScores: data.items,
+//   });
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  render (){
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div><RenderSearchRepo 
+        {...this.state}
+        getSearchRepo={this.getSearchRepo}
+        />
+        </div>
+        <div>
+          <RenderRepo 
+                  {...this.state}
+                  getRepo={this.getRepo}
+          
+          />
+        </div>
+
       </header>
     </div>
   );
+}
 }
 
 export default App;

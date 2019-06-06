@@ -9,7 +9,6 @@ import RenderSearchRepo from './components/RenderSearchRepo.js';
 const ReactMarkdown = require('react-markdown')
 
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -86,34 +85,15 @@ getSearchRepo = async(repoName) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  render (){
-  return (
-<div className="App h-100">
-<header>
-  <Search 
-          {...this.state}
-          updateInputValue={this.updateInputValue}
-          getSearchRepo={this.getSearchRepo}
-          
+render() {
+    console.log('rwefsfsdf', this.state)
+    return (
+      <div className="App h-100">
+        <header>
+          <Search
+            {...this.state}
+            updateInputValue={this.updateInputValue}
+            getSearchRepo={this.getSearchRepo}
           />
         </header>
 
@@ -134,10 +114,10 @@ getSearchRepo = async(repoName) => {
           />
           }
         </Container>
-      <Footer />
-    </div>
-  );
-}
+        <Footer />
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button, Form,  } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import Search from './components/Search.js';
+import Footer from './components/Footer.js';
 import RenderRepo from './components/RenderRepo.js';
 import RenderSearchRepo from './components/RenderSearchRepo.js';
 const ReactMarkdown = require('react-markdown')
@@ -74,34 +75,30 @@ getSearchRepo = async(repoName) => {
   render (){
     console.log('rwefsfsdf',this.state)
   return (
-    <div className="App">
-      <header className="App-header">
-        <div>
-        
-          <Search 
+<div className="App h-100">
+<header>
+  <Search 
           {...this.state}
           updateInputValue={this.updateInputValue}
           getSearchRepo={this.getSearchRepo}
           
           />
-        </div>
-        <div><RenderSearchRepo 
+        </header>
+        <Container className="h-100">
+          <RenderSearchRepo 
         {...this.state}
         getSearchRepo={this.getSearchRepo}
         getRepo={this.getRepo}
 
         />
-        </div>
-        <div>
           <RenderRepo 
 {...this.state}
 getSearchRepo={this.getSearchRepo}
 getRepo={this.getRepo}
           
           />
-        </div>
-
-      </header>
+        </Container>
+      <Footer />
     </div>
   );
 }

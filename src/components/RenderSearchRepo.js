@@ -43,13 +43,13 @@ class RenderSearchRepo extends React.Component {
     }
     render() {
         return (
-            <Row style={{backgroundColor:"gray"}}>
+            <Row style={{border: "1px solid black", borderRadius: "5px"}}>
                 <Col className="col-2" style={{backgroundColor: "blue"}}>
                     Your are looking at repos
                 </Col>
             <Col className="col-10">
             <Row>
-            <div className="Box p-3 d-flex w-100">
+            <div className="Box p-3 d-flex w-100" style={{border: "1px solid black", borderRadius: "5px"}}>
         <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" width={64} height={64} className="d-block rounded-1 mr-3 flex-shrink-0" alt="react logo" />
         <div className="d-md-flex flex-items-start flex-auto w-100">
           <div className="flex-auto">
@@ -73,7 +73,7 @@ class RenderSearchRepo extends React.Component {
         </div>
       </div>
             </Row>
-            <Row style={{ backgroundColor: "red" }}>
+            <Row style={{border: "1px solid black", borderRadius: "5px"}}>
                 {this.renderSearchResults()}
             </Row>
             </Col>

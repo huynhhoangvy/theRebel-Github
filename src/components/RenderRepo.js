@@ -13,23 +13,13 @@ return (
     <card><a>{issue.number}</a>
     <p>{issue.title}</p>
     <ReactMarkdown source={issue.body.substr(0,100)+"..."} />
-
-    
-    
     </card>
 )
-
-
     })
     }
-    
-
-    render(){
+        render(){
         return(
-   
-        <div className>
-             <div className>{this.renderRepos()}</div> 
-        </div>
+             <div style={{backgroundColor:"red"}}>{this.renderRepos()}</div> 
         )
     }
     }

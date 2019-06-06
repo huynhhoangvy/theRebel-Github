@@ -20,7 +20,6 @@ class App extends React.Component {
         // isIssue:false,
         searchInput:'',
         isListRepo:true,
-        isListIssue:false,
 
     }
 }
@@ -41,6 +40,7 @@ getSearchRepo = async(repoName) => {
   let data = await response.json();
   this.setState({
     listRepo: data.items,
+    isListRepo:true,
   });
 };
 
@@ -60,7 +60,7 @@ getSearchRepo = async(repoName) => {
   let data = await response.json();
   this.setState({
       issues: data,
-      isListIssue:false,
+      isListRepo:false,
   });
   console.log("get Repo",this.state.issues)
 };
@@ -116,19 +116,23 @@ getSearchRepo = async(repoName) => {
           
           />
         </header>
+
         <Container className="h-100">
-          <RenderSearchRepo 
+        {this.state.isListRepo && 
+        <RenderSearchRepo 
         {...this.state}
         getSearchRepo={this.getSearchRepo}
         getRepo={this.getRepo}
 
-        />
+        />}
+          {!this.state.isListRepo && 
           <RenderRepo 
-{...this.state}
-getSearchRepo={this.getSearchRepo}
-getRepo={this.getRepo}
+            {...this.state}
+            getSearchRepo={this.getSearchRepo}
+            getRepo={this.getRepo}
           
           />
+          }
         </Container>
       <Footer />
     </div>

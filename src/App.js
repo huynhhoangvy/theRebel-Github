@@ -2,6 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Button } from 'react-bootstrap';
+import Search from './components/Search.js';
+import RenderRepo from './components/RenderRepo.js';
+import RenderSearchRepo from './components/RenderSearchRepo.js';
 
 
 
@@ -14,10 +17,15 @@ class App extends React.Component {
         userName:'',
         issues: [],
         listRepo:[],
-        isIssue:false,
+        // isIssue:false,
+        searchInput:'',
+        isListRepo:true,
+        isListIssue:false,
+
     }
 }
 componentDidMount = () => {
+
 }
 
 
@@ -95,6 +103,13 @@ async getRepo(fullName) {
   return (
     <div className="App">
       <header className="App-header">
+        <div>
+          <Search 
+          {...this.state}
+          
+          
+          />
+        </div>
         <div><RenderSearchRepo 
         {...this.state}
         getSearchRepo={this.getSearchRepo}
@@ -102,8 +117,8 @@ async getRepo(fullName) {
         </div>
         <div>
           <RenderRepo 
-                  {...this.state}
-                  getRepo={this.getRepo}
+{...this.state}
+getRepo={this.getRepo}
           
           />
         </div>

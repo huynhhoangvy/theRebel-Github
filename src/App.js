@@ -93,47 +93,6 @@ class App extends React.Component {
     });
   };
 
-  // getTrailerCountForEachMovie = () => {
-  //   const { movies } = this.state
-  //   const go = movies.map(({ id }) => {
-  //     const api = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`;
-  //     let movieTrailerKeys = []
-  //     let newResult = {}
-  //     return fetch(api)
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         data.results.map(trailer => {
-  //           return movieTrailerKeys.push(trailer.key)
-  //         })
-  //         newResult.keys = movieTrailerKeys
-  //         newResult.trailerLength = data.results.length
-  //         newResult.id = id;
-  //         return newResult
-  //       });
-  //   })
-  //   Promise.all(go).then((results) => this.setState({ trailers: results }))  
-  // }
-
-  // getTrailerCountForEachMovie = () => {
-  //   const { issues } = this.state
-  //   const go = issues.map(({ number }) => {
-  //     const api = `https://api.github.com/repos/${this.state.fullName}/issues/${number}/comments`;
-  //     let comments = []
-  //     let newResult = {}
-  //     return fetch(api)
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         data.map(comment => {
-  //           return comments.push(comment)
-  //         })
-
-  //         return newResult
-  //       });
-  //   })
-  //   Promise.all(go).then((results) => this.setState({ comments: results }))  //Promise
-  //   // this.setState({trailers:go})
-  // }
-
 
   getIssueComments = async (issueNumber) => {
     const url = `https://api.github.com/repos/${this.state.fullName}/issues/${issueNumber}/comments`;
@@ -144,12 +103,6 @@ class App extends React.Component {
       isListRepo: false,
     });
   }
-
-
-
-
-
-
 
 
 

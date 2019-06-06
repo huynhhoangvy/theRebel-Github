@@ -50,12 +50,22 @@ renderComments = () => {
                 <div onClick={()=>this.handleModal(issue.number,issue.title,issue.body)}>
                     <div className="card"><a>{issue.number}</a>
                         <p>{issue.title}</p>
+                        <p>label Color: {this.labels(issue.labels)} </p>
                         <ReactMarkdown source={issue.body.substr(0, 100) + "..."} />
                     </div>
                 </div>
             )
         })
     }
+
+     //Get color labels
+     labels = (label) =>{
+        return label.map(value=>{
+            return(
+                <p>{value.color}</p>
+                )})
+    }
+
     render() {
         console.log("state title",this.state)
 

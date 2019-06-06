@@ -5,8 +5,7 @@ import { Button, Form,  } from 'react-bootstrap';
 import Search from './components/Search.js';
 import RenderRepo from './components/RenderRepo.js';
 import RenderSearchRepo from './components/RenderSearchRepo.js';
-
-
+const ReactMarkdown = require('react-markdown')
 
 
 class App extends React.Component {
@@ -23,13 +22,18 @@ class App extends React.Component {
 
     }
 }
-componentDidMount = () => {
 
+componentDidMount = () => {
 }
 
+updateInputValue=(evt)=> {
+  this.setState({
+    searchInput: evt.target.value
+  });
+}
 
 // use for search Repo =>  return only list of "owner/reponame"
-async getSearchRepo(repoName) {
+getSearchRepo = async(repoName) => {
   const url = `https://api.github.com/search/repositories?q=${repoName}`;
   let response = await fetch(url);
   let data = await response.json();
@@ -48,20 +52,16 @@ async getSearchRepo(repoName) {
 // Label - note the color as returned by the API.  ****(some have, some not)
 // State of Issue (Open/Closed). 
 //////////////////////////////
-async getRepo(fullName) {
+ getRepo = async(fullName) => {
   const url = `https://api.github.com/repos/${fullName}/issues`;
   let response = await fetch(url);
   let data = await response.json();
   this.setState({
       issues: data,
+      isListIssue:false,
   });
+  console.log("get Repo",this.state.issues)
 };
-  updateInputValue(evt) {
-    this.setState({
-      searchInput: evt.target.value
-    });
-    console.log('thisthithithi',this.state.searchInput)
-  }
 
 // async getUser(name) {
 //   const url = `https://api.github.com/users/${name}`;
@@ -77,26 +77,25 @@ async getRepo(fullName) {
     <div className="App">
       <header className="App-header">
         <div>
-          <div>
-          <Form >
-          <input value={this.state.searchInput} onChange={evt => this.updateInputValue(evt)}/>
-            <Button onClick={() => this.getSearchRepo(this.state.searchInput)}></Button>
-          </Form>
-          </div>
+        
           <Search 
           {...this.state}
-          
+          updateInputValue={this.updateInputValue}
+          getSearchRepo={this.getSearchRepo}
           
           />
         </div>
         <div><RenderSearchRepo 
         {...this.state}
         getSearchRepo={this.getSearchRepo}
+        getRepo={this.getRepo}
+
         />
         </div>
         <div>
           <RenderRepo 
 {...this.state}
+getSearchRepo={this.getSearchRepo}
 getRepo={this.getRepo}
           
           />

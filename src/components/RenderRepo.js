@@ -9,10 +9,11 @@ const ReactMarkdown = require('react-markdown')
 class RenderRepo extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { 
-            issueTitle:'test',
-            issueBody:'',
-            isOpen: false }
+        this.state = {
+            issueTitle: 'test',
+            issueBody: '',
+            isOpen: false
+        }
     }
 
     handleCloseModal = () => {
@@ -20,34 +21,34 @@ class RenderRepo extends React.Component {
     }
 
 
-    handleModal = (number,title,body) => {
+    handleModal = (number, title, body) => {
         this.props.getIssueComments(number)
         this.renderComments()
         this.openModal()
-     
-        this.setState({issueTitle:title,issueBody:body})
+
+        this.setState({ issueTitle: title, issueBody: body })
     }
 
     openModal = () => {
         this.setState({ isOpen: true });
     }
 
-renderComments = () => {
-    return this.props.comments.map(comment => {
-        return (
-            <div className="comment"> 
-              <div className="commentUser"><h5>{comment.user.login}:</h5>  </div>
-                <ReactMarkdown source={comment.body} />
-            </div>
-        )
-    })
-}
+    renderComments = () => {
+        return this.props.comments.map(comment => {
+            return (
+                <div className="comment">
+                    <div className="commentUser"><div><img src={`${comment.user.avatar_url}`} height="50px" width="50px"/></div><div><h5 style={{paddingLeft:"1rem"}}>     {comment.user.login}:</h5></div>  </div>
+                    <div className="commentContent"><ReactMarkdown source={comment.body} /></div>
+                </div>
+            )
+        })
+    }
 
 
     renderRepos = () => {
         return this.props.issues.map(issue => {
             return (
-                <div onClick={()=>this.handleModal(issue.number,issue.title,issue.body)}>
+                <div onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
                     <div className="card"><a>{issue.number}</a>
                         <p>{issue.title}</p>
                         <p>label Color: {this.labels(issue.labels)} </p>
@@ -58,16 +59,17 @@ renderComments = () => {
         })
     }
 
-     //Get color labels
-     labels = (label) =>{
-        return label.map(value=>{
-            return(
+    //Get color labels
+    labels = (label) => {
+        return label.map(value => {
+            return (
                 <p>{value.color}</p>
-                )})
+            )
+        })
     }
 
     render() {
-        console.log("state title",this.state)
+        console.log("state title", this.state)
 
         return (
             <div>
@@ -76,31 +78,31 @@ renderComments = () => {
                     onRequestClose={() => this.setState({ isOpen: false })}
                     ariaHideApp={false}
                     style={{
-                        overlay:{
-                          backgroundColor:"rgba(244, 247, 252, 0.3)",
-                          top: '0%',
-                          left: '0%',
-                          right: '0%',
-                          bottom: '0%',
-                          marginRight: '-10%',
+                        overlay: {
+                            backgroundColor: "rgba(244, 247, 252, 0.3)",
+                            top: '0%',
+                            left: '0%',
+                            right: '0%',
+                            bottom: '0%',
+                            marginRight: '-10%',
                         },
-                        content : {
-                          top: '15%',
-                          left: '10%',
-                          right: '10%',
-                          bottom: '10%',
-                          marginRight: '10%',
-                          backgroundColor:"rgba(244, 247, 252, 1)",
-                          border:"none",
+                        content: {
+                            top: '15%',
+                            left: '10%',
+                            right: '10%',
+                            bottom: '10%',
+                            marginRight: '10%',
+                            backgroundColor: "rgba(244, 247, 252, 1)",
+                            border: "none",
                         }
-                      }}
+                    }}
                 >
                     <div>
-                    <h4>Issue: {this.state.issueTitle}</h4>
-                    <p>Content: <ReactMarkdown source={this.state.issueBody} /></p>
+                        <h4>Issue: {this.state.issueTitle}</h4>
+                        <p>Content: <ReactMarkdown source={this.state.issueBody} /></p>
                     </div>
                     <div>
-                    {this.renderComments()}
+                        {this.renderComments()}
                     </div>
 
                 </Modal>

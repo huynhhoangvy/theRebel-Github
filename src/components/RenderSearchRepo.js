@@ -1,7 +1,7 @@
 import React from 'react';
 import '../App.css';
 import { Button } from 'react-bootstrap';
-
+import Modal from 'react-modal'
 
 class RenderSearchRepo extends React.Component {
     renderSearchResults = () => {
@@ -9,13 +9,11 @@ class RenderSearchRepo extends React.Component {
             return (
                 <li><a href="#  " onClick={() => this.props.getRepo(repo.full_name)}>{repo.full_name}</a></li>
             )
-
-
         })
     }
     render() {
         return (
-            <div className="row" style={{backgroundColor:"pink"}}>
+            <div className="row" style={{ backgroundColor: "pink" }}>
                 <div className="col-2">Your are looking at repos</div>
                 <div className="col-10" style={{ backgroundColor: "red" }}>
                     <div>{this.renderSearchResults()}</div>

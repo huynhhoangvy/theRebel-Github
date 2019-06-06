@@ -1,15 +1,18 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import { Button, Form, FormControl } from 'react-bootstrap';
+
+
 
 
 class RenderRepo extends React.Component {
     
 
     render(){
-        return
+        return(
    
-        
+        <div>test</div>
+        )
     }
     }
 

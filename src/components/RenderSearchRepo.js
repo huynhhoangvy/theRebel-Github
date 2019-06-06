@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import { Button } from 'react-bootstrap';
 
 
@@ -7,9 +7,9 @@ class RenderSearchRepo extends React.Component {
     
 
     render(){
-        return
-
-        
+        return(
+<div>test</div>
+        )
     }
     }
 

@@ -36,7 +36,7 @@ class App extends React.Component {
     let data = await response.json();
     this.setState({
       listRepo: data.items,
-      isListRepo: true
+      isListRepo: true,
     });
   };
 
@@ -56,46 +56,59 @@ class App extends React.Component {
     let data = await response.json();
     this.setState({
       issues: data,
-      isListRepo: false
-    });
-    console.log("get Repo", this.state.issues);
-  };
+      isListRepo:false,
+  });
+  console.log("get Repo",this.state.issues)
+};
 
-  // async getUser(name) {
-  //   const url = `https://api.github.com/users/${name}`;
-  //   let response = await fetch(url);
-  //   let data = await response.json();
-  //   this.setState({
-  //       csScores: data.items,
-  //   });
-  // };
 
-  render() {
-    return (
-      <div className="App h-100">
-        <header>
-          <Search
-            {...this.state}
-            updateInputValue={this.updateInputValue}
-            getSearchRepo={this.getSearchRepo}
+// async getUser(name) {
+//   const url = `https://api.github.com/users/${name}`;
+//   let response = await fetch(url);
+//   let data = await response.json();
+//   this.setState({
+//       csScores: data.items,
+//   });
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  render (){
+  return (
+<div className="App d-flex flex-column h-100">
+<header>
+  <Search 
+          {...this.state}
+          updateInputValue={this.updateInputValue}
+          getSearchRepo={this.getSearchRepo}
           />
         </header>
-
-        <Container className="h-auto">
-          {this.state.isListRepo && (
-            <RenderSearchRepo
-              {...this.state}
-              getSearchRepo={this.getSearchRepo}
-              getRepo={this.getRepo}
-            />
-          )}
-          {!this.state.isListRepo && (
-            <RenderRepo
-              {...this.state}
-              getSearchRepo={this.getSearchRepo}
-              getRepo={this.getRepo}
-            />
-          )}
+        <Container className="h-auto mt-4">
+        {this.state.isListRepo && 
+        <RenderSearchRepo 
+        {...this.state}
+        getSearchRepo={this.getSearchRepo}
+        getRepo={this.getRepo}
+        />}
+          {!this.state.isListRepo && 
+          <RenderRepo 
+            {...this.state}
+            getSearchRepo={this.getSearchRepo}
+            getRepo={this.getRepo}
+          />
+          }
         </Container>
         <Footer />
       </div>

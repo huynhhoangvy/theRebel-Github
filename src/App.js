@@ -14,13 +14,7 @@ const ReactMarkdown = require('react-markdown')
 const clientId = process.env.REACT_APP_CLIENT_ID;
 
 
-
-
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    // const existingToken = sessionStorage.getItem('token');
+// const existingToken = sessionStorage.getItem('token');
     // const accessToken = process.env.REACT_APP_SECRET_KEY
     // if (!accessToken && !existingToken) {
     //   window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
@@ -36,6 +30,12 @@ class App extends React.Component {
     //     token: existingToken
     //   };
     // }
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    
     const existingToken = sessionStorage.getItem('token');
     const accessToken = (window.location.search.split("=")[0] === "?access_token") ? window.location.search.split("=")[1] : null;
   
@@ -159,6 +159,7 @@ class App extends React.Component {
   }
 
   writeIssues = async (title, body) => {
+    console.log("title",title)
     let data = new URLSearchParams();
     data.append('title', title);
     data.append('body', body);
@@ -168,8 +169,7 @@ class App extends React.Component {
             method: 'POST',
             headers: {
               
-                "Content-Type": "application/vnd.github.symmetra-preview+json",
-                'Authorization':   `token ${this.accessToken}`,
+              accept:'application/vnd.github.inertia-preview+json',
             },
             body: data.toString(),
             json: true,

@@ -23,7 +23,7 @@ class Pagination extends React.Component {
 
                 if (number === 1 || number === total || (number >= page - 2 && number <= page + 2)) {
                     return (
-                        <span key={number} className={classes} onClick={() => this.props.getRepo(this.props.fullName, number)}>{number}</span>
+                        <span key={number} className={classes} onClick={() => this.props.getRepo2(this.props.fullName, number)}>{number}</span>
                     );
                 }
             });
@@ -31,14 +31,25 @@ class Pagination extends React.Component {
 
         return (
             <Row>
-
                 <div className={styles.pagination}>
-                        {page > 6 && <span onClick={() => this.props.getRepo(this.props.fullName, page - 1)}> &laquo; </span>}
-                        {page !== 1 && <span onClick={() => this.props.getRepo(this.props.fullName, page - 1)}> &lsaquo; </span>}
-                        {renderPageNumbers}
-                        <span onClick={() => this.props.getRepo(this.props.fullName, totalPage)}> {totalPage} </span>
-                        <span onClick={() => this.props.getRepo(this.props.fullName, page + 1)}> &rsaquo; </span>
-                        <span onClick={() => this.props.getRepo(this.props.fullName, page + 5)}> &raquo; </span>
+                    {totalPage > 1 &&
+                        <div>
+                            {page > 6 && <span onClick={() => this.props.getRepo2(this.props.fullName, page - 1)}> &laquo; </span>}
+
+                            {page !== 1 && <span onClick={() => this.props.getRepo2(this.props.fullName, page - 1)}> &lsaquo; </span>}
+
+                            {renderPageNumbers}
+                            {totalPage!==page &&
+                            <span onClick={() => this.props.getRepo2(this.props.fullName, totalPage)}> Last page: {totalPage} </span>
+                            }
+                            {totalPage-page>1 &&
+                            <span onClick={() => this.props.getRepo2(this.props.fullName, page + 1)}> &rsaquo; </span>
+                            }
+                            {totalPage-page>5 &&
+                            <span onClick={() => this.props.getRepo2(this.props.fullName, page + 5)}> &raquo; </span>
+                            }
+                        </div>
+                    }
 
                 </div>
 

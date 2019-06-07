@@ -8,9 +8,10 @@ import {
     Dropdown,
     Row,
     Card,
-    Col
-} from "react-bootstrap";
-import Modal from 'react-modal'
+    Col,
+    Badge
+  } from "react-bootstrap";
+  import Modal from 'react-modal'   
 const ReactMarkdown = require('react-markdown')
 var moment = require('moment');
 
@@ -23,10 +24,11 @@ class RenderRepo extends React.Component {
         this.state = {
             issueTitle: 'test',
             issueBody: '',
-            isOpen: false
+            isOpen: false,
+            isOpenCreateIssue: false
         }
     }
-
+    
     handleCloseModal = () => {
         this.setState({ isOpen: false });
     }
@@ -84,21 +86,28 @@ class RenderRepo extends React.Component {
     labels = (label) => {
         return label.map(value => {
             return (
-                <Button style={{ backgroundColor: `#${value.color}`, padding: "2px 10px", color: "black", border: "none", margin: 2 }}>{value.name}</Button>
+                <Badge style={{backgroundColor:`#${value.color}`}}>{value.name}</Badge>
             )
         })
     }
-
-    filterLabels = (color, idx) => {
-        console.log(this.props.issues[idx].labels)
-
-
+    
+   
+   
+    isOpenIssue = () => {
+        console.log('isOpenIssue')
+        this.setState({ isOpenCreateIssue: true });
     }
-
-
-
+    
+    handleCreateIssue=()=>{
+        this.isOpenIssue()
+        this.openIssueCreate()
+        console.log('handleCreateIssue')
+    }
+    // handleInputTitleCreateIssue()=>{
+        
+    // }
     render() {
-        console.log("state title", this.state)
+      
 
         return (
             <div className="container"
@@ -147,18 +156,40 @@ class RenderRepo extends React.Component {
                     </div>
 
                 </Modal>
+                <div>Something useful here (navbar for lists of issue) <button onClick={()=>this.isOpenIssue()}>New Issue</button> </div>
+                <div>
+                <Modal
+                    isOpen={this.state.isOpenCreateIssue}
+                    onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
+                >
+                 <div>
+                        <Form>
+                        <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control type="text" placeholder="title here" 
+                            value={this.props.newTitleCreate} 
+                            onChange={evt => this.props.updateTitle(evt)}  
+                            />
 
+                        </Form.Group>
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Label>Comments</Form.Label>
+                            <Form.Control 
+                            as="textarea" rows="3" placeholder="leave a comment heres" 
+                            value={this.props.newCommentIssueCreate} 
+                            onChange={evt => this.props.updateComment(evt)} />
+                            <Button onClick={()=>this.props.writeIssues(this.props.newTitleCreate,this.props.newCommentIssueCreate)}>Submit issues</Button>
+                        </Form.Group>
+                        </Form>
+                </div>
+             </Modal>
 
-
-
-
-                <div>Something useful here (navbar for lists of issue) <button>New Issue</button> </div>
-                <div style={{ backgroundColor: "" }}>{this.renderRepos()}</div>
+                </div>
+                <div>{this.renderRepos()}</div>
             </div>
         )
     }
 }
-
 
 export default RenderRepo;
 

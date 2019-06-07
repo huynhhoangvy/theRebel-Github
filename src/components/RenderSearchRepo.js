@@ -1,9 +1,9 @@
+import Modal from 'react-modal';
 import React from 'react';
 import '../App.css';
 import { Card, Col, Row, Button} from 'react-bootstrap';
 var moment = require('moment');
 var numeral = require('numeral');
-import Modal from 'react-modal'
 
 
 class RenderSearchRepo extends React.Component {

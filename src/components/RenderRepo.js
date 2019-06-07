@@ -51,7 +51,7 @@ class RenderRepo extends React.Component {
                 <div onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
                     <div className="card"><a>{issue.number}</a>
                         <p>{issue.title}</p>
-                        <p>label Color: {this.labels(issue.labels)} </p>
+                        <p>{this.labels(issue.labels)} </p>
                         <ReactMarkdown source={issue.body.substr(0, 100) + "..."} />
                     </div>
                 </div>
@@ -63,7 +63,7 @@ class RenderRepo extends React.Component {
     labels = (label) => {
         return label.map(value => {
             return (
-                <p>{value.color}</p>
+                <Button style={{backgroundColor:`#${value.color}`}}>hellooooooooo this is the label colorrrrrrr</Button>
             )
         })
     }

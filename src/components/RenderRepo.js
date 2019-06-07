@@ -139,7 +139,7 @@ class RenderRepo extends React.Component {
                         />
                         <p><span style={{fontSize:"25px"}}>Content: </span><ReactMarkdown
                             id="hi"
-                            style={{ backgroundColor: 'red' }}
+                            style={{ backgroundColor: '' }}
                             source={this.state.issueBody} /></p>
                     </div>
                     <div>

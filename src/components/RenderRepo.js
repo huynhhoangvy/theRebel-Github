@@ -91,33 +91,21 @@ class RenderRepo extends React.Component {
         })
     }
     
-    filterLabels =(color,idx) =>{
-    console.log(this.props.issues[idx].labels)
-    }
+   
    
     isOpenIssue = () => {
         console.log('isOpenIssue')
         this.setState({ isOpenCreateIssue: true });
     }
-    openIssueCreate= () => {
-        console.log('openIssueCreate')
-        return (
-            <Modal
-            isOpen={this.state.isOpenCreateIssue}
-            onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
-          >
-           <div>
-                        {this.renderComments()}
-                    </div>
-          </Modal>
-        )
-    }
+    
     handleCreateIssue=()=>{
         this.isOpenIssue()
         this.openIssueCreate()
         console.log('handleCreateIssue')
     }
-
+    // handleInputTitleCreateIssue()=>{
+        
+    // }
     render() {
       
 
@@ -168,12 +156,35 @@ class RenderRepo extends React.Component {
                     </div>
 
                 </Modal>
+                <div>Something useful here (navbar for lists of issue) <button onClick={()=>this.isOpenIssue()}>New Issue</button> </div>
+                <div>
+                <Modal
+                    isOpen={this.state.isOpenCreateIssue}
+                    onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
+                >
+                 <div>
+                        <Form>
+                        <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control type="text" placeholder="title here" 
+                            value={this.props.newTitleCreate} 
+                            onChange={evt => this.props.updateTitle(evt)}  
+                            />
 
+                        </Form.Group>
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Label>Comments</Form.Label>
+                            <Form.Control 
+                            as="textarea" rows="3" placeholder="leave a comment heres" 
+                            value={this.props.newCommentIssueCreate} 
+                            onChange={evt => this.props.updateComment(evt)} />
+                            <Button>Submit issues</Button>
+                        </Form.Group>
+                        </Form>
+                </div>
+             </Modal>
 
-
-
-
-                <div>Something useful here (navbar for lists of issue) <button onClick={()=>this.handleCreateIssue()}>New Issue</button> </div>
+                </div>
                 <div>{this.renderRepos()}</div>
             </div>
         )

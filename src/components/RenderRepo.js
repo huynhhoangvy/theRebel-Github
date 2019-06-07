@@ -57,6 +57,7 @@ class RenderRepo extends React.Component {
 
 
     renderRepos = () => {
+        console.log(this.props.issues)
         return this.props.issues.map((issue,idx) => {
             return (
                 <div className="mb-4" style={{borderBottom: "1px solid #e1e4e8"}} onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
@@ -178,7 +179,7 @@ class RenderRepo extends React.Component {
                             as="textarea" rows="3" placeholder="leave a comment heres" 
                             value={this.props.newCommentIssueCreate} 
                             onChange={evt => this.props.updateComment(evt)} />
-                            <Button>Submit issues</Button>
+                            <Button onClick={()=>this.props.writeIssues(this.props.newTitleCreate,this.props.newCommentIssueCreate)}>Submit issues</Button>
                         </Form.Group>
                         </Form>
                 </div>

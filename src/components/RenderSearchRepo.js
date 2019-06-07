@@ -1,6 +1,8 @@
 import React from 'react';
 import '../App.css';
 import { Card, Col, Row, Button} from 'react-bootstrap';
+var moment = require('moment');
+var numeral = require('numeral');
 
 
 class RenderSearchRepo extends React.Component {
@@ -19,16 +21,16 @@ class RenderSearchRepo extends React.Component {
                                     </p>
                                 </Col>
                                 <Col className="col-2">
-                                    <span >★{stargazers_count}</span>
+                                    <span >★ {numeral(stargazers_count).format('0.0a')}</span>
                                 </Col>
                             </Row>
                     <div>
                         <div>
-                            <p className="text-secondary">
+                            <p className="text-secondary pt-2">
                                 {description}
                             </p>
                             <footer>
-                               <small title="Source Title"> Updated {updated_at}</small>
+                               <small title="Source Title"> Updated {moment(updated_at).startOf().fromNow()}</small>
                             </footer>
                         </div>
                     </div>

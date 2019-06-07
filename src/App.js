@@ -36,7 +36,7 @@ class App extends React.Component {
     let data = await response.json();
     this.setState({
       listRepo: data.items,
-      isListRepo: true
+      isListRepo: true,
     });
   };
 

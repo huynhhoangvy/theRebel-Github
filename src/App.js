@@ -87,7 +87,7 @@ class App extends React.Component {
 
   render (){
   return (
-<div className="App h-100">
+<div className="App d-flex flex-column h-100">
 <header>
   <Search 
           {...this.state}
@@ -95,7 +95,7 @@ class App extends React.Component {
           getSearchRepo={this.getSearchRepo}
           />
         </header>
-        <Container>
+        <Container className="h-auto mt-4">
         {this.state.isListRepo && 
         <RenderSearchRepo 
         {...this.state}

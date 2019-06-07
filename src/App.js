@@ -99,7 +99,7 @@ class App extends React.Component {
     let response = await fetch(url);
     let data = await response.json();
     let x;
-    (data.length < 1 ? (x=1) : (x=data[0].number));
+    // (data.length < 1 ? (x=1) : (x=data[0].number))
     this.setState({
       issues: data,
       isListRepo: false,

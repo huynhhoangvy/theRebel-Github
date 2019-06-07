@@ -60,7 +60,7 @@ class App extends React.Component {
       per_page: null,
       totalPage:null,
       newTitleCreate:'',
-      newCommentIssueCreate:'',
+      newCommentIssueCreate:'',    
     }
   }
 
@@ -167,7 +167,7 @@ class App extends React.Component {
         <header>
           <Search
             {...this.state}
-            updateInputValue={this.updateInputValue}
+            updateInputValue={this.updateInputValue}  
             updateTitle={this.updateTitle}
             getSearchRepo={this.getSearchRepo}
             getIssueComments={this.getIssueComments}
@@ -184,7 +184,7 @@ class App extends React.Component {
                 getRepo={this.getRepo}
                 getIssueComments={this.getIssueComments}
               />
-              
+
 
             </div>
 

@@ -29,7 +29,7 @@ class Search extends React.Component {
           </NavDropdown>
           </Nav>
             
-          <Form inline onSubmit={() => this.props.getSearchRepo(this.props.searchInput)}>
+          <Form inline onSubmit={(e) => this.props.getSearchRepo(this.props.searchInput, e)}>
           <FormControl 
           type="text" 
           placeholder="Search" 

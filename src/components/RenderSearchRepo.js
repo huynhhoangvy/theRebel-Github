@@ -13,7 +13,7 @@ class RenderSearchRepo extends React.Component {
                 <div className="w-100 py-4 border-bottom">
                             <Row>
                                 <Col className="col-7">
-                                    <a href="#" onClick={() => this.props.getRepo(full_name)}><h4>{full_name}</h4></a>
+                                    <a href="#" onClick={() => this.props.getRepo(full_name,1)}><h4>{full_name}</h4></a>
                                 </Col>
                                 <Col className="col-3">
                                     <p>

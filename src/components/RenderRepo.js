@@ -1,7 +1,16 @@
 import React from 'react';
 import '../App.css';
-import { Button, Form, FormControl } from 'react-bootstrap';
-import Modal from 'react-modal'
+import {
+    Button,
+    Form,
+    FormControl,
+    DropdownButton,
+    Dropdown,
+    Row,
+    Card,
+    Col
+  } from "react-bootstrap";
+  import Modal from 'react-modal'
 const ReactMarkdown = require('react-markdown')
 
 
@@ -48,13 +57,25 @@ class RenderRepo extends React.Component {
     renderRepos = () => {
         return this.props.issues.map((issue,idx) => {
             return (
-                <div onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
-                    <div className="card"><a>{issue.number}</a>
-                        <p>{issue.title}</p>
-                        <p>Labels: {this.labels(issue.labels)} </p>
-                        <ReactMarkdown source={issue.body.substr(0, 100) + "..."} />
-                    </div>
-                </div>
+                <div className="mb-4" style={{borderBottom: "1px solid #e1e4e8"}} onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
+                <Row>
+                  <Col className="col-11">
+                    <h4 className="mb-1">
+                      <a href="#" style={{ color: "" }}>
+                        #{issue.number} {issue.title}
+                      </a>
+                    </h4>
+                    <small>
+                      <cite title="Source Title">{issue.created_at}</cite> by @
+                      {issue.user.login} Number of comments: {issue.comments}
+                    </small>
+                    <ReactMarkdown className="text-black-50 mt-3" source={issue.body.substr(0, 250) + "..."} />
+                  </Col>
+                  <Col className="col-1">avatar
+                  <p>Labels: {this.labels(issue.labels)} </p>
+              </Col>
+                </Row>
+              </div>
             )
         })
     }
@@ -80,7 +101,9 @@ class RenderRepo extends React.Component {
         console.log("state title", this.state)
 
         return (
-            <div>
+            <div  className="container"
+            style={{ backgroundColor: "", border: "" }}
+          >
                 <Modal
                     isOpen={this.state.isOpen}
                     onRequestClose={() => this.setState({ isOpen: false })}

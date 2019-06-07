@@ -13,8 +13,11 @@ var moment = require("moment");
 class Search extends React.Component {
   render(){
     return (
-      <Navbar bg="dark" variant="dark" variant="dark" expand="lg" sticky="top">
-        <Navbar.Brand href="#home">The Rebel Github</Navbar.Brand>
+      <Navbar style={{backgroundColor :"#0A171F"}} variant="dark"  expand="lg" sticky="top">
+        <Navbar.Brand href="#home">
+          <a><img src="https://i.pinimg.com/originals/ce/1f/d7/ce1fd767d594794d61297755ee162b06.gif" style={{width: 60}}/> The Rebel
+          </a>
+          </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">

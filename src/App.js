@@ -79,6 +79,7 @@ class App extends React.Component {
     this.setState({
       listRepo: data.items,
       isListRepo: true,
+      totalResult: data.total_count
     });
   };
 

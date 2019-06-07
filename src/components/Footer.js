@@ -16,7 +16,7 @@ class Footer extends React.Component {
   render() {
     return (
       <footer className="mt-auto footer">
-        <div className="footer container-lg width-full px-3 h-100" role="contentinfo" style={{ display: "flex", justifyContent: "center" }}>
+        <div className="footer container-lg width-full px-3 mb-3 h-100" role="contentinfo" style={{ display: "flex", justifyContent: "center" }}>
           <div className="position-relative pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light w-75 h-100" style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
             <ul className="d-flex flex-wrap mb-2 mb-lg-0 py-4" style={{ listStyleType: "none", display:"flex", flexWrap:"wrap" }}>
               <li className="mr-3">© 2019 <span title="3.05615s from unicorn-7774cd9449-t74xz">GitHub</span>, Inc.</li>

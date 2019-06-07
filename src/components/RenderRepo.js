@@ -29,8 +29,6 @@ class RenderRepo extends React.Component {
     handleCloseModal = () => {
         this.setState({ isOpen: false });
     }
-
-
     handleModal = (number, title, body) => {
         this.props.getIssueComments(number)
         this.renderComments()
@@ -53,8 +51,6 @@ class RenderRepo extends React.Component {
             )
         })
     }
-
-
     renderRepos = () => {
         return this.props.issues.map((issue,idx) => {
             return (
@@ -154,7 +150,7 @@ class RenderRepo extends React.Component {
 
 
                 <div>Something useful here (navbar for lists of issue) <button>New Issue</button> </div>
-                <div style={{ backgroundColor: "red" }}>{this.renderRepos()}</div>
+                <div style={{ backgroundColor: "" }}>{this.renderRepos()}</div>
             </div>
         )
     }

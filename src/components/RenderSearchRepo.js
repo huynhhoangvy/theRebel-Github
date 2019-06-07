@@ -46,18 +46,8 @@ class RenderSearchRepo extends React.Component {
                     Your are looking at repos
                 </Col>
                 <Col className="col-10 px-2">
-                    <Row style={{ border: "1px solid #d1d5da", borderRadius: "5px"}} className="mx-3">
-                        <div className="Box p-3 d-flex w-100" >
-                            <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" width={64} height={64} className="d-block rounded-1 mr-3 flex-shrink-0" alt="react logo" />
-                            <div className="d-md-flex flex-items-start flex-auto w-100 row">
-                                <div className="flex-auto col-10">
-                                    <h3 className="mb-1">React</h3>
-                                    <p>React is an open source JavaScript library used for designing user interfaces.</p>
-                                    <a className="text-small" href="/topics/react">See topic</a>
-                                </div>
-                                <div className="col" ><Button style={{ border: "1px solid #d1d5da", borderRadius: "5px"}} variant="light" size="sm">★ Star</Button></div>
-                            </div>
-                        </div>
+                    <Row  className="mx-3">
+                    <h4 style={{ border: "1px solid #d1d5da", borderRadius: "5px"}} className="mx-3">{this.props.totalResult}</h4>
                     </Row>
                     <Row className="mx-3">
                         {this.renderSearchResults()}

@@ -1,55 +1,51 @@
 import React from "react";
 import "../App.css";
-import { Button, Form, FormControl, DropdownButton, Dropdown, Row, Card } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  FormControl,
+  DropdownButton,
+  Dropdown,
+  Row,
+  Card,
+  Col
+} from "react-bootstrap";
 const ReactMarkdown = require("react-markdown");
 
 class RenderRepo extends React.Component {
   renderRepos = () => {
-    return this.props.issues.map(({title, number, created_at, user, comments, body }) => {
-      return (
-        <div style={{backgroundColor: "gray"}}>
-            {/* <Row style={{backgroundColor: "cyan"}}>
-              
-              <a href="#">{title}</a>
-                
-              <a>{number}</a>
-                
-              <ReactMarkdown source={body.substr(0, 100) + "..."} />
-                
-            </Row> */}
-            <Card className="pb-5 w-100">
-            <Card.Header>
-              <a href="#">
-                <h2>
-              {title}    
-              </h2>
-              </a>
-            </Card.Header>
-            <Card.Body>
-                <blockquote className="blockquote mb-0">
-                <p>
-                <ReactMarkdown source={body.substr(0, 200) + "..."} />
-                </p>
-                <footer className="blockquote-footer">
-                  <p>
-                    #{number} opened <cite title="Source Title">{created_at}</cite> by {user.login}
-                  </p>
-                  <a>
-                  Number of comments: {comments}<i class="fas fa-comment-alt"></i>
-                  </a>
-                </footer>
-                </blockquote>
-            </Card.Body>
-            </Card>
-        </div>
-      );
-    });
+    return this.props.issues.map(
+      ({ title, number, created_at, user, comments, body }) => {
+        return (
+            <div className="mb-4" style={{borderBottom: "1px solid #e1e4e8"}}>
+              <Row>
+                <Col className="col-11">
+                  <h4 className="mb-1">
+                    <a href="#" style={{ color: "" }}>
+                      #{number} {title}
+                    </a>
+                  </h4>
+                  <small>
+                    <cite title="Source Title">{created_at}</cite> by @
+                    {user.login} Number of comments: {comments}
+                  </small>
+                  <ReactMarkdown className="text-black-50 mt-3" source={body.substr(0, 250) + "..."} />
+                </Col>
+                <Col className="col-1">avatar</Col>
+              </Row>
+            </div>
+        );
+      }
+    );
   };
   render() {
-    return( 
-    <div className="container" style={{ backgroundColor: "" }}>
-      {this.renderRepos()}
-    </div>
+    return (
+      <div
+        className="container"
+        style={{ backgroundColor: "", border: "" }}
+      >
+        {this.renderRepos()}
+      </div>
     );
   }
 }

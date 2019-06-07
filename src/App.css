@@ -33,3 +33,29 @@
     transform: rotate(360deg);
   }
 }
+
+.comment {
+  border:1px solid rgb(204, 204, 204);
+  margin-top:1rem;
+  margin-bottom:1rem;
+  border-radius: 5px;
+}
+
+.commentUser {
+  display:inline-flex;
+  align-items: center;
+  width:100%;
+  padding:0.3.rem;
+  border:none;
+  border-left:5px solid rgb(43, 216, 0);
+  background-color:lightcyan;
+
+}
+.commentContent {
+  display:flex;
+  flex-wrap:wrap;
+  padding-top:1rem;
+  padding-left:1rem;
+  padding-right:1rem;
+  
+}

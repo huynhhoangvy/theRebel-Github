@@ -58,7 +58,7 @@ class App extends React.Component {
       page: null,
       total: null,
       per_page: null,
-
+      totalPage:null,
     }
   }
 
@@ -72,7 +72,8 @@ class App extends React.Component {
   }
   
   // use for search Repo =>  return only list of "owner/reponame"
-  getSearchRepo = async (repoName) => {
+  getSearchRepo = async (repoName, e) => {
+    e.preventDefault();
     const url = `https://api.github.com/search/repositories?q=${repoName}`;
     let response = await fetch(url);
     let data = await response.json();
@@ -97,6 +98,11 @@ class App extends React.Component {
     // const existingToken = sessionStorage.getItem('token');
     const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
     let response = await fetch(url);
+    let rawString1 = await response.headers.get("Link");
+    let rawString2 = rawString1.substring(rawString1.length-20,rawString1.length )
+    let rawString3 = rawString2.replace('>; rel="last"','')
+    let lastPage = parseInt(rawString3.replace('page=',''))
+    // let rawString2 = rawString1.replace('>; rel="last"','')
     let data = await response.json();
     let x;
     // (data.length < 1 ? (x=1) : (x=data[0].number))
@@ -105,9 +111,11 @@ class App extends React.Component {
       isListRepo: false,
       fullName: name,
       page: pageNumber,
-      total: x,
+      total: lastPage*30,
       per_page: 30,
-    });
+      totalPage:lastPage,
+
+    },);
   };
 
 
@@ -120,9 +128,6 @@ class App extends React.Component {
       isListRepo: false,
     });
   }
-
-
-
 
   render() {
     console.log("this.state", this.state)
@@ -146,7 +151,6 @@ class App extends React.Component {
                 getSearchRepo={this.getSearchRepo}
                 getRepo={this.getRepo}
                 getIssueComments={this.getIssueComments}
-
               />
               
 

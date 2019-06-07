@@ -2,23 +2,20 @@ import React from 'react';
 import { Row } from 'react-bootstrap';
 import styles from './App.module.css';
 
-
-
 class Pagination extends React.Component {
     renderPagination = () => {
         let {
             total,
             per_page,
             page,
-
+            totalPage,
         } = this.props;
 
         let renderPageNumbers;
-        let totalPage = Math.ceil(total / per_page);
+        // let totalPage = Math.ceil(total / per_page);
         const pageNumbers = [];
-
         if (total !== null) {
-            for (let i = 1; i <= Math.ceil(total / per_page); i++) {
+            for (let i = 1; i <= totalPage; i++) {
                 pageNumbers.push(i);
             }
             renderPageNumbers = pageNumbers.map(number => {
@@ -36,14 +33,13 @@ class Pagination extends React.Component {
             <Row>
 
                 <div className={styles.pagination}>
-                    {total > 30 && <div>
-                        {page > 5 && <span onClick={() => this.props.getRepo(this.props.fullName, page - 5)}> &laquo; </span>}
+                        {page > 6 && <span onClick={() => this.props.getRepo(this.props.fullName, page - 1)}> &laquo; </span>}
                         {page !== 1 && <span onClick={() => this.props.getRepo(this.props.fullName, page - 1)}> &lsaquo; </span>}
                         {renderPageNumbers}
+                        <span onClick={() => this.props.getRepo(this.props.fullName, totalPage)}> {totalPage} </span>
                         <span onClick={() => this.props.getRepo(this.props.fullName, page + 1)}> &rsaquo; </span>
                         <span onClick={() => this.props.getRepo(this.props.fullName, page + 5)}> &raquo; </span>
-                    </div>
-                    }
+
                 </div>
 
             </Row>
@@ -61,4 +57,3 @@ class Pagination extends React.Component {
 
 
 export default Pagination;
-

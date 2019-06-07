@@ -1,7 +1,7 @@
 import Modal from 'react-modal';
 import React from 'react';
 import '../App.css';
-import { Card, Col, Row, Button, } from 'react-bootstrap';
+import { Card, Col, Row, Button, ListGroup} from 'react-bootstrap';
 var moment = require('moment');
 var numeral = require('numeral');
 
@@ -13,7 +13,7 @@ class RenderSearchRepo extends React.Component {
                 <div className="w-100 py-4 border-bottom">
                             <Row>
                                 <Col className="col-7">
-                                    <a href="#" onClick={() => this.props.getRepo(full_name,1)}><h4>{full_name}</h4></a>
+                                    <a href="#" onClick={() => this.props.getRepo(full_name)}><h3>{full_name}</h3></a>
                                 </Col>
                                 <Col className="col-3">
                                     <p>
@@ -42,22 +42,29 @@ class RenderSearchRepo extends React.Component {
     render() {
         return (
             <Row>
-                <Col className="col-2 px-2" style={{ backgroundColor: "blue" }}>
-                    Your are looking at repos
+                <Col className="col-2 px-2" style={{ backgroundColor: "" }}>
+                {this.props.totalResult ? 
+                <div>
+                    <ListGroup className="mb-2">
+                        <ListGroup.Item>Cras justo odio</ListGroup.Item>
+                        <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                        <ListGroup.Item>Morbi leo risus</ListGroup.Item>
+                        <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
+                        <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+                    </ListGroup>
+                    <ListGroup>
+                        <ListGroup.Item>Cras justo odio</ListGroup.Item>
+                        <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
+                        <ListGroup.Item>Morbi leo risus</ListGroup.Item>
+                        <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
+                        <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+                    </ListGroup>
+                    </div>
+                    : ""}
                 </Col>
                 <Col className="col-10 px-2">
-                    <Row style={{ border: "1px solid #d1d5da", borderRadius: "5px"}} className="mx-3">
-                        <div className="Box p-3 d-flex w-100" >
-                            <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" width={64} height={64} className="d-block rounded-1 mr-3 flex-shrink-0" alt="react logo" />
-                            <div className="d-md-flex flex-items-start flex-auto w-100 row">
-                                <div className="flex-auto col-10">
-                                    <h3 className="mb-1">React</h3>
-                                    <p>React is an open source JavaScript library used for designing user interfaces.</p>
-                                    <a className="text-small" href="/topics/react">See topic</a>
-                                </div>
-                                <div className="col" ><Button style={{ border: "1px solid #d1d5da", borderRadius: "5px"}} variant="light" size="sm">★ Star</Button></div>
-                            </div>
-                        </div>
+                    <Row  className="mx-3">
+                    <h4>{this.props.totalResult ? numeral(this.props.totalResult).format('0,0') + " repository results" : ""}</h4>
                     </Row>
                     <Row className="mx-3">
                         {this.renderSearchResults()}

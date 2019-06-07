@@ -14,24 +14,37 @@ const ReactMarkdown = require('react-markdown')
 const clientId = process.env.REACT_APP_CLIENT_ID;
 
 
-//Lastest version
+// const existingToken = sessionStorage.getItem('token');
+// const accessToken = process.env.REACT_APP_SECRET_KEY
+// if (!accessToken && !existingToken) {
+//   window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
+// }
+// if (accessToken) {
+//   sessionStorage.setItem("token", accessToken);
+//   this.state = {
+//     token: accessToken
+//   }
+// }
+// if (existingToken) {
+//   this.state = {
+//     token: existingToken
+//   };
+// }
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+
     const existingToken = sessionStorage.getItem('token');
-    const accessToken = process.env.REACT_APP_CLIENT_ID
+    const accessToken = (window.location.search.split("=")[0] === "?access_token") ? window.location.search.split("=")[1] : null;
 
-    console.log('process.env.REACT_APP_CLIENT_ID', process.env.REACT_APP_CLIENT_ID)
-
-    console.log('wwwaccessToken', accessToken)
     if (!accessToken && !existingToken) {
       window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
     }
 
     if (accessToken) {
-      console.log(`New hello: ${accessToken}`);
+      console.log(`New accessToken: ${accessToken}`);
 
       sessionStorage.setItem("token", accessToken);
       this.state = {
@@ -48,7 +61,6 @@ class App extends React.Component {
       userName: '',
       issues: [],
       listRepo: [],
-      // isIssue:false,
       searchInput: '',
       isListRepo: true,
       issue: {},
@@ -58,9 +70,9 @@ class App extends React.Component {
       page: null,
       total: null,
       per_page: null,
-      totalPage:null,
-      newTitleCreate:'',
-      newCommentIssueCreate:'',
+      totalPage: null,
+      newTitleCreate: '',
+      newCommentIssueCreate: '',
     }
   }
 
@@ -82,7 +94,6 @@ class App extends React.Component {
       newCommentIssueCreate: evt.target.value
     });
   }
-  // use for search Repo =>  return only list of "owner/reponame"
   getSearchRepo = async (repoName, e) => {
     e.preventDefault();
     const url = `https://api.github.com/search/repositories?q=${repoName}`;
@@ -91,43 +102,51 @@ class App extends React.Component {
     this.setState({
       listRepo: data.items,
       isListRepo: true,
+      totalResult: data.total_count
     });
   };
 
-  // when user click on owner/reponame => return list of issues 
-  // Issue Title                issues.title
-  // Number of the issue || issues.number
-  // Owner of the Issue
-  // Owner Avatar
-  // How long ago the issue was created in a human-friendly format (e.g. 2 days ago)  // .moment
-  // Body of the Issue
-  // Label - note the color as returned by the API.  ****(some have, some not)
-  // State of Issue (Open/Closed). 
-  //////////////////////////////
-  getRepo = async (name,pageNumber) => {
+
+  getRepo = async (name, pageNumber) => {
     // const existingToken = sessionStorage.getItem('token');
     const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
     let response = await fetch(url);
     let rawString1 = await response.headers.get("Link");
-    let rawString2 = rawString1.substring(rawString1.length-20,rawString1.length )
-    let rawString3 = rawString2.replace('>; rel="last"','')
-    let lastPage = parseInt(rawString3.replace('page=',''))
-    // let rawString2 = rawString1.replace('>; rel="last"','')
+    let rawString2;
+    let rawString3;
+    let lastPage;
+
+    if (rawString1 !== null) {
+      rawString2 = rawString1.substring(rawString1.length - 20, rawString1.length)
+      rawString3 = rawString2.replace('>; rel="last"', '')
+      lastPage = parseInt(rawString3.replace('page=', ''))
+    } else {
+      lastPage = 1
+    }
     let data = await response.json();
-    let x;
-    (data.length < 1 ? (x=1) : (x=data[0].number));
     this.setState({
       issues: data,
       isListRepo: false,
       fullName: name,
       page: pageNumber,
-      total: lastPage*30,
+      total: lastPage * 30,
       per_page: 30,
-      totalPage:lastPage,
-
-    },);
+      totalPage: lastPage,
+    });
   };
 
+
+  getRepo2 = async (name, pageNumber) => {
+    const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
+    let response = await fetch(url);
+    let data = await response.json();
+    this.setState({
+      issues: data,
+      isListRepo: false,
+      fullName: name,
+      page: pageNumber,
+    });
+  };
 
   getIssueComments = async (issueNumber) => {
     const url = `https://api.github.com/repos/${this.state.fullName}/issues/${issueNumber}/comments`;
@@ -138,9 +157,80 @@ class App extends React.Component {
       isListRepo: false,
     });
   }
+  ///////////////////////////////////////////////////////////////////////////////   
+
+  //   writeIssue = async (title, body) => {
+  //     let data = new URLSearchParams();
+  //     data.append('title', title);
+  //     data.append('body', body);
+  //     const url = `https://api.github.com/repos/${this.state.fullName}/issues`;
+  //     const response = await fetch(url,
+  //         {
+  //             method: 'POST',
+  //             headers: {
+  //               accept:'application/vnd.github.inertia-preview+json',
+  //             },
+  //             body: data.toString(),
+  //             json: true,
+  //         }
+  //     );
+  //     console.log("response",response)
+  // }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  // writeIssue = async (title, body) => {
+  //   let data = new URLSearchParams();
+  //   data.append('title', title);
+  //   data.append('body', body);
+  //   const headers = new Headers();
+  //   headers.append('Content-Type', 'application/vnd.github.symmetra-preview+json');
+  //   const options = {
+  //     method: 'POST',
+  //     headers,
+  //     body: JSON.stringify(data)
+  //   };
+  //   const request = new Request(`https://api.github.com/repos/${this.state.fullName}/issues`, options);
+  //   const response = await fetch(request);
+  //   const status = await response.status
+  // }
+
+  /////////////////////////////////////////////////////////////////////////////////
+
+  // writeIssue = async (issueTitle, issueBody) => {
+  //   const url = `https://api.github.com/repos/${this.state.fullName}/issues`;
+  //   let data = new URLSearchParams();
+  //   data.append('title', issueTitle);
+  //   data.append('body', issueBody);
+  //   return fetch(url, {
+  //     method: 'POST',
+  //     body: new URLSearchParams(data),
+  //     headers: new Headers({
+  //       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  //     })
+  //   })
+  //     .then(response => response.json())
+  // }
+
+  ///////////////////////////////////////////////////////////////////////////////
+
+  writeIssue = async (issueTitle, issueBody) => {
+    const url = `https://api.github.com/repos/${this.state.fullName}/issues`;
+    let data = { title: issueTitle, body: issueBody }
+    console.log("data", data)
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+    })
+      .then(response => response.json())
+  }
+
 
   render() {
-    console.log("this.state", this.state)
+    console.log("this.state", this)
     return (
       <div className="App d-flex flex-column h-100">
         <header>
@@ -163,30 +253,27 @@ class App extends React.Component {
                 getRepo={this.getRepo}
                 getIssueComments={this.getIssueComments}
               />
-              
-
             </div>
-
           }
 
           {!this.state.isListRepo &&
             <div><RenderRepo
-            updateTitle={this.updateTitle}
+              updateTitle={this.updateTitle}
               {...this.state}
               getSearchRepo={this.getSearchRepo}
               getRepo={this.getRepo}
               getIssueComments={this.getIssueComments}
               updateComment={this.updateComment}
-
+              writeIssue={this.writeIssue}
             />
-            <Pagination
+              <Pagination
                 {...this.state}
                 getSearchRepo={this.getSearchRepo}
                 getRepo={this.getRepo}
                 getIssueComments={this.getIssueComments}
-
+                getRepo2={this.getRepo2}
               />
-              </div>
+            </div>
           }
         </Container>
 

@@ -14,7 +14,7 @@ class Search extends React.Component {
   render(){
     return (
       <Navbar bg="dark" variant="dark" variant="dark" expand="lg" sticky="top">
-        <Navbar.Brand href="#home">The Rebel Github</Navbar.Brand>
+        <Navbar.Brand href="#ho me">The Rebel Github</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -29,7 +29,7 @@ class Search extends React.Component {
           </NavDropdown>
           </Nav>
             
-          <Form inline onSubmit={() => this.props.getSearchRepo(this.props.searchInput)}>
+          <Form inline onSubmit={(e) => this.props.getSearchRepo(this.props.searchInput,e)}>
           <FormControl 
           type="text" 
           placeholder="Search" 

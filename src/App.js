@@ -72,7 +72,8 @@ class App extends React.Component {
   }
   
   // use for search Repo =>  return only list of "owner/reponame"
-  getSearchRepo = async (repoName) => {
+  getSearchRepo = async (repoName,e) => {
+    e.preventDefault()  ;
     const url = `https://api.github.com/search/repositories?q=${repoName}`;
     let response = await fetch(url);
     let data = await response.json();

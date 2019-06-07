@@ -8,7 +8,8 @@ import {
     Dropdown,
     Row,
     Card,
-    Col
+    Col,
+    Badge
   } from "react-bootstrap";
   import Modal from 'react-modal'
 const ReactMarkdown = require('react-markdown')
@@ -59,7 +60,7 @@ class RenderRepo extends React.Component {
             return (
                 <div className="mb-4" style={{borderBottom: "1px solid #e1e4e8"}} onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
                 <Row>
-                  <Col className="col-11">
+                  <Col className="col-10">
                     <h4 className="mb-1">
                       <a href="#" style={{ color: "" }}>
                         #{issue.number} {issue.title}
@@ -71,7 +72,7 @@ class RenderRepo extends React.Component {
                     </small>
                     <ReactMarkdown className="text-black-50 mt-3" source={issue.body.substr(0, 250) + "..."} />
                   </Col>
-                  <Col className="col-1">avatar
+                  <Col className="col-2">avatar
                   <p>Labels: {this.labels(issue.labels)} </p>
               </Col>
                 </Row>
@@ -84,7 +85,7 @@ class RenderRepo extends React.Component {
     labels = (label) => {
         return label.map(value => {
             return (
-                <Button style={{backgroundColor:`#${value.color}`}}>{value.name}</Button>
+                <Badge style={{backgroundColor:`#${value.color}`}}>{value.name}</Badge>
             )
         })
     }

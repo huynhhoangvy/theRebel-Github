@@ -15,48 +15,48 @@ const clientId = process.env.REACT_APP_CLIENT_ID;
 
 
 // const existingToken = sessionStorage.getItem('token');
-    // const accessToken = process.env.REACT_APP_SECRET_KEY
-    // if (!accessToken && !existingToken) {
-    //   window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
-    // }
-    // if (accessToken) {
-    //   sessionStorage.setItem("token", accessToken);
-    //   this.state = {
-    //     token: accessToken
-    //   }
-    // }
-    // if (existingToken) {
-    //   this.state = {
-    //     token: existingToken
-    //   };
-    // }
+// const accessToken = process.env.REACT_APP_SECRET_KEY
+// if (!accessToken && !existingToken) {
+//   window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
+// }
+// if (accessToken) {
+//   sessionStorage.setItem("token", accessToken);
+//   this.state = {
+//     token: accessToken
+//   }
+// }
+// if (existingToken) {
+//   this.state = {
+//     token: existingToken
+//   };
+// }
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    
+
     const existingToken = sessionStorage.getItem('token');
     const accessToken = (window.location.search.split("=")[0] === "?access_token") ? window.location.search.split("=")[1] : null;
-  
+
     if (!accessToken && !existingToken) {
       window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
     }
-  
+
     if (accessToken) {
       console.log(`New accessToken: ${accessToken}`);
-  
+
       sessionStorage.setItem("token", accessToken);
       this.state = {
-          token: accessToken
+        token: accessToken
       }
     }
-  
+
     if (existingToken) {
       this.state = {
         token: existingToken
       };
-    }  
+    }
     this.state = {
       userName: '',
       issues: [],
@@ -157,29 +157,76 @@ class App extends React.Component {
       isListRepo: false,
     });
   }
+  ///////////////////////////////////////////////////////////////////////////////   
 
-  writeIssues = async (title, body) => {
-    console.log("title",title)
-    let data = new URLSearchParams();
-    data.append('title', title);
-    data.append('body', body);
+  //   writeIssue = async (title, body) => {
+  //     let data = new URLSearchParams();
+  //     data.append('title', title);
+  //     data.append('body', body);
+  //     const url = `https://api.github.com/repos/${this.state.fullName}/issues`;
+  //     const response = await fetch(url,
+  //         {
+  //             method: 'POST',
+  //             headers: {
+  //               accept:'application/vnd.github.inertia-preview+json',
+  //             },
+  //             body: data.toString(),
+  //             json: true,
+  //         }
+  //     );
+  //     console.log("response",response)
+  // }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  // writeIssue = async (title, body) => {
+  //   let data = new URLSearchParams();
+  //   data.append('title', title);
+  //   data.append('body', body);
+  //   const headers = new Headers();
+  //   headers.append('Content-Type', 'application/vnd.github.symmetra-preview+json');
+  //   const options = {
+  //     method: 'POST',
+  //     headers,
+  //     body: JSON.stringify(data)
+  //   };
+  //   const request = new Request(`https://api.github.com/repos/${this.state.fullName}/issues`, options);
+  //   const response = await fetch(request);
+  //   const status = await response.status
+  // }
+
+  /////////////////////////////////////////////////////////////////////////////////
+
+  // writeIssue = async (issueTitle, issueBody) => {
+  //   const url = `https://api.github.com/repos/${this.state.fullName}/issues`;
+  //   let data = new URLSearchParams();
+  //   data.append('title', issueTitle);
+  //   data.append('body', issueBody);
+  //   return fetch(url, {
+  //     method: 'POST',
+  //     body: new URLSearchParams(data),
+  //     headers: new Headers({
+  //       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  //     })
+  //   })
+  //     .then(response => response.json())
+  // }
+
+  ///////////////////////////////////////////////////////////////////////////////
+
+  writeIssue = async (issueTitle, issueBody) => {
     const url = `https://api.github.com/repos/${this.state.fullName}/issues`;
-    const response = await fetch(url,
-        {
-            method: 'POST',
-            headers: {
-              
-              accept:'application/vnd.github.inertia-preview+json',
-            },
-            body: data.toString(),
-            json: true,
-        }
-    );
-    console.log("response",response)
-}
-
-
-
+    let data = { title: issueTitle, body: issueBody }
+    console.log("data", data)
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+    })
+      .then(response => response.json())
+  }
 
 
   render() {
@@ -217,7 +264,7 @@ class App extends React.Component {
               getRepo={this.getRepo}
               getIssueComments={this.getIssueComments}
               updateComment={this.updateComment}
-              writeIssues={this.writeIssues}
+              writeIssue={this.writeIssue}
             />
               <Pagination
                 {...this.state}

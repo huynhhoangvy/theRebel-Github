@@ -200,7 +200,7 @@ class RenderRepo extends React.Component {
                                         as="textarea" rows="3" placeholder="leave a comment heres"
                                         value={this.props.newCommentIssueCreate}
                                         onChange={evt => this.props.updateComment(evt)} />
-                                    <Button onClick={() => this.props.writeIssues(this.props.newTitleCreate, this.props.newCommentIssueCreate)}>Submit issues</Button>
+                                    <Button onClick={() => this.props.writeIssue(this.props.newTitleCreate, this.props.newCommentIssueCreate)}>Submit issues</Button>
                                 </Form.Group>
                             </Form>
                         </div>

@@ -59,6 +59,8 @@ class App extends React.Component {
       total: null,
       per_page: null,
       totalPage:null,
+      newTitleCreate:'',
+      newCommentIssueCreate:'',
     }
   }
 
@@ -70,7 +72,16 @@ class App extends React.Component {
       searchInput: evt.target.value
     });
   }
-  
+  updateTitle = (evt) => {
+    this.setState({
+      newTitleCreate: evt.target.value
+    });
+  }
+  updateComment = (evt) => {
+    this.setState({
+      newCommentIssueCreate: evt.target.value
+    });
+  }
   // use for search Repo =>  return only list of "owner/reponame"
   getSearchRepo = async (repoName, e) => {
     e.preventDefault();
@@ -156,10 +167,11 @@ class App extends React.Component {
         <header>
           <Search
             {...this.state}
-            updateInputValue={this.updateInputValue}  
+            updateInputValue={this.updateInputValue}
+            updateTitle={this.updateTitle}
             getSearchRepo={this.getSearchRepo}
             getIssueComments={this.getIssueComments}
-
+            updateComment={this.updateComment}
           />
         </header>
 
@@ -180,11 +192,12 @@ class App extends React.Component {
 
           {!this.state.isListRepo &&
             <div><RenderRepo
+            updateTitle={this.updateTitle}
               {...this.state}
               getSearchRepo={this.getSearchRepo}
               getRepo={this.getRepo}
               getIssueComments={this.getIssueComments}
-
+              updateComment={this.updateComment}
 
             />
             <Pagination

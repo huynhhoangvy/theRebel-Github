@@ -10,8 +10,8 @@ import {
     Card,
     Col,
     Badge
-  } from "react-bootstrap";
-  import Modal from 'react-modal'   
+} from "react-bootstrap";
+import Modal from 'react-modal'
 const ReactMarkdown = require('react-markdown')
 var moment = require('moment');
 
@@ -24,31 +24,52 @@ class RenderRepo extends React.Component {
         this.state = {
             issueTitle: 'test',
             issueBody: '',
+            issueLogin: '',
+            issueAvatar: '',
+            issueCreatedAt: '',
             isOpen: false,
             isOpenCreateIssue: false
         }
     }
-    
+
     handleCloseModal = () => {
         this.setState({ isOpen: false });
     }
-    handleModal = (number, title, body) => {
+    handleModal = (number, title, body, login, avatar_url, created_at) => {
         this.props.getIssueComments(number)
         this.renderComments()
         this.openModal()
 
-        this.setState({ issueTitle: title, issueBody: body })
+        this.setState({ issueTitle: title, issueBody: body, issueLogin: login, issueAvatar: avatar_url, issueCreatedAt: created_at })
     }
 
     openModal = () => {
         this.setState({ isOpen: true });
     }
 
+    renderIssueUser = () => {
+        return (
+            <div style={{ display: "inline" }}>
+                <img src={this.state.issueAvatar} style={{ width: 50, height: "auto", borderRadius: "5px" }} />
+                <strong> &raquo; {this.state.issueLogin}</strong> <cite title="Source Title">opened {moment(this.state.issueCreatedAt).startOf().fromNow()}</cite>
+            </div>
+
+        )
+    }
+
     renderComments = () => {
         return this.props.comments.map(comment => {
             return (
                 <div className="comment">
-                    <div className="commentUser"><div><img src={`${comment.user.avatar_url}`} height="50px" width="50px" /></div><div><h5 style={{ paddingLeft: "1rem" }}>     {comment.user.login}:</h5></div>  </div>
+                    <div className="commentUser">
+                        <div>
+                            <img src={`${comment.user.avatar_url}`} height="50px" width="50px" />
+                        </div>
+                        <div style={{ display: "inline" }}>
+                            <strong style={{ paddingLeft: "1rem" }}>{comment.user.login}</strong> 
+                            <cite title="Source Title"> commented {moment(comment.created_at).startOf().fromNow()}:</cite>
+                        </div>
+                    </div>
                     <div className="commentContent"><ReactMarkdown source={comment.body} /></div>
                 </div>
             )
@@ -57,7 +78,7 @@ class RenderRepo extends React.Component {
     renderRepos = () => {
         return this.props.issues.map((issue, idx) => {
             return (
-                <div className="mb-4 py-4" style={{ borderBottom: "1px solid #e1e4e8" }} onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
+                <div className="mb-4 py-4" style={{ borderBottom: "1px solid #e1e4e8" }} onClick={() => this.handleModal(issue.number, issue.title, issue.body, issue.user.login, issue.user.avatar_url, issue.created_at)}>
                     <Row>
                         <Col className="col-11">
                             <h4 className="mb-1">
@@ -86,28 +107,28 @@ class RenderRepo extends React.Component {
     labels = (label) => {
         return label.map(value => {
             return (
-                <Badge style={{backgroundColor:`#${value.color}`}}>{value.name}</Badge>
+                <Badge style={{ backgroundColor: `#${value.color}` }}>{value.name}</Badge>
             )
         })
     }
-    
-   
-   
+
+
+
     isOpenIssue = () => {
         console.log('isOpenIssue')
         this.setState({ isOpenCreateIssue: true });
     }
-    
-    handleCreateIssue=()=>{
+
+    handleCreateIssue = () => {
         this.isOpenIssue()
         this.openIssueCreate()
         console.log('handleCreateIssue')
     }
     // handleInputTitleCreateIssue()=>{
-        
+
     // }
     render() {
-      
+
 
         return (
             <div className="container"
@@ -140,13 +161,14 @@ class RenderRepo extends React.Component {
                 >
                     <div>
                         <h4 style={{ fontSize: 50 }}> Issue: {this.state.issueTitle}</h4>
+                        {this.renderIssueUser()}
                         <hr
                             style={{
                                 color: 'red',
                                 height: 5,
                             }}
                         />
-                        <p><span style={{ fontSize: "25px" }}>Content: </span><ReactMarkdown
+                        <p><span style={{ fontSize: "20px" }}>Content: </span><ReactMarkdown
                             id="hi"
                             style={{ backgroundColor: '' }}
                             source={this.state.issueBody} /></p>
@@ -156,33 +178,33 @@ class RenderRepo extends React.Component {
                     </div>
 
                 </Modal>
-                <div>Something useful here (navbar for lists of issue) <button onClick={()=>this.isOpenIssue()}>New Issue</button> </div>
+                <div>Something useful here (navbar for lists of issue) <button onClick={() => this.isOpenIssue()}>New Issue</button> </div>
                 <div>
-                <Modal
-                    isOpen={this.state.isOpenCreateIssue}
-                    onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
-                >
-                 <div>
-                        <Form>
-                        <Form.Group controlId="exampleForm.ControlInput1">
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control type="text" placeholder="title here" 
-                            value={this.props.newTitleCreate} 
-                            onChange={evt => this.props.updateTitle(evt)}  
-                            />
+                    <Modal
+                        isOpen={this.state.isOpenCreateIssue}
+                        onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
+                    >
+                        <div>
+                            <Form>
+                                <Form.Group controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Title</Form.Label>
+                                    <Form.Control type="text" placeholder="title here"
+                                        value={this.props.newTitleCreate}
+                                        onChange={evt => this.props.updateTitle(evt)}
+                                    />
 
-                        </Form.Group>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Label>Comments</Form.Label>
-                            <Form.Control 
-                            as="textarea" rows="3" placeholder="leave a comment heres" 
-                            value={this.props.newCommentIssueCreate} 
-                            onChange={evt => this.props.updateComment(evt)} />
-                            <Button onClick={()=>this.props.writeIssues(this.props.newTitleCreate,this.props.newCommentIssueCreate)}>Submit issues</Button>
-                        </Form.Group>
-                        </Form>
-                </div>
-             </Modal>
+                                </Form.Group>
+                                <Form.Group controlId="exampleForm.ControlTextarea1">
+                                    <Form.Label>Comments</Form.Label>
+                                    <Form.Control
+                                        as="textarea" rows="3" placeholder="leave a comment heres"
+                                        value={this.props.newCommentIssueCreate}
+                                        onChange={evt => this.props.updateComment(evt)} />
+                                    <Button onClick={() => this.props.writeIssue(this.props.newTitleCreate, this.props.newCommentIssueCreate)}>Submit issues</Button>
+                                </Form.Group>
+                            </Form>
+                        </div>
+                    </Modal>
 
                 </div>
                 <div>{this.renderRepos()}</div>

@@ -66,7 +66,7 @@ class App extends React.Component {
       searchInput: evt.target.value
     });
   }
-
+  
   // use for search Repo =>  return only list of "owner/reponame"
   getSearchRepo = async (repoName) => {
     const url = `https://api.github.com/search/repositories?q=${repoName}`;
@@ -125,7 +125,7 @@ class App extends React.Component {
         <header>
           <Search
             {...this.state}
-            updateInputValue={this.updateInputValue}
+            updateInputValue={this.updateInputValue}  
             getSearchRepo={this.getSearchRepo}
             getIssueComments={this.getIssueComments}
 

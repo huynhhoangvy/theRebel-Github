@@ -9,9 +9,10 @@ import {
     Row,
     Card,
     Col
-  } from "react-bootstrap";
-  import Modal from 'react-modal'
+} from "react-bootstrap";
+import Modal from 'react-modal'
 const ReactMarkdown = require('react-markdown')
+var moment = require('moment');
 
 
 
@@ -52,27 +53,29 @@ class RenderRepo extends React.Component {
         })
     }
     renderRepos = () => {
-        return this.props.issues.map((issue,idx) => {
+        return this.props.issues.map((issue, idx) => {
             return (
-                <div className="mb-4" style={{borderBottom: "1px solid #e1e4e8"}} onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
-                <Row>
-                  <Col className="col-11">
-                    <h4 className="mb-1">
-                      <a href="#" style={{ color: "" }}>
-                        #{issue.number} {issue.title}
-                      </a>
-                    </h4>
-                    <small>
-                      <cite title="Source Title">{issue.created_at}</cite> by @
-                      {issue.user.login} Number of comments: {issue.comments}
-                    </small>
-                    <ReactMarkdown className="text-black-50 mt-3" source={issue.body.substr(0, 250) + "..."} />
-                  </Col>
-                  <Col className="col-1">avatar
-                  <p>Labels: {this.labels(issue.labels)} </p>
-              </Col>
-                </Row>
-              </div>
+                <div className="mb-4 py-4" style={{ borderBottom: "1px solid #e1e4e8" }} onClick={() => this.handleModal(issue.number, issue.title, issue.body)}>
+                    <Row>
+                        <Col className="col-11">
+                            <h4 className="mb-1">
+                                <a href="#" style={{ color: "" }}>
+                                    <strong className="text-muted">#{issue.number} </strong> {issue.title}
+                                </a>
+                            </h4>
+                            <small>
+                                <cite title="Source Title">opened {moment(issue.created_at).startOf().fromNow()}</cite> by <strong>@
+                      {issue.user.login}</strong>
+                            </small>
+                            <ReactMarkdown className="text-black-50 mt-3" source={issue.body.substr(0, 250) + "..."} />
+                            <div>{this.labels(issue.labels)} </div>
+                        </Col>
+                        <Col className="col-1">
+                            <img src={issue.user.avatar_url} style={{ width: 50, height: "auto", borderRadius: "5px" }} />
+                            <div>🗨 {issue.comments}</div>
+                        </Col>
+                    </Row>
+                </div>
             )
         })
     }
@@ -81,14 +84,14 @@ class RenderRepo extends React.Component {
     labels = (label) => {
         return label.map(value => {
             return (
-                <Button style={{backgroundColor:`#${value.color}`}}>{value.name}</Button>
+                <Button style={{ backgroundColor: `#${value.color}`, padding: "2px 10px", color: "black", border: "none", margin: 2 }}>{value.name}</Button>
             )
         })
     }
-    
-    filterLabels =(color,idx) =>{
-    console.log(this.props.issues[idx].labels)
-    
+
+    filterLabels = (color, idx) => {
+        console.log(this.props.issues[idx].labels)
+
 
     }
 
@@ -98,9 +101,9 @@ class RenderRepo extends React.Component {
         console.log("state title", this.state)
 
         return (
-            <div  className="container"
-            style={{ backgroundColor: "", border: "" }}
-          >
+            <div className="container"
+                style={{ backgroundColor: "", border: "" }}
+            >
                 <Modal
                     isOpen={this.state.isOpen}
                     onRequestClose={() => this.setState({ isOpen: false })}
@@ -134,7 +137,7 @@ class RenderRepo extends React.Component {
                                 height: 5,
                             }}
                         />
-                        <p><span style={{fontSize:"25px"}}>Content: </span><ReactMarkdown
+                        <p><span style={{ fontSize: "25px" }}>Content: </span><ReactMarkdown
                             id="hi"
                             style={{ backgroundColor: '' }}
                             source={this.state.issueBody} /></p>

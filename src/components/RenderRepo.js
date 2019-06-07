@@ -37,7 +37,7 @@ class RenderRepo extends React.Component {
         return this.props.comments.map(comment => {
             return (
                 <div className="comment">
-                    <div className="commentUser"><div><img src={`${comment.user.avatar_url}`} height="50px" width="50px"/></div><div><h5 style={{paddingLeft:"1rem"}}>     {comment.user.login}:</h5></div>  </div>
+                    <div className="commentUser"><div><img src={`${comment.user.avatar_url}`} height="50px" width="50px" /></div><div><h5 style={{ paddingLeft: "1rem" }}>     {comment.user.login}:</h5></div>  </div>
                     <div className="commentContent"><ReactMarkdown source={comment.body} /></div>
                 </div>
             )
@@ -99,8 +99,17 @@ class RenderRepo extends React.Component {
                     }}
                 >
                     <div>
-                        <h4>Issue: {this.state.issueTitle}</h4>
-                        <p>Content: <ReactMarkdown source={this.state.issueBody} /></p>
+                        <h4 style={{ fontSize: 50 }}> Issue: {this.state.issueTitle}</h4>
+                        <hr
+                            style={{
+                                color: 'red',
+                                height: 5,
+                            }}
+                        />
+                        <p><span style={{fontSize:"25px"}}>Content: </span><ReactMarkdown
+                            id="hi"
+                            style={{ backgroundColor: 'red' }}
+                            source={this.state.issueBody} /></p>
                     </div>
                     <div>
                         {this.renderComments()}

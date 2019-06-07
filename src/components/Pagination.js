@@ -37,7 +37,7 @@ class Pagination extends React.Component {
 
                 <div className={styles.pagination}>
                     {total > 30 && <div>
-                        {page > 6 && <span onClick={() => this.props.getRepo(this.props.fullName, page - 1)}> &laquo; </span>}
+                        {page > 5 && <span onClick={() => this.props.getRepo(this.props.fullName, page - 5)}> &laquo; </span>}
                         {page !== 1 && <span onClick={() => this.props.getRepo(this.props.fullName, page - 1)}> &lsaquo; </span>}
                         {renderPageNumbers}
                         <span onClick={() => this.props.getRepo(this.props.fullName, page + 1)}> &rsaquo; </span>

@@ -25,7 +25,13 @@ class Search extends React.Component {
                     </NavDropdown>
                     </Nav>
                     <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" value={this.props.searchInput} onChange={evt => this.props.updateInputValue(evt)} />
+                    <FormControl 
+                    type="text" 
+                    placeholder="Search" 
+                    className="mr-sm-2" 
+                    value={this.props.searchInput} 
+                    onChange={evt => this.props.updateInputValue(evt)}
+                    />
                     <Button variant="outline-light"  onClick={() => this.props.getSearchRepo(this.props.searchInput)}>Search</Button>
                     </Form>
                 </Navbar.Collapse>

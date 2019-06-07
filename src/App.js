@@ -11,7 +11,8 @@ import Pagination from './components/Pagination.js';
 
 
 const ReactMarkdown = require('react-markdown')
-// const clientId = process.env.REACT_APP_CLIENT_ID;
+const clientId = process.env.REACT_APP_CLIENT_ID;
+
 
 
 
@@ -19,27 +20,30 @@ const ReactMarkdown = require('react-markdown')
 class App extends React.Component {
   constructor(props) {
     super(props);
-    // const existingToken = sessionStorage.getItem('token');
-    // const accessToken = (window.location.search.split("=")[0] === "?access_token") ? window.location.search.split("=")[1] : null;
+    const existingToken = sessionStorage.getItem('token');
+    const accessToken = process.env.REACT_APP_CLIENT_ID
 
-    // if (!accessToken && !existingToken) {
-    //   window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
-    // }
+    console.log('process.env.REACT_APP_CLIENT_ID', process.env.REACT_APP_CLIENT_ID)
 
-    // if (accessToken) {
-    //   console.log(`New accessToken: ${accessToken}`);
+    console.log('wwwaccessToken', accessToken)
+    if (!accessToken && !existingToken) {
+      window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
+    }
 
-    //   sessionStorage.setItem("token", accessToken);
-    //   this.state = {
-    //     token: accessToken
-    //   }
-    // }
+    if (accessToken) {
+      console.log(`New hello: ${accessToken}`);
 
-    // if (existingToken) {
-    //   this.state = {
-    //     token: existingToken
-    //   };
-    // }
+      sessionStorage.setItem("token", accessToken);
+      this.state = {
+        token: accessToken
+      }
+    }
+
+    if (existingToken) {
+      this.state = {
+        token: existingToken
+      };
+    }
     this.state = {
       userName: '',
       issues: [],
@@ -89,15 +93,18 @@ class App extends React.Component {
   // State of Issue (Open/Closed). 
   //////////////////////////////
   getRepo = async (name,pageNumber) => {
+    // const existingToken = sessionStorage.getItem('token');
     const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
     let response = await fetch(url);
     let data = await response.json();
+    let x;
+    (data.length < 1 ? (x=1) : (x=data[0].number));
     this.setState({
       issues: data,
       isListRepo: false,
       fullName: name,
       page: pageNumber,
-      total: data[0].number,
+      total: x,
       per_page: 30,
     });
   };
@@ -112,8 +119,6 @@ class App extends React.Component {
       isListRepo: false,
     });
   }
-
-
 
 
 

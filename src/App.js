@@ -142,7 +142,6 @@ class App extends React.Component {
                 getSearchRepo={this.getSearchRepo}
                 getRepo={this.getRepo}
                 getIssueComments={this.getIssueComments}
-
               />
               
 

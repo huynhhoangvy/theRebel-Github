@@ -123,7 +123,7 @@ class App extends React.Component {
   render() {
     console.log("this.state", this.state)
     return (
-      <div className="App h-100">
+      <div className="App d-flex flex-column h-100">
         <header>
           <Search
             {...this.state}
@@ -134,7 +134,7 @@ class App extends React.Component {
           />
         </header>
 
-        <Container className="h-100">
+        <Container className="h-auto mt-4">
           {this.state.isListRepo &&
             <div>
               <RenderSearchRepo

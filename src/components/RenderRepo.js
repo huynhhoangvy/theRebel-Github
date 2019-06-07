@@ -11,7 +11,7 @@ import {
     Col,
     Badge
   } from "react-bootstrap";
-  import Modal from 'react-modal'
+  import Modal from 'react-modal'   
 const ReactMarkdown = require('react-markdown')
 
 
@@ -22,10 +22,11 @@ class RenderRepo extends React.Component {
         this.state = {
             issueTitle: 'test',
             issueBody: '',
-            isOpen: false
+            isOpen: false,
+            isOpenCreateIssue: false
         }
     }
-
+    
     handleCloseModal = () => {
         this.setState({ isOpen: false });
     }
@@ -92,14 +93,33 @@ class RenderRepo extends React.Component {
     
     filterLabels =(color,idx) =>{
     console.log(this.props.issues[idx].labels)
-    
-
+    }
+   
+    isOpenIssue = () => {
+        console.log('isOpenIssue')
+        this.setState({ isOpenCreateIssue: true });
+    }
+    openIssueCreate= () => {
+        console.log('openIssueCreate')
+        return (
+            <Modal
+            isOpen={this.state.isOpenCreateIssue}
+            onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
+          >
+           <div>
+                        {this.renderComments()}
+                    </div>
+          </Modal>
+        )
+    }
+    handleCreateIssue=()=>{
+        this.isOpenIssue()
+        this.openIssueCreate()
+        console.log('handleCreateIssue')
     }
 
-
-
     render() {
-        console.log("state title", this.state)
+      
 
         return (
             <div  className="container"
@@ -153,13 +173,12 @@ class RenderRepo extends React.Component {
 
 
 
-                <div>Something useful here (navbar for lists of issue) <button>New Issue</button> </div>
-                <div style={{ backgroundColor: "red" }}>{this.renderRepos()}</div>
+                <div>Something useful here (navbar for lists of issue) <button onClick={()=>this.handleCreateIssue()}>New Issue</button> </div>
+                <div>{this.renderRepos()}</div>
             </div>
         )
     }
 }
-
 
 export default RenderRepo;
 

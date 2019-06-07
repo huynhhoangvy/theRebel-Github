@@ -8,23 +8,34 @@ const ReactMarkdown = require('react-markdown')
 
 class RenderRepo extends React.Component {
     renderRepos = () => {
-        return this.props.issues.map(issue => {
+        return this.props.issues.map((issue,idx) => {
             return (
                 <card><a>{issue.number}</a>
                     <p>{issue.title}</p>
-                    <p>label Color: {this.labels(issue.labels)} </p>
+                    <p>label Color: {this.labelColor(issue.labels, idx)} </p>
                     <ReactMarkdown source={issue.body.substr(0, 100) + "..."} />
                 </card>
             )
         })
     }
     //Get color labels
-    labels = (label) =>{
+    labelColor = (label, idx) =>{
+        console.log('idxidxidxi' ,idx)
         return label.map(value=>{
             return(
-                <p>{value.color}</p>
+                <div>
+                <Button onClick ={()=>this.filterLabels(value.color,idx)}> {value.color} </Button>
+                </div>
                 )})
     }
+    
+    filterLabels =(color,idx) =>{
+    console.log(this.props.issues[idx].labels)
+    
+
+    }
+
+
 
     render() {
         return (

@@ -98,13 +98,20 @@ class App extends React.Component {
     const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
     let response = await fetch(url);
     let rawString1 = await response.headers.get("Link");
-    let rawString2 = rawString1.substring(rawString1.length-20,rawString1.length )
-    let rawString3 = rawString2.replace('>; rel="last"','')
-    let lastPage = parseInt(rawString3.replace('page=',''))
+    let rawString2;
+    let rawString3;
+    let lastPage;
+
+    if(rawString1!==null){
+     rawString2 = rawString1.substring(rawString1.length-20,rawString1.length )
+     rawString3 = rawString2.replace('>; rel="last"','')
+     lastPage = parseInt(rawString3.replace('page=',''))
+  } else {
+     lastPage=1}   
     // let rawString2 = rawString1.replace('>; rel="last"','')
     let data = await response.json();
-    let x;
-    (data.length < 1 ? (x=1) : (x=data[0].number));
+    // let x;
+    // (data.length < 1 ? (x=1) : (x=data[0].number));
     this.setState({
       issues: data,
       isListRepo: false,
@@ -114,6 +121,20 @@ class App extends React.Component {
       per_page: 30,
       totalPage:lastPage,
 
+    },);
+  };
+
+
+  getRepo2 = async (name,pageNumber) => {
+    // const existingToken = sessionStorage.getItem('token');
+    const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
+    let response = await fetch(url);
+    let data = await response.json();
+    this.setState({
+      issues: data,
+      isListRepo: false,
+      fullName: name,
+      page: pageNumber,
     },);
   };
 
@@ -171,6 +192,7 @@ class App extends React.Component {
                 getSearchRepo={this.getSearchRepo}
                 getRepo={this.getRepo}
                 getIssueComments={this.getIssueComments}
+                getRepo2={this.getRepo2}
 
               />
               </div>

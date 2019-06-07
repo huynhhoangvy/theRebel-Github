@@ -14,7 +14,7 @@ class Search extends React.Component {
   render(){
     return (
       <Navbar bg="dark" variant="dark" variant="dark" expand="lg" sticky="top">
-        <Navbar.Brand href="#home">The Rebel Github</Navbar.Brand>
+        <Navbar.Brand href="#ho me">The Rebel Github</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -36,7 +36,7 @@ class Search extends React.Component {
           className="mr-sm-2" 
           value={this.props.searchInput} 
           onChange={evt => this.props.updateInputValue(evt)}  />
-          <Button variant="outline-light"  onClick={() => this.props.getSearchRepo(this.props.searchInput)}>Search</Button>
+          <Button variant="outline-light"  onClick={(e) => this.props.getSearchRepo(this.props.searchInput,e)}>Search</Button>
           </Form>
         
 

@@ -12,7 +12,6 @@ import Pagination from './components/Pagination.js';
 
 const ReactMarkdown = require('react-markdown')
 const clientId = process.env.REACT_APP_CLIENT_ID;
-const token = process.env.REACT_APP_SECRET_KEY
 
 
 
@@ -74,7 +73,6 @@ class App extends React.Component {
       totalPage: null,
       newTitleCreate: '',
       newCommentIssueCreate: '',
-      token:accessToken,
     }
   }
 
@@ -171,7 +169,7 @@ class App extends React.Component {
             headers: {
               
                 "Content-Type": "application/vnd.github.symmetra-preview+json",
-                'Authorization':  `token ${token}`,
+                'Authorization':   `token ${this.accessToken}`,
             },
             body: data.toString(),
             json: true,
@@ -185,7 +183,7 @@ class App extends React.Component {
 
 
   render() {
-    console.log("this.state", this.state)
+    console.log("this.state", this)
     return (
       <div className="App d-flex flex-column h-100">
         <header>

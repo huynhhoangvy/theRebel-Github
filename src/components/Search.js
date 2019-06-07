@@ -24,16 +24,18 @@ class Search extends React.Component {
                         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown>
                     </Nav>
-                    <Form inline>
+                    
+                    <Form inline onSubmit={() => this.props.getSearchRepo(this.props.searchInput)}>
                     <FormControl 
                     type="text" 
                     placeholder="Search" 
                     className="mr-sm-2" 
                     value={this.props.searchInput} 
-                    onChange={evt => this.props.updateInputValue(evt)}
-                    />
+                    onChange={evt => this.props.updateInputValue(evt)}  />
                     <Button variant="outline-light"  onClick={() => this.props.getSearchRepo(this.props.searchInput)}>Search</Button>
                     </Form>
+                
+
                 </Navbar.Collapse>
                 </Navbar>
         )

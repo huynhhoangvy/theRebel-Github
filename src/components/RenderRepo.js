@@ -100,8 +100,6 @@ class RenderRepo extends React.Component {
 						{comment.reactions['hooray'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />}
 						{comment.reactions['rocket'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />}
 						{comment.reactions['eyes'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />}
-
-
 					</div>
 				</div>
 			)
@@ -109,6 +107,7 @@ class RenderRepo extends React.Component {
 	}
 	renderRepos = () => {
 		return this.props.issues.map((issue, idx) => {
+				console.log(issue.body)
 			return (
 				<div className="mb-4 py-4" style={{ borderBottom: "1px solid #e1e4e8" }} onClick={() => this.handleModal(issue.reactions, issue.number, issue.title, issue.body, issue.user.login, issue.user.avatar_url, issue.created_at)}>
 					<Row>
@@ -122,7 +121,7 @@ class RenderRepo extends React.Component {
 								<cite title="Source Title">opened {moment(issue.created_at).startOf().fromNow()}</cite> by <strong>@
                       {issue.user.login}</strong>
 							</small>
-							<ReactMarkdown className="text-black-50 mt-3" source={issue.body.substr(0, 250) + "..."} />
+							{issue.body && <ReactMarkdown className="text-black-50 mt-3" source={issue.body.substr(0, 250) + "..."} />}
 							<div>{this.labels(issue.labels)} </div>
 						</Col>
 						<Col className="col-1">

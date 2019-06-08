@@ -2,6 +2,7 @@ import React from 'react';
 import '../App.css';
 import {
 	Button,
+	ButtonToolbar,
 	Form,
 	FormControl,
 	DropdownButton,
@@ -9,13 +10,11 @@ import {
 	Row,
 	Card,
 	Col,
-	Badge
+	Badge,
 } from "react-bootstrap";
 import Modal from 'react-modal'
 const ReactMarkdown = require('react-markdown')
 var moment = require('moment');
-
-
 
 
 class RenderRepo extends React.Component {
@@ -38,7 +37,6 @@ class RenderRepo extends React.Component {
 		this.setState({ isOpen: false });
 	}
 	handleModal = (reactions, number, title, body, login, avatar_url, created_at) => {
-		console.log("reactions", reactions)
 		this.props.getIssueComments(number)
 		this.renderComments()
 		this.openModal()
@@ -60,24 +58,14 @@ class RenderRepo extends React.Component {
 		)
 	}
 
-	// renderReactions = (array) => {
-	// 	let plus = `<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" height="10px" />`;
-	// 	let minus = `<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png" height="10px" />`;
-	// 	let laugh = `<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png" height="10px" />`;
-	// 	let confused = `<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f615.png" height="10px" />`;
-	// 	let heart = `<img src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png" height="10px" />`;
-	// 	let hooray = `<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f389.png" height="10px" />`;
-	// 	let rocket = `<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f680.png" height="10px" />`;
-	// 	let eyes = `<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f440.png" height="10px" />`;
 
-	// }
-
-
-
-
+	handleAddReactions = (reaction, id) => {
+		this.props.addReactions(id, reaction);
+		this.props.getIssueComments(this.state.issueNumber);
+		return this.setState({ isOpen: true });
+	}
 
 	renderComments = () => {
-
 		return this.props.comments.map(comment => {
 			return (
 				<div className="comment">
@@ -92,22 +80,41 @@ class RenderRepo extends React.Component {
 					</div>
 					<div className="commentContent"><ReactMarkdown source={comment.body} /></div>
 					<div className="reactions">
-						{comment.reactions['+1'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />}
-						{comment.reactions['-1'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />}
-						{comment.reactions['laugh'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />}
-						{comment.reactions['confused'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />}
-						{comment.reactions['heart'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />}
-						{comment.reactions['hooray'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />}
-						{comment.reactions['rocket'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />}
-						{comment.reactions['eyes'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />}
+						{comment.reactions['+1'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />{comment.reactions['+1']}</cite>}
+						{comment.reactions['-1'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />	{comment.reactions['-1']}</cite>}
+						{comment.reactions['laugh'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />{comment.reactions['laugh']}</cite>}
+						{comment.reactions['confused'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />	{comment.reactions['confused']}</cite>}
+						{comment.reactions['heart'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />	{comment.reactions['heart']}</cite>}
+						{comment.reactions['hooray'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />	{comment.reactions['hooray']}</cite>}
+						{comment.reactions['rocket'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />{comment.reactions['rocket']}</cite>}
+						{comment.reactions['eyes'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />	{comment.reactions['eyes']}</cite>}
 					</div>
+					<ButtonToolbar>
+						{['up'].map(direction => (
+							<DropdownButton
+								drop={direction}
+								variant="secondary"
+								title={` Add reactions `}
+								id={`dropdown-button-drop-${direction}`}
+								key={direction}
+							>
+								<Dropdown.Item onClick={() => this.handleAddReactions('+1', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('-1', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('laugh', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('confused', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('heart', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('hooray', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('rocket', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('eyes', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' /></Dropdown.Item>
+							</DropdownButton>
+						))}
+					</ButtonToolbar>
 				</div>
 			)
 		})
 	}
 	renderRepos = () => {
 		return this.props.issues.map((issue, idx) => {
-				console.log(issue.body)
 			return (
 				<div className="mb-4 py-4" style={{ borderBottom: "1px solid #e1e4e8" }} onClick={() => this.handleModal(issue.reactions, issue.number, issue.title, issue.body, issue.user.login, issue.user.avatar_url, issue.created_at)}>
 					<Row>
@@ -143,10 +150,7 @@ class RenderRepo extends React.Component {
 		})
 	}
 
-
-
 	isOpenIssue = () => {
-		console.log('isOpenIssue')
 		this.setState({ isOpenCreateIssue: true });
 	}
 
@@ -161,17 +165,10 @@ class RenderRepo extends React.Component {
 		return this.setState({ isOpen: true });
 	}
 
-
 	handleCreateIssue = () => {
 		this.isOpenIssue()
 		this.openIssueCreate()
 	}
-
-
-
-
-
-
 
 	render() {
 		console.log("this props", this.state)
@@ -219,7 +216,7 @@ class RenderRepo extends React.Component {
 							style={{ backgroundColor: '' }}
 							source={this.state.issueBody} /></p>
 					</div>
-					
+
 					<div className="reactions">
 						{this.state.issueReactions['+1'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />}
 						{this.state.issueReactions['-1'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />}
@@ -276,7 +273,9 @@ class RenderRepo extends React.Component {
 						</div>
 					</Modal>
 				</div>
+
 				<div>{this.renderRepos()}</div>
+			
 			</div>
 		)
 	}

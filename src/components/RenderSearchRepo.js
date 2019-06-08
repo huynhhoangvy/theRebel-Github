@@ -42,9 +42,9 @@ class RenderSearchRepo extends React.Component {
     render() {                              // have no idea how to apply a certain style to one same tag, ex: listgroup.item
         return (
             <Row>
-                <Col className="col-3" style={{padding: "0px 30px"}}>
                 {this.props.totalResult ? 
-                <div>
+                <Col className="col-3" style={{padding: "0px 30px"}}>
+                {/* <div> */}
                     <ListGroup className="mb-3" style={{fontSize: "14px"}}>
                         <ListGroup.Item style={{display: "flex", justifyContent: "space-between", padding: "8px 10px"}}><strong><a href="#" style={{textDecoration: "none", color: "black"}}>Repositories </a></strong><Badge pill variant="secondary" style={{margin: "4px 0 0 4px"}}>887K</Badge></ListGroup.Item>
                         <ListGroup.Item style={{display: "flex", justifyContent: "space-between", padding: "8px 10px"}}><a href="#" style={{textDecoration: "none",}}>Code </a><Badge pill variant="secondary" style={{margin: "4px 0 0 4px"}}>49M+</Badge></ListGroup.Item>
@@ -71,12 +71,37 @@ class RenderSearchRepo extends React.Component {
                             <ListGroup.Item style={{display: "flex", justifyContent: "space-between", fontSize: "12px", borderTop: "none", padding: "4px 20px 6px 20px"}}><a href="#" style={{textDecoration: "none", color: "black"}}>C#</a><b>2,393</b></ListGroup.Item>
                         </div>
                     </ListGroup>
-                </div>
-                    : ""}
+                {/* </div> */}
                 </Col>
+                    : ""}
                 <Col className="col-9 px-2">
                     <Row  className="mx-3">
-                    <h4>{this.props.totalResult ? numeral(this.props.totalResult).format('0,0') + " repository results" : ""}</h4>
+                    {this.props.totalResult ? 
+                    <div>
+                        <div className="Box p-3 mb-4 d-flex" style={{border: "1px solid rgba(0,0,0,.125)", borderRadius: ".25rem"}}>
+                            <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" width={64} height={64} className="d-block rounded-1 mr-3 flex-shrink-0" alt="react logo" />
+                            <div className="d-md-flex flex-items-start flex-auto">
+                            <div className="flex-auto">
+                                <h3 className="mb-1">React</h3>
+                                <p>React is an open source JavaScript library used for designing user interfaces.</p>
+                                <a className="text-small" href="/topics/react">See topic</a>
+                            </div>
+                            <div className="d-inline-block js-toggler-container starring-container ">
+                                {/* '"` */}{/* </textarea></xmp> */}
+                                <button className="btn btn-sm js-toggler-target" type="submit" value="Unstar" aria-label="Unstar this topic" title="Unstar react" data-ga-click="Topic, click unstar button, action:codesearch#index; text:Unstar">
+                                    <svg className="octicon octicon-star mr-1" viewBox="0 0 14 16" version="1.1" width={14} height={16} aria-hidden="true"><path fillRule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z" /></svg>Unstar
+                                </button>
+                                
+                                {/* '"` */}{/* </textarea></xmp> */}
+                                <button className="btn btn-sm js-toggler-target" type="submit" value="Star" aria-label="Star this topic" title="Star react" data-ga-click="Topic, click star button, action:codesearch#index; text:Star">
+                                    <svg className="octicon octicon-star mr-1" viewBox="0 0 14 16" version="1.1" width={14} height={16} aria-hidden="true"><path fillRule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z" /></svg>Star
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                        <h4>{numeral(this.props.totalResult).format('0,0') + " repository results"}</h4>
+                    </div>
+                    : ""}
                     </Row>
                     <Row className="mx-3">
                         {this.renderSearchResults()}

@@ -1,7 +1,7 @@
 import Modal from 'react-modal';
 import React from 'react';
 import '../App.css';
-import { Card, Col, Row, Button, ListGroup } from 'react-bootstrap';
+import { Card, Col, Row, Button, ListGroup, Badge } from 'react-bootstrap';
 var moment = require('moment');
 var numeral = require('numeral');
 

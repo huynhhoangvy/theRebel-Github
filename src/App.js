@@ -35,45 +35,57 @@ const clientId = process.env.REACT_APP_CLIENT_ID;
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     const existingToken = sessionStorage.getItem('token');
-    const accessToken = (window.location.search.split("=")[0] === "?access_token") ? window.location.search.split("=")[1] : null;
+    const accessTokenWithCode = (window.location.search.split("=")[0] === "?access_token") ? window.location.search.split("=")[1] : null;
 
-    if (!accessToken && !existingToken) {
+    if (!accessTokenWithCode && !existingToken) {
       window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
     }
 
-    if (accessToken) {
-      console.log(`New accessToken: ${accessToken}`);
-
+    if (accessTokenWithCode) {
+      const accessToken = accessTokenWithCode.replace("&scope","")
       sessionStorage.setItem("token", accessToken);
       this.state = {
-        token: accessToken
+        token: accessToken,
+        userName: '',
+        issues: [],
+        listRepo: [],
+        searchInput: '',
+        isListRepo: true,
+        issue: {},
+        isModalOpen: false,
+        fullName: '',
+        comments: [],
+        page: null,
+        total: null,
+        per_page: null,
+        totalPage: null,
+        newTitleCreate: '',
+        newCommentIssueCreate: '',
       }
     }
 
     if (existingToken) {
       this.state = {
-        token: existingToken
+        token: existingToken,
+        userName: '',
+        issues: [],
+        listRepo: [],
+        searchInput: '',
+        isListRepo: true,
+        issue: {},
+        isModalOpen: false,
+        fullName: '',
+        comments: [],
+        page: null,
+        total: null,
+        per_page: null,
+        totalPage: null,
+        newTitleCreate: '',
+        newCommentIssueCreate: '',
       };
     }
-    this.state = {
-      userName: '',
-      issues: [],
-      listRepo: [],
-      searchInput: '',
-      isListRepo: true,
-      issue: {},
-      isModalOpen: false,
-      fullName: '',
-      comments: [],
-      page: null,
-      total: null,
-      per_page: null,
-      totalPage: null,
-      newTitleCreate: '',
-      newCommentIssueCreate: '',
-    }
+
   }
 
   componentDidMount = () => {
@@ -97,7 +109,12 @@ class App extends React.Component {
   getSearchRepo = async (repoName, e) => {
     e.preventDefault();
     const url = `https://api.github.com/search/repositories?q=${repoName}`;
-    let response = await fetch(url);
+    let response = await fetch(url,{
+         headers: new Headers({
+        'Authorization': `token ${this.state.token}`,
+        'Content-Type': 'application/vnd.github.symmetra-preview+json'
+      }),
+    });
     let data = await response.json();
     this.setState({
       listRepo: data.items,
@@ -108,9 +125,14 @@ class App extends React.Component {
 
 
   getRepo = async (name, pageNumber) => {
-    // const existingToken = sessionStorage.getItem('token');
     const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
-    let response = await fetch(url);
+    let response = await fetch(url,{
+        headers: new Headers({
+        'Authorization': `token ${this.state.token}`,
+        'Content-Type': 'application/vnd.github.symmetra-preview+json',
+        'Accept': 'reactions application/vnd.github.squirrel-girl-preview',
+      }),
+    });
     let rawString1 = await response.headers.get("Link");
     let rawString2;
     let rawString3;
@@ -138,7 +160,13 @@ class App extends React.Component {
 
   getRepo2 = async (name, pageNumber) => {
     const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
-    let response = await fetch(url);
+    let response = await fetch(url,{
+          headers: new Headers({
+        'Authorization': `token ${this.state.token}`,
+        'Content-Type': 'application/vnd.github.symmetra-preview+json',
+        'Accept': 'reactions application/vnd.github.squirrel-girl-preview',
+      }),
+    });
     let data = await response.json();
     this.setState({
       issues: data,
@@ -150,7 +178,13 @@ class App extends React.Component {
 
   getIssueComments = async (issueNumber) => {
     const url = `https://api.github.com/repos/${this.state.fullName}/issues/${issueNumber}/comments`;
-    let response = await fetch(url);
+    let response = await fetch(url,{
+      headers: new Headers({
+        'Authorization': `token ${this.state.token}`,
+        'Content-Type': 'application/vnd.github.symmetra-preview+json',
+        'Accept': 'reactions application/vnd.github.squirrel-girl-preview',
+      }),
+    });
     let data = await response.json();
     this.setState({
       comments: data,
@@ -158,7 +192,6 @@ class App extends React.Component {
     });
   }
   ///////////////////////////////////////////////////////////////////////////////   
-
   //   writeIssue = async (title, body) => {
   //     let data = new URLSearchParams();
   //     data.append('title', title);
@@ -176,9 +209,7 @@ class App extends React.Component {
   //     );
   //     console.log("response",response)
   // }
-
   ////////////////////////////////////////////////////////////////////////////////////
-
   // writeIssue = async (title, body) => {
   //   let data = new URLSearchParams();
   //   data.append('title', title);
@@ -194,9 +225,7 @@ class App extends React.Component {
   //   const response = await fetch(request);
   //   const status = await response.status
   // }
-
   /////////////////////////////////////////////////////////////////////////////////
-
   // writeIssue = async (issueTitle, issueBody) => {
   //   const url = `https://api.github.com/repos/${this.state.fullName}/issues`;
   //   let data = new URLSearchParams();
@@ -211,26 +240,78 @@ class App extends React.Component {
   //   })
   //     .then(response => response.json())
   // }
-
   ///////////////////////////////////////////////////////////////////////////////
 
   writeIssue = async (issueTitle, issueBody) => {
     const url = `https://api.github.com/repos/${this.state.fullName}/issues`;
-    let data = { title: issueTitle, body: issueBody }
-    console.log("data", data)
-    return fetch(url, {
+    let data = { title: issueTitle, body: issueBody}
+    const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: new Headers({
-        'Content-Type': 'application/json'
+        'Authorization': `token ${this.state.token}`,
+        'Content-Type': 'application/vnd.github.symmetra-preview+json'
       }),
     })
-      .then(response => response.json())
+    
+    this.setState({
+      isListRepo: false,
+    });
+    response.status === 201 ? (alert("You have successfully created a new issue")) : (alert("There was an error creating a new issue"))
   }
 
 
+  closeIssue = async (issueNumber) => {
+    const url = `https://api.github.com/repos/${this.state.fullName}/issues/${issueNumber}`;
+    console.log("writeComment", issueNumber)
+    let data = { state: 'closed'}
+    const response = await fetch(url, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      headers: new Headers({
+        'Authorization': `token ${this.state.token}`,
+        'Content-Type': 'application/vnd.github.squirrel-girl-preview',
+      }),
+    })
+    this.setState({
+      isListRepo: false,
+    });
+    response.status === 200 ? (alert("You have successfully closed this issue")) : (alert("There was an error closing this issue"))
+  }
+
+  writeComment = async (commentBody,issueNumber) => {
+    const url = `https://api.github.com/repos/${this.state.fullName}/issues/${issueNumber}/comments`;
+    console.log("writeComment",commentBody, issueNumber)
+    let data = { body: commentBody}
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: new Headers({
+        'Authorization': `token ${this.state.token}`,
+        'Content-Type': 'application/vnd.github.squirrel-girl-preview',
+      }),
+    })
+    
+    this.setState({
+      isListRepo: false,
+    });
+    response.status === 201 ? (alert("You have successfully created a new issue")) : (alert("There was an error creating a new issue"))
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   render() {
-    console.log("this.state", this)
+    console.log("this.state", this.state)
     return (
       <div className="App d-flex flex-column h-100">
         <header>
@@ -265,6 +346,8 @@ class App extends React.Component {
               getIssueComments={this.getIssueComments}
               updateComment={this.updateComment}
               writeIssue={this.writeIssue}
+              writeComment={this.writeComment}
+              closeIssue={this.closeIssue}
             />
               <Pagination
                 {...this.state}

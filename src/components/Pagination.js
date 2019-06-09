@@ -46,7 +46,7 @@ class Pagination extends React.Component {
                 {renderPageNumbers}
 
                 {totalPage !== page &&
-                  <span onClick={() => this.props.getSearchRepo1(this.props.searchInput, totalPage)}> Last page: {totalPage} </span>
+                  <span onClick={() => this.props.getSearchRepo1(this.props.searchInput, totalPage)}> {totalPage} </span>
                 }
                 {totalPage - page > 1 &&
                   <span onClick={() => this.props.getSearchRepo1(this.props.searchInput, page + 1)}> &rsaquo; </span>
@@ -70,7 +70,7 @@ class Pagination extends React.Component {
                 {renderPageNumbers}
 
                 {totalPage !== page &&
-                  <span onClick={() => this.props.getRepo2(this.props.fullName, totalPage)}> Last page: {totalPage} </span>
+                  <span onClick={() => this.props.getRepo2(this.props.fullName, totalPage)}> {totalPage} </span>
                 }
                 {totalPage - page > 1 &&
                   <span onClick={() => this.props.getRepo2(this.props.fullName, page + 1)}> &rsaquo; </span>

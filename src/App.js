@@ -39,6 +39,7 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
+				isPagination:true,
 			}
 		}
 
@@ -60,6 +61,8 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
+				isPagination:true,
+
 			};
 		}
 	}
@@ -158,6 +161,7 @@ class App extends React.Component {
 		}
 		let data = await response.json();
 		this.setState({
+			isPagination:true,
 			issues: data,
 			isListRepo: false,
 			fullName: name,
@@ -179,6 +183,7 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
+			isPagination:true,
 			issues: data,
 			isListRepo: false,
 			fullName: name,
@@ -197,6 +202,7 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
+			isPagination:false,
 			comments: data,
 			isListRepo: false,
 			newCommentIssueCreate: '',
@@ -279,7 +285,9 @@ class App extends React.Component {
 		response.status === 201 ? (alert("You have successfully add a reaction")) : (alert("There was an error adding a reaction"))
 	}
 
-
+	switchingPagination = (e) => {
+		return this.setState({isPagination:e})
+	}
 
 	render() {
 		console.log("this.state", this.state)
@@ -322,14 +330,15 @@ class App extends React.Component {
 								writeComment={this.writeComment}
 								closeIssue={this.closeIssue}
 								addReactions={this.addReactions}
+								switchingPagination={this.switchingPagination}
 							/>
 
 						</div>
 					}
 
 				</Container>
-
-				<Pagination
+					{this.state.isPagination &&
+						<Pagination
 						{...this.state}
 						getSearchRepo={this.getSearchRepo}
 						getRepo={this.getRepo}
@@ -337,6 +346,7 @@ class App extends React.Component {
 						getRepo2={this.getRepo2}
 						getSearchRepo1={this.getSearchRepo1}
 						/>
+					}
 				<Footer />
 			</div>
 		);

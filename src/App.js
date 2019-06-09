@@ -294,8 +294,8 @@ class App extends React.Component {
 						updateComment={this.updateComment}
 					/>
 				</header>
-
 				<Container className="h-auto mt-4">
+				{this.state.isListRepo && <img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif"/>}
 					{this.state.isListRepo &&
 						<div>
 							<RenderSearchRepo
@@ -328,7 +328,6 @@ class App extends React.Component {
 
 				</Container>
 
-				<Footer />
 				<Pagination
 						{...this.state}
 						getSearchRepo={this.getSearchRepo}
@@ -337,6 +336,7 @@ class App extends React.Component {
 						getRepo2={this.getRepo2}
 						getSearchRepo1={this.getSearchRepo1}
 						/>
+				<Footer />
 			</div>
 		);
 	}

@@ -40,6 +40,7 @@ class App extends React.Component {
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
 				isPagination:true,
+				isOnHomePage: true,
 			}
 		}
 
@@ -62,7 +63,7 @@ class App extends React.Component {
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
 				isPagination:true,
-
+				isOnHomePage: true,
 			};
 		}
 	}
@@ -116,7 +117,7 @@ class App extends React.Component {
 			total: lastPage * 30,
 			per_page: 30,
 			totalPage: lastPage,
-			// isSearched: true,
+			isOnHomePage: false,
 		});
 	};
 
@@ -304,13 +305,11 @@ class App extends React.Component {
 						updateComment={this.updateComment}
 					/>
 				</header>
-				{/* {this.state.isSearched ? 
-				<div>
-				<img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif"/>
+				{this.state.isOnHomePage && 
+				<div className="h-100" style={{textAlign: "center"}}>
+				<img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif" className="h-100 w-100"/>
 				</div>
-				:
-				""
-				} */}
+				}
 				{this.state.isListRepo &&
 				<Container className="h-auto mt-4">
 

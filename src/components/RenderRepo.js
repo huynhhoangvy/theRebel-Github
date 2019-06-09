@@ -39,16 +39,25 @@ class RenderRepo extends React.Component {
 		}
 	}
 
-	 home = () => {
+	home = () => {
 		return (
 			<div className="container"
-			style={{ backgroundColor: "", border: "" }}
-		>
-		
-			<div>Something useful here (navbar for lists of issue) <button onClick={() => this.isOpenIssue()}>New Issue</button> 
-			</div>
-
-			<Modal
+				style={{ backgroundColor: "", border: "" }}>
+				<div>
+					<div className="d-flex">
+						<img className="mw-100" src="https://img.icons8.com/metro/26/000000/books.png"/> 
+						<h5 className="m-0 text-danger font-italic"> {this.props.fullName}</h5>
+						<div>
+							<button onClick={() => this.isOpenIssue()}>New Issue</button>
+						</div>
+					</div>
+					<div className="content p-3 mt-2 text-center rounded border border-gray-light">
+						<h5 classname="mb-2">Want to contribute to {this.props.fullName}?</h5>
+						<p className="m-0">If you have a bug or an idea, read the contributing guidelines before opening an issue.</p>
+						<p className="mb-0">If you're ready to tackle some open issues, we've collected some good first issues for you .</p>
+					</div>
+				</div>
+				<Modal
 					isOpen={this.state.isOpenCreateIssue}
 					onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
 					style={{
@@ -94,9 +103,9 @@ class RenderRepo extends React.Component {
 								</Tab>
 								<Tab eventKey="profile" title="Preview">
 									<p>
-										<span style={{ fontSize: "20px" }}>Description: </span><ReactMarkdown
-										id="hi"
-										source={this.props.newCommentIssueCreate} />
+										<span style={{ fontSize: "20px" }}>Comment: </span><ReactMarkdown
+											id="hi"
+											source={this.props.newCommentIssueCreate} />
 									</p>
 								</Tab>
 
@@ -106,9 +115,9 @@ class RenderRepo extends React.Component {
 					</div>
 				</Modal>
 
-			<div>{this.renderRepos()}</div>
+				<div>{this.renderRepos()}</div>
 
-		</div>
+			</div>
 		)
 	}
 
@@ -209,10 +218,10 @@ class RenderRepo extends React.Component {
 
 
 	resizeImageMarkDown = (props) => {
-		return <img {...props} style={{width: "inherit"}} />
-	  }
+		return <img {...props} style={{ maxWidth: "100%" }} />
+	}
 
-	
+
 	renderComments = () => {
 		return this.props.comments.map(comment => {
 			return (
@@ -266,11 +275,11 @@ class RenderRepo extends React.Component {
 					<Row>
 						<Col className="col-11">
 							<h4 className="mb-1">
-							<Link to={"/issue/"+issue.number}>	
-							<a href="#" style={{ color: "" }}>
-							<strong className="text-muted">#{issue.number} </strong> 
-								{issue.title}
-							</a></Link>
+								<Link to={"/issue/" + issue.number}>
+									<a href="#" style={{ color: "" }}>
+										<strong className="text-muted">#{issue.number} </strong>
+										{issue.title}
+									</a></Link>
 
 							</h4>
 							<small>
@@ -323,8 +332,8 @@ class RenderRepo extends React.Component {
 		console.log("this props", this.state)
 		return (
 			<Router>
-			  <Route path="/" exact component={this.home} />
-        <Route path={"/issue/"+this.state.issueNumber} component={this.openIssue} />
+				<Route path="/" exact component={this.home} />
+				<Route path={"/issue/" + this.state.issueNumber} component={this.openIssue} />
 
 
 

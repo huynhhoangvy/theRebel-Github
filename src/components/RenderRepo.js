@@ -287,7 +287,7 @@ class RenderRepo extends React.Component {
 											<Form.Label>Comments</Form.Label>
 											<Form.Control
 												size="lg"
-												as="textarea" rows="3" placeholder="leave a comment heres"
+												as="textarea" rows="8" placeholder="leave a comment heres"
 												value={this.props.newCommentIssueCreate}
 												onChange={evt => this.props.updateComment(evt)} />
 										</Form.Group>

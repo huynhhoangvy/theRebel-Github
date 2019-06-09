@@ -75,7 +75,7 @@ class RenderSearchRepo extends React.Component {
                 <Col className="col-9 px-2">
                     <Row  className="mx-3">
                     {this.props.totalResult ? 
-                    <div className="d-flex justify-content-between">
+                    <div className="d-flex justify-content-between w-100">
                         {/* <div className="Box p-3 mb-4 d-flex" style={{border: "1px solid rgba(0,0,0,.125)", borderRadius: ".25rem"}}>
                             <img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" width={64} height={64} className="d-block rounded-1 mr-3 flex-shrink-0" alt="react logo" />
                             <div className="d-md-flex flex-items-start flex-auto">

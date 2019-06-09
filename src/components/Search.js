@@ -43,7 +43,8 @@ class Search extends React.Component {
             className="mr-sm-2" 
             value={this.props.searchInput} 
             onChange={evt => this.props.updateInputValue(evt)}  />
-            <Button variant="outline-light"  onClick={(e) => this.props.getSearchRepo(this.props.searchInput,e)}>Search</Button>
+            <Button variant="outline-light"  style={{marginRight:"6px"}}onClick={(e) => this.props.getSearchRepo(this.props.searchInput,e)}>Search</Button>
+            <Button variant="outline-light"  onClick={(e) => this.props.getGists(this.props.searchInput)}>Search Gists</Button>
           </Form>        
         </Navbar.Collapse>
       </Navbar>

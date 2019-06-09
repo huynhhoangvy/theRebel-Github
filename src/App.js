@@ -327,6 +327,8 @@ class App extends React.Component {
 					}
 
 				</Container>
+
+				<Footer />
 				<Pagination
 						{...this.state}
 						getSearchRepo={this.getSearchRepo}
@@ -334,8 +336,7 @@ class App extends React.Component {
 						getIssueComments={this.getIssueComments}
 						getRepo2={this.getRepo2}
 						getSearchRepo1={this.getSearchRepo1}
-					/>
-				<Footer />
+						/>
 			</div>
 		);
 	}

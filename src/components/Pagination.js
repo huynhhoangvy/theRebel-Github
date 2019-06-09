@@ -34,7 +34,6 @@ class Pagination extends React.Component {
     }
 
     return (
-      <Row>
         <div className={styles.pagination}>
           {this.props.isListRepo &&
             <div>
@@ -87,7 +86,6 @@ class Pagination extends React.Component {
 
         </div>
 
-      </Row>
     )
   }
   render() {

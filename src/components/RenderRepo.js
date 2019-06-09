@@ -11,9 +11,15 @@ import {
 	Badge,
 } from "react-bootstrap";
 import Modal from 'react-modal'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 const ReactMarkdown = require('react-markdown')
 var moment = require('moment');
 
+
+function Users () {
+	return <h2>Users</h2>;
+}
 
 class RenderRepo extends React.Component {
 	constructor(props) {
@@ -163,6 +169,9 @@ class RenderRepo extends React.Component {
 		setTimeout(() => this.props.getIssueComments(this.state.issueNumber), 3000);
 		return this.setState({ isOpen: true });
 	}
+
+
+
 
 	render() {
 		console.log("this props", this.state)

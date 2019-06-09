@@ -76,25 +76,25 @@ class RenderRepo extends React.Component {
 						<Form>
 							<Form.Group controlId="exampleForm.ControlInput1">
 								<Form.Label>Title</Form.Label>
-								<Form.Control type="text" placeholder="title here"
+								<Form.Control type="text" placeholder="Title"
 									value={this.props.newTitleCreate}
 									onChange={evt => this.props.updateTitle(evt)}
 								/>
 							</Form.Group>
 							<Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
-								<Tab eventKey="home" title="Comment">
+								<Tab eventKey="home" title="Write">
 									<Form.Group controlId="exampleForm.ControlTextarea1">
-										<Form.Label>Comments</Form.Label>
+										{/* <Form.Label>Write</Form.Label> */}
 										<Form.Control
 											size="lg"
-											as="textarea" rows="8" placeholder="leave a comment heres"
+											as="textarea" rows="8" placeholder=""
 											value={this.props.newCommentIssueCreate}
 											onChange={evt => this.props.updateComment(evt)} />
 									</Form.Group>
 								</Tab>
 								<Tab eventKey="profile" title="Preview">
 									<p>
-										<span style={{ fontSize: "20px" }}>Comment: </span><ReactMarkdown
+										<span style={{ fontSize: "20px" }}>Description: </span><ReactMarkdown
 										id="hi"
 										source={this.props.newCommentIssueCreate} />
 									</p>
@@ -121,7 +121,7 @@ class RenderRepo extends React.Component {
 		<div>
 			              <Link to="/">Go back to {this.props.fullName} issue list</Link>
 
-		<div>
+		<div style={{border: "1px solid rgb(204, 204, 204)", borderRadius: "3px", padding: "20px"}} className="mb-5">
 			<button onClick={() => this.props.closeIssue(this.state.issueNumber)}>Close this issue</button>
 			<h4 style={{ fontSize: 50 }}>  {this.state.issueTitle}</h4>
 			{this.renderIssueUser()}
@@ -135,7 +135,6 @@ class RenderRepo extends React.Component {
 				id="hi"
 				style={{ backgroundColor: '' }}
 				source={this.state.issueBody} /></p>
-		</div>
 	
 		<div className="reactions">
 			{this.state.issueReactions['+1'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />}
@@ -147,6 +146,7 @@ class RenderRepo extends React.Component {
 			{this.state.issueReactions['rocket'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />}
 			{this.state.issueReactions['eyes'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />}
 		</div>
+		</div>
 	
 		<div>
 			{this.renderComments()}
@@ -157,10 +157,10 @@ class RenderRepo extends React.Component {
 				<Form.Group controlId="exampleForm.ControlTextarea2">
 					<Form.Label></Form.Label>
 					<Form.Control
-						as="textarea" rows="3" placeholder="leave a comment heres"
+						as="textarea" rows="3" placeholder="Leave a comment here"
 						value={this.props.newCommentIssueCreate}
 						onChange={evt => this.props.updateComment(evt)} />
-					<Button onClick={() => this.handlePostComment(this.props.newCommentIssueCreate)}>Comment</Button>
+					<Button style={{float: "right"}} className="mt-2" onClick={() => this.handlePostComment(this.props.newCommentIssueCreate)}>Comment</Button>
 				</Form.Group>
 			</Form>
 		</div>
@@ -216,11 +216,12 @@ class RenderRepo extends React.Component {
 	renderComments = () => {
 		return this.props.comments.map(comment => {
 			return (
-				<div className="comment">
-					<div className="commentUser">
+				<div className="comment d-flex mb-3">
 						<div>
-							<img alt="" src={`${comment.user.avatar_url}`} height="50px" width="50px" />
+							<img alt="" src={`${comment.user.avatar_url}`} height="50px" width="50px" style={{borderRadius: "5px"}} />
 						</div>
+						<div style={{border: "1px solid rgb(204, 204, 204)", borderRadius: "3px", marginLeft: "15px", width: "100%"}}>
+					<div className="commentUser">
 						<div className="d-flex justify-content-between w-100">
 							<div >
 								<strong style={{ paddingLeft: "1rem" }}>{comment.user.login}</strong>
@@ -253,7 +254,7 @@ class RenderRepo extends React.Component {
 						{comment.reactions['rocket'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />{comment.reactions['rocket']}</cite>}
 						{comment.reactions['eyes'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />	{comment.reactions['eyes']}</cite>}
 					</div>
-
+					</div>
 				</div>
 			)
 		})

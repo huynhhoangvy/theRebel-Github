@@ -39,6 +39,7 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
+				// isSearched: true, // condition to toggle what to display in homepage in the beginning
 			}
 		}
 
@@ -60,6 +61,8 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
+				// isSearched: true, // condition to toggle what to display in homepage in the beginning
+
 			};
 		}
 	}
@@ -113,6 +116,7 @@ class App extends React.Component {
 			total: lastPage * 30,
 			per_page: 30,
 			totalPage: lastPage,
+			// isSearched: true,
 		});
 	};
 
@@ -295,39 +299,44 @@ class App extends React.Component {
 						updateComment={this.updateComment}
 					/>
 				</header>
+				{/* {this.state.isSearched ? 
+				<div>
+				<img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif"/>
+				</div>
+				:
+				""
+				} */}
+				{this.state.isListRepo &&
 				<Container className="h-auto mt-4">
-				{this.state.isListRepo && <img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif"/>}
-					{this.state.isListRepo &&
-						<div>
-							<RenderSearchRepo
-								{...this.state}
-								getSearchRepo={this.getSearchRepo}
-								getRepo={this.getRepo}
-								getIssueComments={this.getIssueComments}
-							/>
 
-						</div>
-					}
-
-					{!this.state.isListRepo &&
-						<div>
-							<RenderRepo
-								updateTitle={this.updateTitle}
-								{...this.state}
-								getSearchRepo={this.getSearchRepo}
-								getRepo={this.getRepo}
-								getIssueComments={this.getIssueComments}
-								updateComment={this.updateComment}
-								writeIssue={this.writeIssue}
-								writeComment={this.writeComment}
-								closeIssue={this.closeIssue}
-								addReactions={this.addReactions}
-							/>
-
-						</div>
-					}
-
+					<RenderSearchRepo
+						{...this.state}
+						getSearchRepo={this.getSearchRepo}
+						getRepo={this.getRepo}
+						getIssueComments={this.getIssueComments}
+						/>
 				</Container>
+
+					}
+
+				{!this.state.isListRepo &&
+					<Container>
+						<RenderRepo
+							updateTitle={this.updateTitle}
+							{...this.state}
+							getSearchRepo={this.getSearchRepo}
+							getRepo={this.getRepo}
+							getIssueComments={this.getIssueComments}
+							updateComment={this.updateComment}
+							writeIssue={this.writeIssue}
+							writeComment={this.writeComment}
+							closeIssue={this.closeIssue}
+							addReactions={this.addReactions}
+						/>
+
+					</Container>
+					}
+
 
 				<Pagination
 						{...this.state}

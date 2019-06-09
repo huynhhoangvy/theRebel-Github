@@ -10,12 +10,15 @@ import {
 } from "react-bootstrap";
 var moment = require("moment");
 
+
+
+
 class Search extends React.Component {
-  render(){
+  render() {
     return (
-      <Navbar style={{backgroundColor :"#0A171F"}} variant="dark"  expand="lg" sticky="top">
+      <Navbar style={{ backgroundColor: "#0A171F" }} variant="dark" expand="lg" sticky="top">
         <Navbar.Brand href="/">
-          <a><img src="https://i.pinimg.com/originals/ce/1f/d7/ce1fd767d594794d61297755ee162b06.gif" style={{width: 60}}/> The Rebel
+          <a><img src="https://i.pinimg.com/originals/ce/1f/d7/ce1fd767d594794d61297755ee162b06.gif" style={{ width: 60 }} /> The Rebel
           </a>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -46,10 +49,10 @@ class Search extends React.Component {
       </Navbar>
     )
   }
-  }
+}
 
 
 
 
-    export default Search;
+export default Search;
 

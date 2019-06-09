@@ -1,36 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Button, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Search from './components/Search.js';
 import Footer from './components/Footer.js';
 import RenderRepo from './components/RenderRepo.js';
 import RenderSearchRepo from './components/RenderSearchRepo.js';
 import Pagination from './components/Pagination.js';
 
-
-
-const ReactMarkdown = require('react-markdown')
 const clientId = process.env.REACT_APP_CLIENT_ID;
-
-
-// const existingToken = sessionStorage.getItem('token');
-// const accessToken = process.env.REACT_APP_SECRET_KEY
-// if (!accessToken && !existingToken) {
-//   window.location.replace(`https://github.com/login/oauth/authorize?scope=user:email,repo&client_id=${clientId}`)
-// }
-// if (accessToken) {
-//   sessionStorage.setItem("token", accessToken);
-//   this.state = {
-//     token: accessToken
-//   }
-// }
-// if (existingToken) {
-//   this.state = {
-//     token: existingToken
-//   };
-// }
-
 
 class App extends React.Component {
 	constructor(props) {
@@ -52,7 +29,6 @@ class App extends React.Component {
 				listRepo: [],
 				searchInput: '',
 				isListRepo: true,
-				issue: {},
 				isModalOpen: false,
 				fullName: '',
 				comments: [],
@@ -62,6 +38,7 @@ class App extends React.Component {
 				totalPage: null,
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
+				rawSearchInput:'',
 			}
 		}
 
@@ -73,7 +50,6 @@ class App extends React.Component {
 				listRepo: [],
 				searchInput: '',
 				isListRepo: true,
-				issue: {},
 				isModalOpen: false,
 				fullName: '',
 				comments: [],
@@ -83,9 +59,9 @@ class App extends React.Component {
 				totalPage: null,
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
+				rawSearchInput:'',
 			};
 		}
-
 	}
 
 	componentDidMount = () => {
@@ -93,7 +69,8 @@ class App extends React.Component {
 
 	updateInputValue = (evt) => {
 		this.setState({
-			searchInput: evt.target.value
+			rawSearchInput : evt.target.value,
+			searchInput: (evt.target.value).replace('https://github.com/','')
 		});
 	}
 	updateTitle = (evt) => {
@@ -247,7 +224,7 @@ class App extends React.Component {
 	}
 
 
-	addReactions = async ( commentId, reaction) => {
+	addReactions = async (commentId, reaction) => {
 		const url = `https://api.github.com/repos/${this.state.fullName}/issues/comments/${commentId}/reactions`;
 		let data = { "content": reaction }
 		const response = await fetch(url, {

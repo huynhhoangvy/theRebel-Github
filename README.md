@@ -19,7 +19,7 @@ If the repository does not exist, the user should see a proper error message.
   State of Issue (Open/Closed).
   ```
 3. The user should be able to see multiple pages of results, by clicking a pagination control. <br>
-3.1 There is also pagination feature in "list of repo" page
+3.1 There is also pagination feature in "list of repo" page. In additional, Pagination works perfectly with Routing and any actions. 
 4. The user should be able to see the body of the issue rendered in markdown.  
 5. The user should be able to create a new issue via a modal for the repository, by clicking on a "new issue" button. Clicking on this button will pop open a modal that asks for the requisite fields.
 6. If there is an error creating the issue (for example, the user not supplying all required parameters), there should be a nice error message to the user.

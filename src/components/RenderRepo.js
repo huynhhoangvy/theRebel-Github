@@ -128,7 +128,7 @@ class RenderRepo extends React.Component {
 	 openIssue =()=> {
 		return (	
 		<div>
-			              <Link to="/">Go back to {this.props.fullName} issue list</Link>
+			              <Link to="/" onClick={()=>this.props.switchingPagination("true")}>Go back to {this.props.fullName} issue list</Link>
 
 		<div style={{border: "1px solid rgb(204, 204, 204)", borderRadius: "3px", padding: "20px"}} className="mb-5">
 			<button onClick={() => this.props.closeIssue(this.state.issueNumber)}>Close this issue</button>
@@ -187,11 +187,11 @@ class RenderRepo extends React.Component {
 	handleCloseModal = () => {
 		this.setState({ isOpen: false });
 	}
-	handleModal = (reactions, number, title, body, login, avatar_url, created_at) => {
+	
+	handleViewIssue = (reactions, number, title, body, login, avatar_url, created_at) => {
+		
 		this.props.getIssueComments(number)
 		this.renderComments()
-		this.openModal()
-
 		this.setState({ issueReactions: reactions, issueNumber: number, issueTitle: title, issueBody: body, issueLogin: login, issueAvatar: avatar_url, issueCreatedAt: created_at })
 	}
 
@@ -271,7 +271,7 @@ class RenderRepo extends React.Component {
 	renderRepos = () => {
 		return this.props.issues.map((issue, idx) => {
 			return (
-				<div className="mb-4 py-4" style={{ borderBottom: "1px solid #e1e4e8" }} onClick={() => this.handleModal(issue.reactions, issue.number, issue.title, issue.body, issue.user.login, issue.user.avatar_url, issue.created_at)}>
+				<div className="mb-4 py-4" style={{ borderBottom: "1px solid #e1e4e8" }} onClick={() => this.handleViewIssue(issue.reactions, issue.number, issue.title, issue.body, issue.user.login, issue.user.avatar_url, issue.created_at)}>
 					<Row>
 						<Col className="col-11">
 							<h4 className="mb-1">

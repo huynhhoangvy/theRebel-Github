@@ -39,7 +39,7 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
-				// isSearched: true, // condition to toggle what to display in homepage in the beginning
+				isPagination:true,
 			}
 		}
 
@@ -61,7 +61,7 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
-				// isSearched: true, // condition to toggle what to display in homepage in the beginning
+				isPagination:true,
 
 			};
 		}
@@ -162,6 +162,7 @@ class App extends React.Component {
 		}
 		let data = await response.json();
 		this.setState({
+			isPagination:true,
 			issues: data,
 			isListRepo: false,
 			fullName: name,
@@ -183,6 +184,7 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
+			isPagination:true,
 			issues: data,
 			isListRepo: false,
 			fullName: name,
@@ -201,6 +203,7 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
+			isPagination:false,
 			comments: data,
 			isListRepo: false,
 			newCommentIssueCreate: '',
@@ -283,7 +286,9 @@ class App extends React.Component {
 		response.status === 201 ? (alert("You have successfully add a reaction")) : (alert("There was an error adding a reaction"))
 	}
 
-
+	switchingPagination = (e) => {
+		return this.setState({isPagination:e})
+	}
 
 	render() {
 		console.log("this.state", this.state)
@@ -319,26 +324,28 @@ class App extends React.Component {
 
 					}
 
-				{!this.state.isListRepo &&
-					<Container>
-						<RenderRepo
-							updateTitle={this.updateTitle}
-							{...this.state}
-							getSearchRepo={this.getSearchRepo}
-							getRepo={this.getRepo}
-							getIssueComments={this.getIssueComments}
-							updateComment={this.updateComment}
-							writeIssue={this.writeIssue}
-							writeComment={this.writeComment}
-							closeIssue={this.closeIssue}
-							addReactions={this.addReactions}
-						/>
+					{!this.state.isListRepo &&
+						<Container className="h-auto mt-4">
+							<RenderRepo
+								updateTitle={this.updateTitle}
+								{...this.state}
+								getSearchRepo={this.getSearchRepo}
+								getRepo={this.getRepo}
+								getIssueComments={this.getIssueComments}
+								updateComment={this.updateComment}
+								writeIssue={this.writeIssue}
+								writeComment={this.writeComment}
+								closeIssue={this.closeIssue}
+								addReactions={this.addReactions}
+								switchingPagination={this.switchingPagination}
+							/>
 
-					</Container>
+						</Container>
 					}
 
-
-				<Pagination
+				{/* </Container> */}
+					{this.state.isPagination &&
+						<Pagination
 						{...this.state}
 						getSearchRepo={this.getSearchRepo}
 						getRepo={this.getRepo}
@@ -346,6 +353,7 @@ class App extends React.Component {
 						getRepo2={this.getRepo2}
 						getSearchRepo1={this.getSearchRepo1}
 						/>
+					}
 				<Footer />
 			</div>
 		);

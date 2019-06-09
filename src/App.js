@@ -6,6 +6,7 @@ import Footer from './components/Footer.js';
 import RenderRepo from './components/RenderRepo.js';
 import RenderSearchRepo from './components/RenderSearchRepo.js';
 import Pagination from './components/Pagination.js';
+import RenderGists from './components/RenderGists.js'
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
 
@@ -39,7 +40,9 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
-				isPagination:true,
+				isPagination: true,
+				gists: [],
+				isGist: false,
 			}
 		}
 
@@ -61,7 +64,9 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
-				isPagination:true,
+				isPagination: true,
+				gists: [],
+				isGist: false,
 
 			};
 		}
@@ -109,6 +114,7 @@ class App extends React.Component {
 		}
 		let data = await response.json();
 		this.setState({
+			isGist: false,
 			listRepo: data.items,
 			isListRepo: true,
 			totalResult: data.total_count,
@@ -129,12 +135,32 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
+			isGist: false,
 			listRepo: data.items,
 			isListRepo: true,
 			page: pageNumber,
 		});
 	};
 
+
+
+
+	getGists = async (name) => {
+		const url = `https://api.github.com/users/${name}/gists`;
+		let response = await fetch(url, {
+			headers: new Headers({
+				'Authorization': `token ${this.state.token}`,
+				'Content-Type': 'application/vnd.github.symmetra-preview+json',
+				'Accept': 'reactions application/vnd.github.squirrel-girl-preview',
+			}),
+		});
+		let data = await response.json();
+		this.setState({
+			gists: data,
+			isGist: true,
+
+		});
+	};
 
 
 
@@ -161,7 +187,8 @@ class App extends React.Component {
 		}
 		let data = await response.json();
 		this.setState({
-			isPagination:true,
+			isGist: false,
+			isPagination: true,
 			issues: data,
 			isListRepo: false,
 			fullName: name,
@@ -183,7 +210,7 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
-			isPagination:true,
+			isPagination: true,
 			issues: data,
 			isListRepo: false,
 			fullName: name,
@@ -202,7 +229,7 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
-			isPagination:false,
+			isPagination: false,
 			comments: data,
 			isListRepo: false,
 			newCommentIssueCreate: '',
@@ -222,7 +249,7 @@ class App extends React.Component {
 		})
 
 
-		console.log("responseRERERERE",response)
+		console.log("responseRERERERE", response)
 
 		this.setState({
 			isListRepo: false,
@@ -286,7 +313,7 @@ class App extends React.Component {
 	}
 
 	switchingPagination = (e) => {
-		return this.setState({isPagination:e})
+		return this.setState({ isPagination: e })
 	}
 
 	render() {
@@ -301,11 +328,18 @@ class App extends React.Component {
 						getSearchRepo={this.getSearchRepo}
 						getIssueComments={this.getIssueComments}
 						updateComment={this.updateComment}
+						getGists={this.getGists}
 					/>
 				</header>
 				<Container className="h-auto mt-4">
-				{this.state.isListRepo && <img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif"/>}
-					{this.state.isListRepo &&
+					{this.state.isGist &&
+						<RenderGists
+							{...this.state}
+
+						/>
+					}
+					{this.state.isListRepo && <img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif" />}
+					{!this.state.isGist && this.state.isListRepo &&
 						<div>
 							<RenderSearchRepo
 								{...this.state}
@@ -317,7 +351,7 @@ class App extends React.Component {
 						</div>
 					}
 
-					{!this.state.isListRepo &&
+					{!this.state.isGist && !this.state.isListRepo &&
 						<div>
 							<RenderRepo
 								updateTitle={this.updateTitle}
@@ -337,16 +371,16 @@ class App extends React.Component {
 					}
 
 				</Container>
-					{this.state.isPagination &&
-						<Pagination
+				{!this.state.isGist && this.state.isPagination &&
+					<Pagination
 						{...this.state}
 						getSearchRepo={this.getSearchRepo}
 						getRepo={this.getRepo}
 						getIssueComments={this.getIssueComments}
 						getRepo2={this.getRepo2}
 						getSearchRepo1={this.getSearchRepo1}
-						/>
-					}
+					/>
+				}
 				<Footer />
 			</div>
 		);

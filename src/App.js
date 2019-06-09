@@ -304,7 +304,7 @@ class App extends React.Component {
 		this.setState({
 			isListRepo: false,
 		});
-		response.status === 201 ? (alert("You have successfully created a new issue")) : (alert("There was an error creating a new issue"))
+		response.status === 201 ? (alert("You have successfully created a new comment")) : (alert("There was an error creating a new comment"))
 	}
 
 

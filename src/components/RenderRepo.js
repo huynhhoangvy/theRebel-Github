@@ -119,7 +119,7 @@ class RenderRepo extends React.Component {
 	 openIssue =()=> {
 		return (	
 		<div>
-			              <Link to="/">Go back to Issue list</Link>
+			              <Link to="/">Go back to {this.props.fullName} issue list</Link>
 
 		<div>
 			<button onClick={() => this.props.closeIssue(this.state.issueNumber)}>Close this issue</button>
@@ -259,7 +259,7 @@ class RenderRepo extends React.Component {
 					<Row>
 						<Col className="col-11">
 							<h4 className="mb-1">
-							<Link to="/issue/">	
+							<Link to={"/issue/"+issue.number}>	
 							<a href="#" style={{ color: "" }}>
 							<strong className="text-muted">#{issue.number} </strong> 
 								{issue.title}
@@ -317,7 +317,7 @@ class RenderRepo extends React.Component {
 		return (
 			<Router>
 			  <Route path="/" exact component={this.home} />
-        <Route path="/issue/" component={this.openIssue} />
+        <Route path={"/issue/"+this.state.issueNumber} component={this.openIssue} />
 
 
 

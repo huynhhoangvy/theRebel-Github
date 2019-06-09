@@ -1,12 +1,18 @@
 CoderSchool FTW - * THE REBEL GITHUB - GROUP PROJECT *
 
+![image](/ss.png)
+
+### This is a simple app written with Reactjs to get/post/put/patch issues and gists on Github with API.
+
 Created with love by: 
 KHOA DAM
 ANH VIET
 HUY NGUYEN
 VY HOANG
 
-This is a simple app written with Reactjs to get/post/put/patch issues and gists on Github with API.
+View Demo online: https://admiring-yonath-7a4487.netlify.com  (not working)
+
+
 
 ## The following user stories are implemented 
 

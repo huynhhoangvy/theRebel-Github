@@ -32,13 +32,15 @@ If the repository does not exist, the user should see a proper error message.
 10. The user can see reactions attached to each comment (Reactions API). <br>
 10.1 - the user can see reactions attached to the issue in additional to each comment
 11. The user can add reactions to a comment (API documentation).
+12. The user should be able to see his last action's result (new issue, new comment, new reactions)
+13. Input Fuzzy Matching: the user should be able to type in either https://github.com/facebook/react or facebook/react, BOTH should work.
 
 
 
 ## The following user stories are soon to be implemented
-12. Input Fuzzy Matching: the user should be able to type in either https://github.com/facebook/react or facebook/react, BOTH should work.
 
-13. Instead of using Modal to show issue, use React Router (link) to navigate to different URL issues/:issueId to display the full issue. Have the Back button to go back to the previous page (from the individual issue page).
+
+14. Instead of using Modal to show issue, use React Router (link) to navigate to different URL issues/:issueId to display the full issue. Have the Back button to go back to the previous page (from the individual issue page).
 
 
 

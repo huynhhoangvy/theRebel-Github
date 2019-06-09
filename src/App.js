@@ -38,6 +38,7 @@ class App extends React.Component {
 				totalPage: null,
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
+				rawSearchInput:'',
 			}
 		}
 
@@ -58,6 +59,7 @@ class App extends React.Component {
 				totalPage: null,
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
+				rawSearchInput:'',
 			};
 		}
 	}
@@ -67,7 +69,8 @@ class App extends React.Component {
 
 	updateInputValue = (evt) => {
 		this.setState({
-			searchInput: evt.target.value
+			rawSearchInput : evt.target.value,
+			searchInput: (evt.target.value).replace('https://github.com/','')
 		});
 	}
 	updateTitle = (evt) => {

@@ -246,11 +246,30 @@ class RenderRepo extends React.Component {
 					</div>
 
 				</Modal>
-				<div>Something useful here (navbar for lists of issue) <button onClick={() => this.isOpenIssue()}>New Issue</button> </div>
+				<div>Create a new Issue here:  <Button onClick={() => this.isOpenIssue()}>New Issue</Button> </div>
 				<div>
 					<Modal
 						isOpen={this.state.isOpenCreateIssue}
 						onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
+						style={{
+							overlay: {
+								backgroundColor: "rgba(244, 247, 252, 0.3)",
+								top: '0%',
+								left: '0%',
+								right: '0%',
+								bottom: '0%',
+								marginRight: '-10%',
+							},
+							content: {
+								top: '15%',
+								left: '10%',
+								right: '10%',
+								bottom: '10%',
+								marginRight: '10%',
+								backgroundColor: "rgba(244, 247, 252, 1)",
+								border: "none",
+							}
+						}}
 					>
 						<div>
 							<Form>

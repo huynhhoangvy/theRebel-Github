@@ -40,6 +40,7 @@ class App extends React.Component {
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
 				isPagination:true,
+				isOnHomePage: true,
 			}
 		}
 
@@ -62,7 +63,7 @@ class App extends React.Component {
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
 				isPagination:true,
-
+				isOnHomePage: true,
 			};
 		}
 	}
@@ -116,6 +117,7 @@ class App extends React.Component {
 			total: lastPage * 30,
 			per_page: 30,
 			totalPage: lastPage,
+			isOnHomePage: false,
 		});
 	};
 
@@ -303,22 +305,26 @@ class App extends React.Component {
 						updateComment={this.updateComment}
 					/>
 				</header>
+				{this.state.isOnHomePage && 
+				<div className="h-100" style={{textAlign: "center"}}>
+				<img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif" className="h-100 w-100"/>
+				</div>
+				}
+				{this.state.isListRepo &&
 				<Container className="h-auto mt-4">
-				{this.state.isListRepo && <img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif"/>}
-					{this.state.isListRepo &&
-						<div>
-							<RenderSearchRepo
-								{...this.state}
-								getSearchRepo={this.getSearchRepo}
-								getRepo={this.getRepo}
-								getIssueComments={this.getIssueComments}
-							/>
 
-						</div>
+					<RenderSearchRepo
+						{...this.state}
+						getSearchRepo={this.getSearchRepo}
+						getRepo={this.getRepo}
+						getIssueComments={this.getIssueComments}
+						/>
+				</Container>
+
 					}
 
 					{!this.state.isListRepo &&
-						<div>
+						<Container className="h-auto mt-4">
 							<RenderRepo
 								updateTitle={this.updateTitle}
 								{...this.state}
@@ -333,10 +339,10 @@ class App extends React.Component {
 								switchingPagination={this.switchingPagination}
 							/>
 
-						</div>
+						</Container>
 					}
 
-				</Container>
+				{/* </Container> */}
 					{this.state.isPagination &&
 						<Pagination
 						{...this.state}

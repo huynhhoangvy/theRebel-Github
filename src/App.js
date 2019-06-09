@@ -43,6 +43,9 @@ class App extends React.Component {
 				isPagination: true,
 				gists: [],
 				isGist: false,
+				isOnHomePage: true,
+				isListIssues: false,
+
 			}
 		}
 
@@ -67,6 +70,8 @@ class App extends React.Component {
 				isPagination: true,
 				gists: [],
 				isGist: false,
+				isOnHomePage: true,
+				isListIssues: false,
 
 			};
 		}
@@ -115,8 +120,10 @@ class App extends React.Component {
 		let data = await response.json();
 		this.setState({
 			isGist: false,
-			listRepo: data.items,
 			isListRepo: true,
+			isOnHomePage: false,
+			isListIssues: false,
+			listRepo: data.items,
 			totalResult: data.total_count,
 			page: 1,
 			total: lastPage * 30,
@@ -136,8 +143,9 @@ class App extends React.Component {
 		let data = await response.json();
 		this.setState({
 			isGist: false,
-			listRepo: data.items,
 			isListRepo: true,
+			isListIssues: false,
+			listRepo: data.items,
 			page: pageNumber,
 		});
 	};
@@ -158,11 +166,11 @@ class App extends React.Component {
 		this.setState({
 			gists: data,
 			isGist: true,
+			isOnHomePage: false,
+			isListIssues: false,
 
 		});
 	};
-
-
 
 	getRepo = async (name, pageNumber) => {
 		const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
@@ -188,9 +196,11 @@ class App extends React.Component {
 		let data = await response.json();
 		this.setState({
 			isGist: false,
+			isOnHomePage: false,
 			isPagination: true,
-			issues: data,
 			isListRepo: false,
+			isListIssues: true,
+			issues: data,
 			fullName: name,
 			page: pageNumber,
 			total: lastPage * 30,
@@ -211,8 +221,9 @@ class App extends React.Component {
 		let data = await response.json();
 		this.setState({
 			isPagination: true,
-			issues: data,
 			isListRepo: false,
+			isListIssues: true,
+			issues: data,
 			fullName: name,
 			page: pageNumber,
 		});
@@ -230,8 +241,9 @@ class App extends React.Component {
 		let data = await response.json();
 		this.setState({
 			isPagination: false,
-			comments: data,
 			isListRepo: false,
+			isListIssues: true,
+			comments: data,
 			newCommentIssueCreate: '',
 		});
 	}
@@ -253,6 +265,7 @@ class App extends React.Component {
 
 		this.setState({
 			isListRepo: false,
+			isListIssues: true,
 		});
 		response.status === 201 ? (alert("You have successfully created a new issue")) : (alert("There was an error creating a new issue"))
 	}
@@ -271,6 +284,7 @@ class App extends React.Component {
 		})
 		this.setState({
 			isListRepo: false,
+			isListIssues: true,
 		});
 		response.status === 200 ? (alert("You have successfully closed this issue")) : (alert("There was an error closing this issue"))
 	}
@@ -331,14 +345,18 @@ class App extends React.Component {
 						getGists={this.getGists}
 					/>
 				</header>
+				{this.state.isOnHomePage &&
+					<div className="h-100" style={{ textAlign: "center" }}>
+						<img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif" className="h-100 w-100" />
+					</div>
+				}
 				<Container className="h-auto mt-4">
-					{this.state.isGist &&
-						<RenderGists
-							{...this.state}
+				{this.state.isGist &&
+								<RenderGists
+									{...this.state}
+								/>
 
-						/>
-					}
-					{this.state.isListRepo && <img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif" />}
+							}
 					{!this.state.isGist && this.state.isListRepo &&
 						<div>
 							<RenderSearchRepo
@@ -347,30 +365,27 @@ class App extends React.Component {
 								getRepo={this.getRepo}
 								getIssueComments={this.getIssueComments}
 							/>
-
 						</div>
 					}
 
-					{!this.state.isGist && !this.state.isListRepo &&
-						<div>
-							<RenderRepo
-								updateTitle={this.updateTitle}
-								{...this.state}
-								getSearchRepo={this.getSearchRepo}
-								getRepo={this.getRepo}
-								getIssueComments={this.getIssueComments}
-								updateComment={this.updateComment}
-								writeIssue={this.writeIssue}
-								writeComment={this.writeComment}
-								closeIssue={this.closeIssue}
-								addReactions={this.addReactions}
-								switchingPagination={this.switchingPagination}
-							/>
-
-						</div>
+					{this.state.isListIssues &&
+						<RenderRepo
+							updateTitle={this.updateTitle}
+							{...this.state}
+							getSearchRepo={this.getSearchRepo}
+							getRepo={this.getRepo}
+							getIssueComments={this.getIssueComments}
+							updateComment={this.updateComment}
+							writeIssue={this.writeIssue}
+							writeComment={this.writeComment}
+							closeIssue={this.closeIssue}
+							addReactions={this.addReactions}
+							switchingPagination={this.switchingPagination}
+						/>
 					}
 
 				</Container>
+
 				{!this.state.isGist && this.state.isPagination &&
 					<Pagination
 						{...this.state}

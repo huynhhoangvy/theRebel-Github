@@ -24,10 +24,10 @@ class Search extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Pull requests</Nav.Link>
-            <Nav.Link href="#home">Issues</Nav.Link>
-            <Nav.Link href="#home">Marketplace</Nav.Link>
-            <Nav.Link href="#link">Explore</Nav.Link>
+            <Nav.Link href="#1">Pull requests</Nav.Link>
+            <Nav.Link href="#2">Issues</Nav.Link>
+            <Nav.Link href="#3">Marketplace</Nav.Link>
+            <Nav.Link href="#4">Explore</Nav.Link>
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

@@ -1,9 +1,20 @@
+CoderSchool FTW - * THE REBEL GITHUB - GROUP PROJECT *
+
+![image](/ss.png)
+
+### This is a simple app written with Reactjs to get/post/put/patch issues and gists on Github with API.
+
+Created with love by: 
+KHOA DAM
+ANH VIET
+HUY NGUYEN
+VY HOANG
+
+View Demo online: https://admiring-yonath-7a4487.netlify.com  (not working)
 
 
 
 ## The following user stories are implemented 
-
-- Required User Stories
 
 1. The user can enter a repository in a search bar, click "search", and see the associated issues. The repository should be of the format owner/repo-name, e.g. facebook/react.
 If the repository does not exist, the user should see a proper error message.
@@ -35,10 +46,18 @@ If the repository does not exist, the user should see a proper error message.
 12. The user should be able to see his last action's result (new issue, new comment, new reactions)
 13. Input Fuzzy Matching: the user should be able to type in either https://github.com/facebook/react or facebook/react, BOTH should work.
 14. Instead of using Modal to show issue, use React Router (link) to navigate to different URL issues/:issueId to display the full issue. Have the Back button to go back to the previous page (from the individual issue page).
+15. The user should be able to see other user's public gists (all gists content) when using search Gist button.
 
 
 
 
+## Time consumed:
+- 72 hours
 
-
+## Lessons learned:
+- Syntax
+- Organising app structure
+- Styling in CSS and JSX
+- using API
+- Team work
 

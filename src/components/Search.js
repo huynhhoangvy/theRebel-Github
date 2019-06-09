@@ -24,27 +24,22 @@ class Search extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#1">Pull requests</Nav.Link>
-            <Nav.Link href="#2">Issues</Nav.Link>
-            <Nav.Link href="#3">Marketplace</Nav.Link>
-            <Nav.Link href="#4">Explore</Nav.Link>
-            {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown> */}
+            <Nav.Link href="#home">Pull requests</Nav.Link>
+            <Nav.Link href="#home">Issues</Nav.Link>
+            <Nav.Link href="#home">Marketplace</Nav.Link>
+            <Nav.Link href="#link">Explore</Nav.Link>
+           
           </Nav>
           <Form inline onSubmit={(e) => this.props.getSearchRepo(this.props.searchInput, e)}>
-            <FormControl 
-            type="text" 
-            placeholder="Search or jump to..." 
-            className="mr-sm-2" 
-            value={this.props.searchInput} 
-            onChange={evt => this.props.updateInputValue(evt)}  />
-            <Button variant="outline-light"  onClick={(e) => this.props.getSearchRepo(this.props.searchInput,e)}>Search</Button>
-          </Form>        
+            <FormControl
+              type="text"
+              placeholder="Search or jump to..."
+              className="mr-sm-2"
+              value={this.props.searchInput}
+              onChange={evt => this.props.updateInputValue(evt)} />
+            <Button variant="outline-light" style={{ marginRight: "6px" }} onClick={(e) => this.props.getSearchRepo(this.props.searchInput, e)}>Search</Button>
+            <Button variant="outline-light" onClick={(e) => this.props.getGists(this.props.searchInput)}>Search Gists</Button>
+          </Form>
         </Navbar.Collapse>
       </Navbar>
     )

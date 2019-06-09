@@ -6,6 +6,7 @@ import Footer from './components/Footer.js';
 import RenderRepo from './components/RenderRepo.js';
 import RenderSearchRepo from './components/RenderSearchRepo.js';
 import Pagination from './components/Pagination.js';
+import RenderGists from './components/RenderGists.js'
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
 
@@ -39,8 +40,12 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
-				isPagination:true,
+				isPagination: true,
+				gists: [],
+				isGist: false,
 				isOnHomePage: true,
+				isListIssues: false,
+
 			}
 		}
 
@@ -62,8 +67,12 @@ class App extends React.Component {
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
 				rawSearchInput: '',
-				isPagination:true,
+				isPagination: true,
+				gists: [],
+				isGist: false,
 				isOnHomePage: true,
+				isListIssues: false,
+
 			};
 		}
 	}
@@ -110,14 +119,16 @@ class App extends React.Component {
 		}
 		let data = await response.json();
 		this.setState({
-			listRepo: data.items,
+			isGist: false,
 			isListRepo: true,
+			isOnHomePage: false,
+			isListIssues: false,
+			listRepo: data.items,
 			totalResult: data.total_count,
 			page: 1,
 			total: lastPage * 30,
 			per_page: 30,
 			totalPage: lastPage,
-			isOnHomePage: false,
 		});
 	};
 
@@ -131,14 +142,35 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
-			listRepo: data.items,
+			isGist: false,
 			isListRepo: true,
+			isListIssues: false,
+			listRepo: data.items,
 			page: pageNumber,
 		});
 	};
 
 
 
+
+	getGists = async (name) => {
+		const url = `https://api.github.com/users/${name}/gists`;
+		let response = await fetch(url, {
+			headers: new Headers({
+				'Authorization': `token ${this.state.token}`,
+				'Content-Type': 'application/vnd.github.symmetra-preview+json',
+				'Accept': 'reactions application/vnd.github.squirrel-girl-preview',
+			}),
+		});
+		let data = await response.json();
+		this.setState({
+			gists: data,
+			isGist: true,
+			isOnHomePage: false,
+			isListIssues: false,
+
+		});
+	};
 
 	getRepo = async (name, pageNumber) => {
 		const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
@@ -163,9 +195,12 @@ class App extends React.Component {
 		}
 		let data = await response.json();
 		this.setState({
-			isPagination:true,
-			issues: data,
+			isGist: false,
+			isOnHomePage: false,
+			isPagination: true,
 			isListRepo: false,
+			isListIssues: true,
+			issues: data,
 			fullName: name,
 			page: pageNumber,
 			total: lastPage * 30,
@@ -185,9 +220,10 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
-			isPagination:true,
-			issues: data,
+			isPagination: true,
 			isListRepo: false,
+			isListIssues: true,
+			issues: data,
 			fullName: name,
 			page: pageNumber,
 		});
@@ -204,9 +240,10 @@ class App extends React.Component {
 		});
 		let data = await response.json();
 		this.setState({
-			isPagination:false,
-			comments: data,
+			isPagination: false,
 			isListRepo: false,
+			isListIssues: true,
+			comments: data,
 			newCommentIssueCreate: '',
 		});
 	}
@@ -224,10 +261,11 @@ class App extends React.Component {
 		})
 
 
-		console.log("responseRERERERE",response)
+		console.log("responseRERERERE", response)
 
 		this.setState({
 			isListRepo: false,
+			isListIssues: true,
 		});
 		response.status === 201 ? (alert("You have successfully created a new issue")) : (alert("There was an error creating a new issue"))
 	}
@@ -246,6 +284,7 @@ class App extends React.Component {
 		})
 		this.setState({
 			isListRepo: false,
+			isListIssues: true,
 		});
 		response.status === 200 ? (alert("You have successfully closed this issue")) : (alert("There was an error closing this issue"))
 	}
@@ -265,7 +304,7 @@ class App extends React.Component {
 		this.setState({
 			isListRepo: false,
 		});
-		response.status === 201 ? (alert("You have successfully created a new issue")) : (alert("There was an error creating a new issue"))
+		response.status === 201 ? (alert("You have successfully created a new comment")) : (alert("There was an error creating a new comment"))
 	}
 
 
@@ -288,7 +327,7 @@ class App extends React.Component {
 	}
 
 	switchingPagination = (e) => {
-		return this.setState({isPagination:e})
+		return this.setState({ isPagination: e })
 	}
 
 	render() {
@@ -303,6 +342,7 @@ class App extends React.Component {
 						getSearchRepo={this.getSearchRepo}
 						getIssueComments={this.getIssueComments}
 						updateComment={this.updateComment}
+						getGists={this.getGists}
 					/>
 				</header>
 				{this.state.isOnHomePage && 
@@ -318,49 +358,52 @@ class App extends React.Component {
 					<img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif" className="" style={{height: "400px", borderRadius: "10px"}} />
 				</Jumbotron>
 				}
-				{this.state.isListRepo &&
 				<Container className="h-auto mt-4">
+				{this.state.isGist &&
+								<RenderGists
+									{...this.state}
+								/>
 
-					<RenderSearchRepo
-						{...this.state}
-						getSearchRepo={this.getSearchRepo}
-						getRepo={this.getRepo}
-						getIssueComments={this.getIssueComments}
-						/>
-				</Container>
-
-					}
-
-					{!this.state.isListRepo &&
-						<Container className="h-auto mt-4">
-							<RenderRepo
-								updateTitle={this.updateTitle}
+							}
+					{!this.state.isGist && this.state.isListRepo &&
+						<div>
+							<RenderSearchRepo
 								{...this.state}
 								getSearchRepo={this.getSearchRepo}
 								getRepo={this.getRepo}
 								getIssueComments={this.getIssueComments}
-								updateComment={this.updateComment}
-								writeIssue={this.writeIssue}
-								writeComment={this.writeComment}
-								closeIssue={this.closeIssue}
-								addReactions={this.addReactions}
-								switchingPagination={this.switchingPagination}
 							/>
-
-						</Container>
+						</div>
 					}
 
-				{/* </Container> */}
-					{this.state.isPagination &&
-						<Pagination
+					{this.state.isListIssues &&
+						<RenderRepo
+							updateTitle={this.updateTitle}
+							{...this.state}
+							getSearchRepo={this.getSearchRepo}
+							getRepo={this.getRepo}
+							getIssueComments={this.getIssueComments}
+							updateComment={this.updateComment}
+							writeIssue={this.writeIssue}
+							writeComment={this.writeComment}
+							closeIssue={this.closeIssue}
+							addReactions={this.addReactions}
+							switchingPagination={this.switchingPagination}
+						/>
+					}
+
+				</Container>
+
+				{!this.state.isGist && this.state.isPagination &&
+					<Pagination
 						{...this.state}
 						getSearchRepo={this.getSearchRepo}
 						getRepo={this.getRepo}
 						getIssueComments={this.getIssueComments}
 						getRepo2={this.getRepo2}
 						getSearchRepo1={this.getSearchRepo1}
-						/>
-					}
+					/>
+				}
 				<Footer />
 			</div>
 		);

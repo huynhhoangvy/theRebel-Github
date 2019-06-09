@@ -4,11 +4,9 @@ import {
 	Button,
 	ButtonToolbar,
 	Form,
-	FormControl,
 	DropdownButton,
 	Dropdown,
 	Row,
-	Card,
 	Col,
 	Badge,
 	Tabs,
@@ -53,7 +51,7 @@ class RenderRepo extends React.Component {
 	renderIssueUser = () => {
 		return (
 			<div style={{ display: "inline" }}>
-				<img src={this.state.issueAvatar} style={{ width: 50, height: "auto", borderRadius: "5px" }} />
+				<img alt="" src={this.state.issueAvatar} style={{ width: 50, height: "auto", borderRadius: "5px" }} />
 				<strong> &raquo; {this.state.issueLogin}</strong> <cite title="Source Title">opened {moment(this.state.issueCreatedAt).startOf().fromNow()}</cite>
 			</div>
 
@@ -73,7 +71,7 @@ class RenderRepo extends React.Component {
 				<div className="comment">
 					<div className="commentUser">
 						<div>
-							<img src={`${comment.user.avatar_url}`} height="50px" width="50px" />
+							<img alt="" src={`${comment.user.avatar_url}`} height="50px" width="50px" />
 						</div>
 						<div style={{ display: "inline" }}>
 							<strong style={{ paddingLeft: "1rem" }}>{comment.user.login}</strong>
@@ -82,14 +80,14 @@ class RenderRepo extends React.Component {
 					</div>
 					<div className="commentContent"><ReactMarkdown source={comment.body} /></div>
 					<div className="reactions">
-						{comment.reactions['+1'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />{comment.reactions['+1']}</cite>}
-						{comment.reactions['-1'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />	{comment.reactions['-1']}</cite>}
-						{comment.reactions['laugh'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />{comment.reactions['laugh']}</cite>}
-						{comment.reactions['confused'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />	{comment.reactions['confused']}</cite>}
-						{comment.reactions['heart'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />	{comment.reactions['heart']}</cite>}
-						{comment.reactions['hooray'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />	{comment.reactions['hooray']}</cite>}
-						{comment.reactions['rocket'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />{comment.reactions['rocket']}</cite>}
-						{comment.reactions['eyes'] > 0 && <cite><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />	{comment.reactions['eyes']}</cite>}
+						{comment.reactions['+1'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />{comment.reactions['+1']}</cite>}
+						{comment.reactions['-1'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />	{comment.reactions['-1']}</cite>}
+						{comment.reactions['laugh'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />{comment.reactions['laugh']}</cite>}
+						{comment.reactions['confused'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />	{comment.reactions['confused']}</cite>}
+						{comment.reactions['heart'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />	{comment.reactions['heart']}</cite>}
+						{comment.reactions['hooray'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />	{comment.reactions['hooray']}</cite>}
+						{comment.reactions['rocket'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />{comment.reactions['rocket']}</cite>}
+						{comment.reactions['eyes'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />	{comment.reactions['eyes']}</cite>}
 					</div>
 					<ButtonToolbar>
 						{['up'].map(direction => (
@@ -100,14 +98,14 @@ class RenderRepo extends React.Component {
 								id={`dropdown-button-drop-${direction}`}
 								key={direction}
 							>
-								<Dropdown.Item onClick={() => this.handleAddReactions('+1', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' /></Dropdown.Item>
-								<Dropdown.Item onClick={() => this.handleAddReactions('-1', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' /></Dropdown.Item>
-								<Dropdown.Item onClick={() => this.handleAddReactions('laugh', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' /></Dropdown.Item>
-								<Dropdown.Item onClick={() => this.handleAddReactions('confused', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' /></Dropdown.Item>
-								<Dropdown.Item onClick={() => this.handleAddReactions('heart', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' /></Dropdown.Item>
-								<Dropdown.Item onClick={() => this.handleAddReactions('hooray', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' /></Dropdown.Item>
-								<Dropdown.Item onClick={() => this.handleAddReactions('rocket', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' /></Dropdown.Item>
-								<Dropdown.Item onClick={() => this.handleAddReactions('eyes', comment.id)}><img src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('+1', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('-1', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('laugh', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('confused', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('heart', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('hooray', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('rocket', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' /></Dropdown.Item>
+								<Dropdown.Item onClick={() => this.handleAddReactions('eyes', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' /></Dropdown.Item>
 							</DropdownButton>
 						))}
 					</ButtonToolbar>
@@ -134,7 +132,7 @@ class RenderRepo extends React.Component {
 							<div>{this.labels(issue.labels)} </div>
 						</Col>
 						<Col className="col-1">
-							<img src={issue.user.avatar_url} style={{ width: 50, height: "auto", borderRadius: "5px" }} />
+							<img alt="" src={issue.user.avatar_url} style={{ width: 50, height: "auto", borderRadius: "5px" }} />
 							<div>🗨 {issue.comments}</div>
 						</Col>
 					</Row>
@@ -220,14 +218,14 @@ class RenderRepo extends React.Component {
 					</div>
 
 					<div className="reactions">
-						{this.state.issueReactions['+1'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />}
-						{this.state.issueReactions['-1'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />}
-						{this.state.issueReactions['laugh'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />}
-						{this.state.issueReactions['confused'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />}
-						{this.state.issueReactions['heart'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />}
-						{this.state.issueReactions['hooray'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />}
-						{this.state.issueReactions['rocket'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />}
-						{this.state.issueReactions['eyes'] > 0 && <img src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />}
+						{this.state.issueReactions['+1'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />}
+						{this.state.issueReactions['-1'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />}
+						{this.state.issueReactions['laugh'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />}
+						{this.state.issueReactions['confused'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />}
+						{this.state.issueReactions['heart'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />}
+						{this.state.issueReactions['hooray'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />}
+						{this.state.issueReactions['rocket'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />}
+						{this.state.issueReactions['eyes'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />}
 					</div>
 
 					<div>

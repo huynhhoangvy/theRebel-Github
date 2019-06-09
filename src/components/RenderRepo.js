@@ -9,8 +9,6 @@ import {
 	Row,
 	Col,
 	Badge,
-	Tabs,
-	Tab
 } from "react-bootstrap";
 import Modal from 'react-modal'
 const ReactMarkdown = require('react-markdown')
@@ -61,7 +59,7 @@ class RenderRepo extends React.Component {
 
 	handleAddReactions = (reaction, id) => {
 		this.props.addReactions(id, reaction);
-		setTimeout(() => this.props.getIssueComments(this.state.issueNumber),3000);
+		setTimeout(() => this.props.getIssueComments(this.state.issueNumber), 3000);
 		return this.setState({ isOpen: true });
 	}
 
@@ -162,13 +160,12 @@ class RenderRepo extends React.Component {
 
 	handlePostComment = (comment) => {
 		this.props.writeComment(comment, this.state.issueNumber);
-		setTimeout(() => this.props.getIssueComments(this.state.issueNumber),3000);
+		setTimeout(() => this.props.getIssueComments(this.state.issueNumber), 3000);
 		return this.setState({ isOpen: true });
 	}
 
 	render() {
 		console.log("this props", this.state)
-
 		return (
 			<div className="container"
 				style={{ backgroundColor: "", border: "" }}
@@ -207,7 +204,7 @@ class RenderRepo extends React.Component {
 								height: 5,
 							}}
 						/>
-						<p><span style={{ fontSize: "20px" }}>Content: </span><ReactMarkdown
+						<p><ReactMarkdown
 							id="hi"
 							style={{ backgroundColor: '' }}
 							source={this.state.issueBody} /></p>
@@ -231,7 +228,7 @@ class RenderRepo extends React.Component {
 					<div>
 						<Form>
 							<Form.Group controlId="exampleForm.ControlTextarea2">
-								<Form.Label>Comments</Form.Label>
+								<Form.Label></Form.Label>
 								<Form.Control
 									as="textarea" rows="3" placeholder="leave a comment heres"
 									value={this.props.newCommentIssueCreate}
@@ -242,33 +239,13 @@ class RenderRepo extends React.Component {
 					</div>
 
 				</Modal>
-				<div>Create a new Issue here:  <Button onClick={() => this.isOpenIssue()}>New Issue</Button> </div>
+				<div>Something useful here (navbar for lists of issue) <button onClick={() => this.isOpenIssue()}>New Issue</button> </div>
 				<div>
 					<Modal
 						isOpen={this.state.isOpenCreateIssue}
 						onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
-						style={{
-							overlay: {
-								backgroundColor: "rgba(244, 247, 252, 0.3)",
-								top: '0%',
-								left: '0%',
-								right: '0%',
-								bottom: '0%',
-								marginRight: '-10%',
-							},
-							content: {
-								top: '15%',
-								left: '10%',
-								right: '10%',
-								bottom: '10%',
-								marginRight: '10%',
-								backgroundColor: "rgba(244, 247, 252, 1)",
-								border: "none",
-							}
-						}}
 					>
 						<div>
-
 							<Form>
 								<Form.Group controlId="exampleForm.ControlInput1">
 									<Form.Label>Title</Form.Label>
@@ -277,32 +254,18 @@ class RenderRepo extends React.Component {
 										onChange={evt => this.props.updateTitle(evt)}
 									/>
 								</Form.Group>
-								<Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
-									<Tab eventKey="home" title="Comment">
-										<Form.Group controlId="exampleForm.ControlTextarea1">
-											<Form.Label>Comments</Form.Label>
-											<Form.Control
-												size="lg"
-												as="textarea" rows="8" placeholder="leave a comment heres"
-												value={this.props.newCommentIssueCreate}
-												onChange={evt => this.props.updateComment(evt)} />
-										</Form.Group>
-									</Tab>
-									<Tab eventKey="profile" title="Preview">
-										<p>
-											<span style={{ fontSize: "20px" }}>Comment: </span><ReactMarkdown
-											id="hi"
-											source={this.props.newCommentIssueCreate} />
-										</p>
-									</Tab>
-
-								</Tabs>
-								<Button onClick={() => this.handlePostIssue(this.props.newTitleCreate, this.props.newCommentIssueCreate)}>Submit issues</Button>
+								<Form.Group controlId="exampleForm.ControlTextarea1">
+									<Form.Label></Form.Label>
+									<Form.Control
+										as="textarea" rows="3" placeholder="leave a comment heres"
+										value={this.props.newCommentIssueCreate}
+										onChange={evt => this.props.updateComment(evt)} />
+									<Button onClick={() => this.handlePostIssue(this.props.newTitleCreate, this.props.newCommentIssueCreate)}>Submit issue</Button>
+								</Form.Group>
 							</Form>
 						</div>
 					</Modal>
 				</div>
-
 
 				<div>{this.renderRepos()}</div>
 

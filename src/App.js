@@ -38,7 +38,7 @@ class App extends React.Component {
 				totalPage: null,
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
-				rawSearchInput:'',
+				rawSearchInput: '',
 			}
 		}
 
@@ -59,7 +59,7 @@ class App extends React.Component {
 				totalPage: null,
 				newTitleCreate: '',
 				newCommentIssueCreate: '',
-				rawSearchInput:'',
+				rawSearchInput: '',
 			};
 		}
 	}
@@ -69,8 +69,8 @@ class App extends React.Component {
 
 	updateInputValue = (evt) => {
 		this.setState({
-			rawSearchInput : evt.target.value,
-			searchInput: (evt.target.value).replace('https://github.com/','')
+			rawSearchInput: evt.target.value,
+			searchInput: (evt.target.value).replace('https://github.com/', '')
 		});
 	}
 	updateTitle = (evt) => {
@@ -85,7 +85,39 @@ class App extends React.Component {
 	}
 	getSearchRepo = async (repoName, e) => {
 		e.preventDefault();
-		const url = `https://api.github.com/search/repositories?q=${repoName}`;
+		const url = `https://api.github.com/search/repositories?q=${repoName}&page=1`;
+		let response = await fetch(url, {
+			headers: new Headers({
+				'Authorization': `token ${this.state.token}`,
+				'Content-Type': 'application/vnd.github.symmetra-preview+json'
+			}),
+		});
+		let rawString1 = await response.headers.get("Link");
+		let rawString2;
+		let rawString3;
+		let lastPage;
+
+		if (rawString1 !== null) {
+			rawString2 = rawString1.substring(rawString1.length - 20, rawString1.length)
+			rawString3 = rawString2.replace('>; rel="last"', '')
+			lastPage = parseInt(rawString3.replace('page=', ''))
+		} else {
+			lastPage = 1
+		}
+		let data = await response.json();
+		this.setState({
+			listRepo: data.items,
+			isListRepo: true,
+			totalResult: data.total_count,
+			page: 1,
+			total: lastPage * 30,
+			per_page: 30,
+			totalPage: lastPage,
+		});
+	};
+
+	getSearchRepo1 = async (repoName, pageNumber) => {
+		const url = `https://api.github.com/search/repositories?q=${repoName}&page=${pageNumber}`;
 		let response = await fetch(url, {
 			headers: new Headers({
 				'Authorization': `token ${this.state.token}`,
@@ -96,9 +128,11 @@ class App extends React.Component {
 		this.setState({
 			listRepo: data.items,
 			isListRepo: true,
-			totalResult: data.total_count
+			page: pageNumber,
 		});
 	};
+
+
 
 
 	getRepo = async (name, pageNumber) => {
@@ -133,7 +167,6 @@ class App extends React.Component {
 			totalPage: lastPage,
 		});
 	};
-
 
 	getRepo2 = async (name, pageNumber) => {
 		const url = `https://api.github.com/repos/${name}/issues?page=${pageNumber}`;
@@ -180,6 +213,9 @@ class App extends React.Component {
 				'Content-Type': 'application/vnd.github.symmetra-preview+json'
 			}),
 		})
+
+
+		console.log("responseRERERERE",response)
 
 		this.setState({
 			isListRepo: false,
@@ -268,6 +304,7 @@ class App extends React.Component {
 								getRepo={this.getRepo}
 								getIssueComments={this.getIssueComments}
 							/>
+
 						</div>
 					}
 
@@ -285,18 +322,21 @@ class App extends React.Component {
 								closeIssue={this.closeIssue}
 								addReactions={this.addReactions}
 							/>
-							<Pagination
-								{...this.state}
-								getSearchRepo={this.getSearchRepo}
-								getRepo={this.getRepo}
-								getIssueComments={this.getIssueComments}
-								getRepo2={this.getRepo2}
-							/>
+
 						</div>
 					}
+
 				</Container>
 
 				<Footer />
+				<Pagination
+						{...this.state}
+						getSearchRepo={this.getSearchRepo}
+						getRepo={this.getRepo}
+						getIssueComments={this.getIssueComments}
+						getRepo2={this.getRepo2}
+						getSearchRepo1={this.getSearchRepo1}
+						/>
 			</div>
 		);
 	}

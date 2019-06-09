@@ -1,7 +1,7 @@
 import Modal from 'react-modal';
 import React from 'react';
 import '../App.css';
-import { Card, Col, Row, Button, ListGroup, Badge, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Card, Col, Row, Button, ListGroup, Badge, Dropdown, DropdownButton, Tab, Tabs, Sonnet } from 'react-bootstrap';
 var moment = require('moment');
 var numeral = require('numeral');
 
@@ -13,7 +13,7 @@ class RenderSearchRepo extends React.Component {
                 <div className="w-100 py-4 border-bottom">
                             <Row>
                                 <Col className="col-7">
-                                    <a href="#" onClick={() => this.props.getRepo(full_name)}><h3>{full_name}</h3></a>
+                                    <a href="#" onClick={() => this.props.getRepo(full_name,1)}><h3>{full_name}</h3></a>
                                 </Col>
                                 <Col className="col-3">
                                     <p>

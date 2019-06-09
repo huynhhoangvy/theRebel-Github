@@ -20,25 +20,55 @@ class Pagination extends React.Component {
       }
       renderPageNumbers = pageNumbers.map(number => {
         let classes = page === number ? styles.active : '';
-
         if (number === 1 || number === total || (number >= page - 2 && number <= page + 2)) {
           return (
-            <span key={number} className={classes} onClick={() => this.props.getRepo2(this.props.fullName, number)}>{number}</span>
+            <div>
+              {this.props.isListRepo && <span key={number} className={classes} onClick={() => this.props.getSearchRepo1(this.props.searchInput, number)}>{number}</span>
+              }
+              {!this.props.isListRepo && <span key={number} className={classes} onClick={() => this.props.getRepo2(this.props.fullName, number)}>{number}</span>
+              }
+            </div>
           );
         }
       });
     }
 
     return (
-      <Row>
         <div className={styles.pagination}>
+          {this.props.isListRepo &&
+            <div>
+              {totalPage > 1 &&
+                <div>
+                  {page > 6 &&
+                    <span onClick={() => this.props.getSearchRepo1(this.props.searchInput, page - 5)}> &laquo; </span>}
+                  {page !== 1 && <span onClick={() => this.props.getRepo2(this.props.searchInput, page - 1)}> &lsaquo; </span>}
+
+                  {renderPageNumbers}
+
+                  {totalPage !== page &&
+                    <span onClick={() => this.props.getSearchRepo1(this.props.searchInput, totalPage)}> Last page: {totalPage} </span>
+                  }
+                  {totalPage - page > 1 &&
+                    <span onClick={() => this.props.getSearchRepo1(this.props.searchInput, page + 1)}> &rsaquo; </span>
+                  }
+                  {totalPage - page > 5 &&
+                    <span onClick={() => this.props.getSearchRepo1(this.props.searchInput, page + 5)}> &raquo;
+                </span>
+                  }
+                </div>
+              }
+            </div>
+          }
+           {!this.props.isListRepo &&
+             <div>
           {totalPage > 1 &&
             <div>
-              {page > 6 && <span onClick={() => this.props.getRepo2(this.props.fullName, page - 1)}> &laquo; </span>}
-
+              {page > 6 && 
+                <span onClick={() => this.props.getRepo2(this.props.fullName, page - 5)}> &laquo; </span>}
               {page !== 1 && <span onClick={() => this.props.getRepo2(this.props.fullName, page - 1)}> &lsaquo; </span>}
 
               {renderPageNumbers}
+
               {totalPage !== page &&
                 <span onClick={() => this.props.getRepo2(this.props.fullName, totalPage)}> Last page: {totalPage} </span>
               }
@@ -46,21 +76,21 @@ class Pagination extends React.Component {
                 <span onClick={() => this.props.getRepo2(this.props.fullName, page + 1)}> &rsaquo; </span>
               }
               {totalPage - page > 5 &&
-                <span onClick={() => this.props.getRepo2(this.props.fullName, page + 5)}>
+                <span onClick={() => this.props.getRepo2(this.props.fullName, page + 5)}> &raquo;
                 </span>
               }
             </div>
           }
+          </div>
+          }
 
         </div>
 
-      </Row>
     )
   }
   render() {
     return (
       <div>{this.renderPagination()}</div>
-
     )
 
 

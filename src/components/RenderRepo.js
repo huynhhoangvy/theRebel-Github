@@ -59,7 +59,7 @@ class RenderRepo extends React.Component {
 
 	handleAddReactions = (reaction, id) => {
 		this.props.addReactions(id, reaction);
-		this.props.getIssueComments(this.state.issueNumber);
+		setTimeout(() => this.props.getIssueComments(this.state.issueNumber), 3000);
 		return this.setState({ isOpen: true });
 	}
 
@@ -151,23 +151,18 @@ class RenderRepo extends React.Component {
 
 	handlePostIssue = (title, comment) => {
 		this.props.writeIssue(title, comment);
-		this.props.getRepo(this.props.fullName);
+		setTimeout(() => this.props.getRepo(this.props.fullName), 3000);
 		return this.setState({ isOpenCreateIssue: false });
 	}
+
 	handlePostComment = (comment) => {
 		this.props.writeComment(comment, this.state.issueNumber);
-		this.props.getIssueComments(this.state.issueNumber);
+		setTimeout(() => this.props.getIssueComments(this.state.issueNumber), 3000);
 		return this.setState({ isOpen: true });
-	}
-
-	handleCreateIssue = () => {
-		this.isOpenIssue()
-		this.openIssueCreate()
 	}
 
 	render() {
 		console.log("this props", this.state)
-
 		return (
 			<div className="container"
 				style={{ backgroundColor: "", border: "" }}
@@ -206,7 +201,7 @@ class RenderRepo extends React.Component {
 								height: 5,
 							}}
 						/>
-						<p><span style={{ fontSize: "20px" }}>Content: </span><ReactMarkdown
+						<p><ReactMarkdown
 							id="hi"
 							style={{ backgroundColor: '' }}
 							source={this.state.issueBody} /></p>
@@ -230,7 +225,7 @@ class RenderRepo extends React.Component {
 					<div>
 						<Form>
 							<Form.Group controlId="exampleForm.ControlTextarea2">
-								<Form.Label>Comments</Form.Label>
+								<Form.Label></Form.Label>
 								<Form.Control
 									as="textarea" rows="3" placeholder="leave a comment heres"
 									value={this.props.newCommentIssueCreate}
@@ -257,12 +252,12 @@ class RenderRepo extends React.Component {
 									/>
 								</Form.Group>
 								<Form.Group controlId="exampleForm.ControlTextarea1">
-									<Form.Label>Comments</Form.Label>
+									<Form.Label></Form.Label>
 									<Form.Control
 										as="textarea" rows="3" placeholder="leave a comment heres"
 										value={this.props.newCommentIssueCreate}
 										onChange={evt => this.props.updateComment(evt)} />
-									<Button onClick={() => this.handlePostIssue(this.props.newTitleCreate, this.props.newCommentIssueCreate)}>Submit issues</Button>
+									<Button onClick={() => this.handlePostIssue(this.props.newTitleCreate, this.props.newCommentIssueCreate)}>Submit issue</Button>
 								</Form.Group>
 							</Form>
 						</div>
@@ -270,7 +265,7 @@ class RenderRepo extends React.Component {
 				</div>
 
 				<div>{this.renderRepos()}</div>
-			
+
 			</div>
 		)
 	}

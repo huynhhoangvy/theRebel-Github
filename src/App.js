@@ -199,6 +199,7 @@ class App extends React.Component {
 		this.setState({
 			comments: data,
 			isListRepo: false,
+			newCommentIssueCreate: '',
 		});
 	}
 

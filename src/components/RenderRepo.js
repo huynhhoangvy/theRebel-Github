@@ -11,6 +11,8 @@ import {
 	Card,
 	Col,
 	Badge,
+	Tabs,
+	Tab
 } from "react-bootstrap";
 import Modal from 'react-modal'
 const ReactMarkdown = require('react-markdown')
@@ -272,6 +274,7 @@ class RenderRepo extends React.Component {
 						}}
 					>
 						<div>
+
 							<Form>
 								<Form.Group controlId="exampleForm.ControlInput1">
 									<Form.Label>Title</Form.Label>
@@ -280,21 +283,35 @@ class RenderRepo extends React.Component {
 										onChange={evt => this.props.updateTitle(evt)}
 									/>
 								</Form.Group>
-								<Form.Group controlId="exampleForm.ControlTextarea1">
-									<Form.Label>Comments</Form.Label>
-									<Form.Control
-										as="textarea" rows="3" placeholder="leave a comment heres"
-										value={this.props.newIssueCreate}
-										onChange={evt => this.props.updateComment(evt)} />
-									<Button onClick={() => this.handlePostIssue(this.props.newTitleCreate, this.props.newIssueCreate)}>Submit issues</Button>
-								</Form.Group>
+								<Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
+									<Tab eventKey="home" title="Comment">
+										<Form.Group controlId="exampleForm.ControlTextarea1">
+											<Form.Label>Comments</Form.Label>
+											<Form.Control
+												size="lg"
+												as="textarea" rows="3" placeholder="leave a comment heres"
+												value={this.props.newCommentIssueCreate}
+												onChange={evt => this.props.updateComment(evt)} />
+										</Form.Group>
+									</Tab>
+									<Tab eventKey="profile" title="Preview">
+										<p>
+											<span style={{ fontSize: "20px" }}>Comment: </span><ReactMarkdown
+											id="hi"
+											source={this.props.newCommentIssueCreate} />
+										</p>
+									</Tab>
+
+								</Tabs>
+								<Button onClick={() => this.handlePostIssue(this.props.newTitleCreate, this.props.newCommentIssueCreate)}>Submit issues</Button>
 							</Form>
 						</div>
 					</Modal>
 				</div>
 
+
 				<div>{this.renderRepos()}</div>
-			
+
 			</div>
 		)
 	}

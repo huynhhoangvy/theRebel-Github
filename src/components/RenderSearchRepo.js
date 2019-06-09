@@ -96,10 +96,10 @@ class RenderSearchRepo extends React.Component {
                             </div>
                         </div> */}
                         <h4>{numeral(this.props.totalResult).format('0,0') + " repository results"}</h4>
-                        <DropdownButton id="dropdown-basic-button" title="Sort: Best match">
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                        <DropdownButton id="dropdown-variants-secondary" variant="secondary" title="Sort: Best match">
+                            <Dropdown.Item href="#/action-1">Recently indexed</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Least recently indexed</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">pepe the frog</Dropdown.Item>
                         </DropdownButton>
                     </div>
                     : ""}

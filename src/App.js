@@ -320,7 +320,7 @@ class App extends React.Component {
 					}
 
 				{!this.state.isListRepo &&
-					<Container>
+					<Container className="h-auto mt-4">
 						<RenderRepo
 							updateTitle={this.updateTitle}
 							{...this.state}
@@ -336,7 +336,6 @@ class App extends React.Component {
 
 					</Container>
 					}
-
 
 				<Pagination
 						{...this.state}

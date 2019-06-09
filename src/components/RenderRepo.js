@@ -44,17 +44,17 @@ class RenderRepo extends React.Component {
 			<div className="container"
 				style={{ backgroundColor: "", border: "" }}>
 				<div>
-					<div className="d-flex">
-						<img className="mw-100" src="https://img.icons8.com/metro/26/000000/books.png"/> 
-						<h5 className="m-0 text-danger font-italic"> {this.props.fullName}</h5>
-						<div>
-							<button onClick={() => this.isOpenIssue()}>New Issue</button>
+					<div className="d-flex align-items-center">
+						<img style={{ width: 40, height: 40 }} src="https://img.icons8.com/nolan/64/000000/books.png" />
+						<h5 className="m-0 font-italic w-100" style={{ color: "#7546fe" }}> {this.props.fullName}</h5>
+						<div className="d-flex justify-content-end w-100">
+							<Button variant="success" onClick={() => this.isOpenIssue()}>New Issue</Button>
 						</div>
 					</div>
-					<div className="content p-3 mt-2 text-center rounded border border-gray-light">
-						<h5 classname="mb-2">Want to contribute to {this.props.fullName}?</h5>
-						<p className="m-0">If you have a bug or an idea, read the contributing guidelines before opening an issue.</p>
-						<p className="mb-0">If you're ready to tackle some open issues, we've collected some good first issues for you .</p>
+					<div className="content p-3 mt-2 text-center rounded-lg border border-gray-light">
+						<h5 classname="mb-2"><img style={{ width: 30, height: 30 }} src="https://img.icons8.com/nolan/64/000000/handshake.png" /> Want to contribute to {this.props.fullName}?</h5>
+						<p className="m-0">If you have a bug or an idea, read the <span style={{ color: "#7546fe" }}>contributing guidelines</span> before opening an issue.</p>
+						<p className="mb-0">If you're ready to tackle some open issues, <span style={{ color: "#7546fe" }}>we've collected some good first issues for you</span> .</p>
 					</div>
 				</div>
 				<Modal
@@ -62,7 +62,7 @@ class RenderRepo extends React.Component {
 					onRequestClose={() => this.setState({ isOpenCreateIssue: false })}
 					style={{
 						overlay: {
-							backgroundColor: "rgba(244, 247, 252, 0.3)",
+							backgroundColor: "rgba(19, 11, 40, 0.8)",
 							top: '0%',
 							left: '0%',
 							right: '0%',
@@ -73,7 +73,6 @@ class RenderRepo extends React.Component {
 							top: '15%',
 							left: '10%',
 							right: '10%',
-							bottom: '10%',
 							marginRight: '10%',
 							backgroundColor: "rgba(244, 247, 252, 1)",
 							border: "none",
@@ -105,7 +104,8 @@ class RenderRepo extends React.Component {
 									<p>
 										<span style={{ fontSize: "20px" }}>Comment: </span><ReactMarkdown
 											id="hi"
-											source={this.props.newCommentIssueCreate} />
+											source={this.props.newCommentIssueCreate}
+											renderers={{ image: this.resizeImageMarkDown }} />
 									</p>
 								</Tab>
 
@@ -115,7 +115,9 @@ class RenderRepo extends React.Component {
 					</div>
 				</Modal>
 
-				<div>{this.renderRepos()}</div>
+				<div className="h-auto">
+					{this.renderRepos()}
+				</div>
 
 			</div>
 		)
@@ -125,56 +127,59 @@ class RenderRepo extends React.Component {
 
 
 
-	 openIssue =()=> {
-		return (	
-		<div>
-			              <Link to="/">Go back to {this.props.fullName} issue list</Link>
+	openIssue = () => {
+		return (
+			<div>
+				<div className="d-flex align-items-end justify-content-between w-100 mb-4">
+					<Link to="/"><p style={{ color: "#7546fe", fontWeight: 'bold', margin: 0 }}>Go back {this.props.fullName}</p></Link>
+					<Button variant="success" onClick={() => this.props.closeIssue(this.state.issueNumber)}>Close this issue</Button>
+				</div>
+				<div style={{ border: "1px solid rgb(204, 204, 204)", borderRadius: "3px", padding: "20px" }} className="mb-5">
+					<h4 style={{ fontSize: 50 }}>  {this.state.issueTitle}</h4>
+					{this.renderIssueUser()}
+					<hr
+						style={{
+							color: 'red',
+							height: 5,
+						}}
+					/>
+					<p><ReactMarkdown
+						id="hi"
+						style={{ backgroundColor: '' }}
+						source={this.state.issueBody}
+						renderers={{ image: this.resizeImageMarkDown }} /></p>
 
-		<div style={{border: "1px solid rgb(204, 204, 204)", borderRadius: "3px", padding: "20px"}} className="mb-5">
-			<button onClick={() => this.props.closeIssue(this.state.issueNumber)}>Close this issue</button>
-			<h4 style={{ fontSize: 50 }}>  {this.state.issueTitle}</h4>
-			{this.renderIssueUser()}
-			<hr
-				style={{
-					color: 'red',
-					height: 5,
-				}}
-			/>
-			<p><ReactMarkdown
-				id="hi"
-				style={{ backgroundColor: '' }}
-				source={this.state.issueBody} /></p>
-	
-		<div className="reactions">
-			{this.state.issueReactions['+1'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />}
-			{this.state.issueReactions['-1'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />}
-			{this.state.issueReactions['laugh'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />}
-			{this.state.issueReactions['confused'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />}
-			{this.state.issueReactions['heart'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />}
-			{this.state.issueReactions['hooray'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />}
-			{this.state.issueReactions['rocket'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />}
-			{this.state.issueReactions['eyes'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />}
-		</div>
-		</div>
-	
-		<div>
-			{this.renderComments()}
-		</div>
-	
-		<div>
-			<Form>
-				<Form.Group controlId="exampleForm.ControlTextarea2">
-					<Form.Label></Form.Label>
-					<Form.Control
-						as="textarea" rows="3" placeholder="Leave a comment here"
-						value={this.props.newCommentIssueCreate}
-						onChange={evt => this.props.updateComment(evt)} />
-					<Button style={{float: "right"}} className="mt-2" onClick={() => this.handlePostComment(this.props.newCommentIssueCreate)}>Comment</Button>
-				</Form.Group>
-			</Form>
-		</div>
-	</div>
-	)}
+					<div className="reactions">
+						{this.state.issueReactions['+1'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />}
+						{this.state.issueReactions['-1'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />}
+						{this.state.issueReactions['laugh'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />}
+						{this.state.issueReactions['confused'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />}
+						{this.state.issueReactions['heart'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />}
+						{this.state.issueReactions['hooray'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />}
+						{this.state.issueReactions['rocket'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />}
+						{this.state.issueReactions['eyes'] > 0 && <img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />}
+					</div>
+				</div>
+
+				<div>
+					{this.renderComments()}
+				</div>
+
+				<div>
+					<Form>
+						<Form.Group controlId="exampleForm.ControlTextarea2">
+							<Form.Label></Form.Label>
+							<Form.Control
+								as="textarea" rows="3" placeholder="Leave a comment here"
+								value={this.props.newCommentIssueCreate}
+								onChange={evt => this.props.updateComment(evt)} />
+							<Button style={{ float: "right" }} className="mt-2" onClick={() => this.handlePostComment(this.props.newCommentIssueCreate)}>Comment</Button>
+						</Form.Group>
+					</Form>
+				</div>
+			</div>
+		)
+	}
 
 
 
@@ -226,43 +231,43 @@ class RenderRepo extends React.Component {
 		return this.props.comments.map(comment => {
 			return (
 				<div className="comment d-flex mb-3">
-						<div>
-							<img alt="" src={`${comment.user.avatar_url}`} height="50px" width="50px" style={{borderRadius: "5px"}} />
-						</div>
-						<div style={{border: "1px solid rgb(204, 204, 204)", borderRadius: "3px", marginLeft: "15px", width: "100%"}}>
-					<div className="commentUser">
-						<div className="d-flex justify-content-between w-100">
-							<div >
-								<strong style={{ paddingLeft: "1rem" }}>{comment.user.login}</strong>
-								<cite title="Source Title"> commented {moment(comment.created_at).startOf().fromNow()}:</cite>
+					<div>
+						<img alt="" src={`${comment.user.avatar_url}`} height="50px" width="50px" style={{ borderRadius: "5px" }} />
+					</div>
+					<div style={{ border: "1px solid rgb(204, 204, 204)", borderRadius: "3px", marginLeft: "15px", width: "100%" }}>
+						<div className="commentUser">
+							<div className="d-flex align-items-center justify-content-between w-100">
+								<div >
+									<strong style={{ paddingLeft: "1rem" }}>{comment.user.login}</strong>
+									<cite title="Source Title"> commented {moment(comment.created_at).startOf().fromNow()}:</cite>
+								</div>
+								<ButtonToolbar>
+									{['down'].map(direction => (
+										<DropdownButton drop={direction} variant="secondary" title={` Add reactions `} id={`dropdown-button-drop-${direction}`} key={direction}>
+											<Dropdown.Item onClick={() => this.handleAddReactions('+1', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' /></Dropdown.Item>
+											<Dropdown.Item onClick={() => this.handleAddReactions('-1', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' /></Dropdown.Item>
+											<Dropdown.Item onClick={() => this.handleAddReactions('laugh', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' /></Dropdown.Item>
+											<Dropdown.Item onClick={() => this.handleAddReactions('confused', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' /></Dropdown.Item>
+											<Dropdown.Item onClick={() => this.handleAddReactions('heart', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' /></Dropdown.Item>
+											<Dropdown.Item onClick={() => this.handleAddReactions('hooray', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' /></Dropdown.Item>
+											<Dropdown.Item onClick={() => this.handleAddReactions('rocket', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' /></Dropdown.Item>
+											<Dropdown.Item onClick={() => this.handleAddReactions('eyes', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' /></Dropdown.Item>
+										</DropdownButton>
+									))}
+								</ButtonToolbar>
 							</div>
-							<ButtonToolbar>
-								{['down'].map(direction => (
-									<DropdownButton drop={direction} variant="secondary" title={` Add reactions `} id={`dropdown-button-drop-${direction}`} key={direction}>
-										<Dropdown.Item onClick={() => this.handleAddReactions('+1', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' /></Dropdown.Item>
-										<Dropdown.Item onClick={() => this.handleAddReactions('-1', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' /></Dropdown.Item>
-										<Dropdown.Item onClick={() => this.handleAddReactions('laugh', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' /></Dropdown.Item>
-										<Dropdown.Item onClick={() => this.handleAddReactions('confused', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' /></Dropdown.Item>
-										<Dropdown.Item onClick={() => this.handleAddReactions('heart', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' /></Dropdown.Item>
-										<Dropdown.Item onClick={() => this.handleAddReactions('hooray', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' /></Dropdown.Item>
-										<Dropdown.Item onClick={() => this.handleAddReactions('rocket', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' /></Dropdown.Item>
-										<Dropdown.Item onClick={() => this.handleAddReactions('eyes', comment.id)}><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' /></Dropdown.Item>
-									</DropdownButton>
-								))}
-							</ButtonToolbar>
 						</div>
-					</div>
-					<div className="commentContent"><ReactMarkdown source={comment.body} /></div>
-					<div className="reactions">
-						{comment.reactions['+1'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />{comment.reactions['+1']}</cite>}
-						{comment.reactions['-1'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />	{comment.reactions['-1']}</cite>}
-						{comment.reactions['laugh'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />{comment.reactions['laugh']}</cite>}
-						{comment.reactions['confused'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />	{comment.reactions['confused']}</cite>}
-						{comment.reactions['heart'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />	{comment.reactions['heart']}</cite>}
-						{comment.reactions['hooray'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />	{comment.reactions['hooray']}</cite>}
-						{comment.reactions['rocket'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />{comment.reactions['rocket']}</cite>}
-						{comment.reactions['eyes'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />	{comment.reactions['eyes']}</cite>}
-					</div>
+						<div className="commentContent"><ReactMarkdown source={comment.body} renderers={{ image: this.resizeImageMarkDown }} /></div>
+						<div className="reactions">
+							{comment.reactions['+1'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png' height='20px' />{comment.reactions['+1']}</cite>}
+							{comment.reactions['-1'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f44e.png' height='20px' />	{comment.reactions['-1']}</cite>}
+							{comment.reactions['laugh'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f604.png' height='20px' />{comment.reactions['laugh']}</cite>}
+							{comment.reactions['confused'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f615.png' height='20px' />	{comment.reactions['confused']}</cite>}
+							{comment.reactions['heart'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/2764.png' height='20px' />	{comment.reactions['heart']}</cite>}
+							{comment.reactions['hooray'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f389.png' height='20px' />	{comment.reactions['hooray']}</cite>}
+							{comment.reactions['rocket'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f680.png' height='20px' />{comment.reactions['rocket']}</cite>}
+							{comment.reactions['eyes'] > 0 && <cite><img alt="" src='https://github.githubassets.com/images/icons/emoji/unicode/1f440.png' height='20px' />	{comment.reactions['eyes']}</cite>}
+						</div>
 					</div>
 				</div>
 			)
@@ -287,12 +292,12 @@ class RenderRepo extends React.Component {
 								<cite title="Source Title">opened {moment(issue.created_at).startOf().fromNow()}</cite> by <strong>@
                       {issue.user.login}</strong>
 							</small>
-							{issue.body && <ReactMarkdown className="text-black-50 mt-3" source={issue.body.substr(0, 250) + "..."} />}
+							{issue.body && <ReactMarkdown className="text-black-50 mt-3" source={issue.body.substr(0, 250) + "..."} renderers={{ image: this.resizeImageMarkDown }} />}
 							<div>{this.labels(issue.labels)} </div>
 						</Col>
 						<Col className="col-1">
-							<img alt="" src={issue.user.avatar_url} style={{ width: 50, height: "auto", borderRadius: "5px" }} />
-							<div>🗨 {issue.comments}</div>
+							<img alt="" src={issue.user.avatar_url} style={{ width: 100, height: "auto", borderRadius: "100px" }} />
+							<div className="w-100 d-flex justify-content-center">🗨 {issue.comments}</div>
 						</Col>
 					</Row>
 				</div>

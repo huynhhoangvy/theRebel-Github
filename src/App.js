@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Container } from 'react-bootstrap';
+import { Container, Jumbotron } from 'react-bootstrap';
 import Search from './components/Search.js';
 import Footer from './components/Footer.js';
 import RenderRepo from './components/RenderRepo.js';
@@ -306,9 +306,17 @@ class App extends React.Component {
 					/>
 				</header>
 				{this.state.isOnHomePage && 
-				<div className="h-100" style={{textAlign: "center"}}>
-				<img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif" className="h-100 w-100"/>
-				</div>
+				<Jumbotron className="h-100 jumbotron" style={{textAlign: "center", padding: "5rem 2rem", borderRadius: "0px"}}> 
+					<h1>Welcome to <span>The Rebel Github</span></h1>
+					<p>
+						<strong>
+						Search instructions:<br/>
+						• Search for repositories with "<cite>repositories name</cite>"<br/>
+						• Jump to a user's repositories with "<cite>user/</cite>"
+						</strong>
+					</p>
+					<img src="https://i.pinimg.com/originals/2c/2d/6f/2c2d6f89218cdb5c6a345d603484755f.gif" className="" style={{height: "400px", borderRadius: "10px"}} />
+				</Jumbotron>
 				}
 				{this.state.isListRepo &&
 				<Container className="h-auto mt-4">

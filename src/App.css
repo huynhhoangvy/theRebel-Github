@@ -58,3 +58,11 @@
   padding-right:1rem;
   
 }
+
+.jumbotron {
+  color: white;
+background-color: #130f40;
+background-image: linear-gradient(315deg, #130f40 0%, #000000 74%);
+/* background-color: #000000;
+background-image: linear-gradient(147deg, #000000 0%, #04619f 74%); */
+}
